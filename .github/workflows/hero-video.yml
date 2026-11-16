@@ -1,5 +1,5 @@
 # Builds listing assets so nobody has to handle files by hand.
-# - hero-source.txt  (one https URL of the Higgsfield drone clip)  -> hero.mp4, hero-sm.mp4, hero-start.jpg, hero-end.jpg
+# - hero-source.txt  (one https URL of the Higgsfield drone clip)  -> hero.mp4, hero-sm.mp4, hero-start.jpg, hero-end.jpg, hero-frames/ (phone scroll frames)
 # - photos-source.txt (one "filename.jpg https://url" per line)    -> photos/filename.jpg (web-sized)
 name: Build listing assets
 on:
@@ -21,7 +21,7 @@ jobs:
           for src in $(git ls-files '*hero-source.txt'); do
             dir=$(dirname "$src")
             url=$(tr -d '[:space:]' < "$src")
-            if [ -f "$dir/hero.mp4" ] && [ "$(cat "$dir/.hero-built" 2>/dev/null)" = "$url" ]; then continue; fi
+            if [ -f "$dir/hero.mp4" ] && [ -f "$dir/hero-frames/count.txt" ] && [ "$(cat "$dir/.hero-built" 2>/dev/null)" = "$url" ]; then continue; fi
             echo "Encoding $dir from $url"
             curl -fsSL "$url" -o /tmp/src.mp4
             # every frame a keyframe so scrolling can jump to any moment instantly
@@ -29,6 +29,10 @@ jobs:
             ffmpeg -y -loglevel error -i /tmp/src.mp4 -an -vf "scale=720:-2,fps=30" -c:v libx264 -preset slow -crf 28 -g 1 -pix_fmt yuv420p -movflags +faststart "$dir/hero-sm.mp4"
             ffmpeg -y -loglevel error -i /tmp/src.mp4 -vf "scale=1600:-2" -frames:v 1 -q:v 3 "$dir/hero-start.jpg"
             ffmpeg -y -loglevel error -sseof -0.1 -i /tmp/src.mp4 -vf "scale=1600:-2" -frames:v 1 -q:v 3 "$dir/hero-end.jpg"
+            # phone version: still frames the page flips through as you scroll (works on every iPhone, even in Low Power Mode)
+            rm -rf "$dir/hero-frames"; mkdir -p "$dir/hero-frames"
+            ffmpeg -y -loglevel error -i /tmp/src.mp4 -an -vf "fps=15,scale=720:-2" -q:v 5 "$dir/hero-frames/f%03d.jpg"
+            ls "$dir/hero-frames"/f*.jpg | wc -l | tr -d ' ' > "$dir/hero-frames/count.txt"
             echo "$url" > "$dir/.hero-built"
           done
       - name: Listing photos
