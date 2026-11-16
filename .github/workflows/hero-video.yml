@@ -1,9 +1,10 @@
-# Turns a Higgsfield hero clip into a scroll-ready video for a listing page.
-# Trigger: commit a file named hero-source.txt (containing the clip's https URL) into a listing folder.
-name: Build hero video
+# Builds listing assets so nobody has to handle files by hand.
+# - hero-source.txt  (one https URL of the Higgsfield drone clip)  -> hero.mp4, hero-sm.mp4, hero-start.jpg, hero-end.jpg
+# - photos-source.txt (one "filename.jpg https://url" per line)    -> photos/filename.jpg (web-sized)
+name: Build listing assets
 on:
   push:
-    paths: ['**/hero-source.txt']
+    paths: ['**/hero-source.txt', '**/photos-source.txt']
   workflow_dispatch:
 permissions:
   contents: write
@@ -14,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install ffmpeg
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-      - name: Encode any listing whose clip URL is new
+      - name: Hero clips
         run: |
           set -e
           for src in $(git ls-files '*hero-source.txt'); do
@@ -30,7 +31,24 @@ jobs:
             ffmpeg -y -loglevel error -sseof -0.1 -i /tmp/src.mp4 -vf "scale=1600:-2" -frames:v 1 -q:v 3 "$dir/hero-end.jpg"
             echo "$url" > "$dir/.hero-built"
           done
+      - name: Listing photos
+        run: |
+          set -e
+          for src in $(git ls-files '*photos-source.txt'); do
+            dir=$(dirname "$src")
+            sum=$(sha1sum "$src" | cut -c1-40)
+            if [ "$(cat "$dir/.photos-built" 2>/dev/null)" = "$sum" ]; then continue; fi
+            mkdir -p "$dir/photos"
+            while read -r name url; do
+              [ -z "$name" ] && continue
+              case "$name" in \#*) continue;; esac
+              echo "Photo $dir/photos/$name"
+              curl -fsSL "$url" -o /tmp/p.img
+              ffmpeg -y -loglevel error -i /tmp/p.img -vf "scale='min(1600,iw)':-2" -q:v 4 "$dir/photos/$name"
+            done < "$src"
+            echo "$sum" > "$dir/.photos-built"
+          done
       - name: Commit results
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Build hero video
+          commit_message: Build listing assets
