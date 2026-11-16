@@ -1,5 +1,20 @@
 [
   {
+    "slug": "203-2nd-st",
+    "status": "active",
+    "address": "203 2nd St + 302 Lincoln St",
+    "city": "Minden, IA",
+    "price": "$414,900",
+    "beds": "",
+    "baths": "",
+    "sqft": "",
+    "meta": "6-unit apartments + house next door · 7 doors",
+    "tagline": "Investment package. Seven doors, one deal.",
+    "photo": "203-2nd-st/photos/01-front.jpg",
+    "agent": "Jamie Leaders",
+    "added": "2026-11-16"
+  },
+  {
     "slug": "505-brady",
     "status": "active",
     "address": "505 Brady St",

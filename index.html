@@ -64,7 +64,7 @@ footer{font-size:12px;color:var(--muted);text-align:center;padding:24px}
   </section>
 
   <div id="sections"></div>
-  <noscript><p><a href="505-brady/">505 Brady St, Minden, IA</a></p></noscript>
+  <noscript><p><a href="203-2nd-st/">203 2nd St + 302 Lincoln St, Minden, IA</a></p><p><a href="505-brady/">505 Brady St, Minden, IA</a></p></noscript>
 </main>
 
 <section class="cta">
@@ -87,7 +87,7 @@ fetch('listings.json',{cache:'no-cache'}).then(function(r){return r.json();}).th
       var badge=g[0]==='active'?'':'<span class="badge '+g[0]+'">'+g[1]+'</span>';
       return '<a class="card" href="'+l.slug+'/"><div class="ph"><img src="'+l.photo+'" alt="'+l.address+', '+l.city+'" loading="lazy">'+badge+'</div>'+
         '<div class="price">'+l.price+'</div><div class="addr">'+l.address+', '+l.city+'</div>'+
-        '<div class="meta">'+l.beds+' bd · '+l.baths+' ba · '+l.sqft+' sq ft</div>'+
+        '<div class="meta">'+(l.meta||(l.beds+' bd · '+l.baths+' ba · '+l.sqft+' sq ft'))+'</div>'+
         (l.tagline?'<div class="tag">'+l.tagline+'</div>':'')+'</a>';
     }).join('')+'</div>';
   });
