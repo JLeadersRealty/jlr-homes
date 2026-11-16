@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "505-brady",
+    "status": "active",
+    "address": "505 Brady St",
+    "city": "Minden, IA",
+    "price": "$349,900",
+    "beds": 3,
+    "baths": "1.75",
+    "sqft": "1,471",
+    "tagline": "New construction. Nobody's lived here yet.",
+    "photo": "https://res.cloudinary.com/placester/image/upload/c_fill,w_1200,h_800,q_auto,f_auto/v1/inception-app-prod/N2QyNzhhYzItMjU5NC00N2U2LWEzYTQtYTUxZDY1MTRmMjAx/content/2026/11/bf13e85bbf863b0127c928798891bd98ff974e2e.jpg",
+    "agent": "Jamie Leaders",
+    "added": "2026-11-16"
+  }
+]
