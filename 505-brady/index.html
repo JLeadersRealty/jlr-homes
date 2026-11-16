@@ -33,29 +33,14 @@
 .jlrl .btn-ghost{border:1px solid rgba(255,255,255,.7);color:#fff}
 
 /* HERO */
-.jlrl .hero-track{position:relative;view-timeline-name:--jlrlhero}
-.jlrl .hero{position:relative;min-height:600px;height:100vh;max-height:860px;display:flex;align-items:flex-end;overflow:hidden;background:#2c3e50}
-.jlrl .hero .bg{position:absolute;inset:0;background:center 35%/cover no-repeat}
-.jlrl .hero .day{background-image:url('https://res.cloudinary.com/placester/image/upload/c_limit,w_1600,q_auto,f_auto/v1/inception-app-prod/N2QyNzhhYzItMjU5NC00N2U2LWEzYTQtYTUxZDY1MTRmMjAx/content/2026/11/da54ef77eb8695054d5bcadaa055bdea8428713d.jpg');background-position:center 47%;transform-origin:50% 52%}
-.jlrl .hero .night{background-image:url('https://res.cloudinary.com/placester/image/upload/c_limit,w_1600,q_auto,f_auto/v1/inception-app-prod/N2QyNzhhYzItMjU5NC00N2U2LWEzYTQtYTUxZDY1MTRmMjAx/content/2026/11/a04d6bcc0ff13a247a5b7c869b8a559c366e1c4b.png');opacity:0}
-.jlrl .hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,27,43,.05) 20%,rgba(11,27,43,.55) 55%,rgba(11,27,43,.92))}
+.jlrl .hero-track{position:relative;height:250vh}
+.jlrl .hero{position:sticky;top:0;height:100vh;min-height:560px;display:flex;align-items:flex-end;overflow:hidden;background:#2c3e50 url('https://res.cloudinary.com/placester/image/upload/c_limit,w_1600,q_auto,f_auto/v1/inception-app-prod/N2QyNzhhYzItMjU5NC00N2U2LWEzYTQtYTUxZDY1MTRmMjAx/content/2026/11/da54ef77eb8695054d5bcadaa055bdea8428713d.jpg') center 47%/cover no-repeat}
+.jlrl .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s}
+.jlrl .hero video.ready{opacity:1}
+.jlrl .hero .shade{position:absolute;inset:0}
 .jlrl .hero .wrap{position:relative}
-.jlrl .hero .vt{position:absolute;top:12px;right:14px;font-size:11px;color:#fff;background:rgba(11,27,43,.55);padding:3px 8px;border-radius:999px;opacity:0}
-@keyframes jlrlnight{from{opacity:0;transform:scale(1.12)}to{opacity:1;transform:scale(1)}}
-@keyframes jlrlzoom{to{transform:scale(2.1)}}
-@keyframes jlrlzoomm{to{transform:scale(1.5)}}
-@media(max-width:700px){.jlrl .hero .day{background-size:auto 112%;background-position:51% 100%;transform-origin:51% 45%}}
-@keyframes jlrlfade{to{opacity:1}}
-@supports (animation-timeline: view()){
-  @media (prefers-reduced-motion: no-preference){
-    .jlrl .hero-track{height:260vh}
-    .jlrl .hero{position:sticky;top:0}
-    .jlrl .hero .day{animation:jlrlzoom linear both;animation-timeline:--jlrlhero;animation-range:contain 0% contain 70%}
-    .jlrl .hero .night{animation:jlrlnight linear both;animation-timeline:--jlrlhero;animation-range:contain 45% contain 85%}
-    .jlrl .hero .vt{animation:jlrlfade linear both;animation-timeline:--jlrlhero;animation-range:contain 45% contain 85%}
-    @media(max-width:700px){.jlrl .hero .day{animation-name:jlrlzoomm}}
-  }
-}
+.jlrl .hero .vt{position:absolute;top:12px;right:14px;font-size:11px;color:#fff;padding:3px 8px;opacity:0;transition:opacity .3s}
+@media (prefers-reduced-motion: reduce){.jlrl .hero-track{height:auto}.jlrl .hero{position:relative}}
 .jlrl .hero .shade{background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.62))}
 .jlrl .hero .vt{background:rgba(0,0,0,.4);border-radius:4px}
 .jlrl .hero .wrap{padding-bottom:48px;width:100%}
@@ -131,8 +116,7 @@
 
   <!-- HERO: daytime aerial zooms in toward the house, then fades to the twilight close-up as you scroll -->
   <div class="hero-track"><div class="hero">
-    <div class="bg day" role="img" aria-label="Aerial view of 505 Brady St and the Minden water tower in daylight"></div>
-    <div class="bg night" role="img" aria-label="Front of 505 Brady St at twilight"></div>
+    <video id="jlrlHeroVid" muted playsinline preload="auto" aria-label="Drone shot of 505 Brady St moving in from a daytime aerial to the front porch at twilight"></video>
     <div class="shade"></div>
     <span class="vt">Virtual twilight</span>
     <div class="wrap">
@@ -265,7 +249,7 @@
         <li>Public water &amp; sewer</li>
         <li>Taxes: TBD (new construction) · No HOA</li>
         <li>Tri-Center Community School District</li>
-        <li>Builder warranty: <span class="tbd">[yes/no &amp; terms; only list if we can back it up]</span></li>
+        <li>1-year builder warranty</li>
       </ul>
     </details>
     <div class="plan"><img src="https://res.cloudinary.com/placester/image/upload/c_limit,w_1600,q_auto,f_auto/v1/inception-app-prod/N2QyNzhhYzItMjU5NC00N2U2LWEzYTQtYTUxZDY1MTRmMjAx/content/2026/11/208dc85b05cab19b76d3863307afc5acf274a0b0.jpg" alt="Main level floor plan with room dimensions" loading="lazy"></div>
@@ -279,7 +263,7 @@
       <!-- Vertical (9:16) YouTube Short embed -->
       <iframe src="https://www.youtube-nocookie.com/embed/gLmF2cjCTz8" title="505 Brady St, Minden IA: video tour" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
-    <p class="hint" style="text-align:center;padding-top:8px"><span class="tbd">[If the holiday scene is AI-generated: "Video includes digitally created holiday scenes; furnishings &amp; people are not included."]</span></p>
+    <p class="hint" style="text-align:center;padding-top:8px">Video includes digitally created holiday scenes; furnishings &amp; people are not included.</p>
   </section>
 
   <!-- LOCATION -->
@@ -291,10 +275,9 @@
       <div class="town">
         <ul>
           <li><b>I-80:</b> just off the interstate</li><li><b>Schools:</b> Tri-Center Community School District</li>
-          <li><b>Council Bluffs:</b> about <span class="tbd">[__ min]</span></li>
-          <li><b>Omaha:</b> about <span class="tbd">[__ min]</span></li>
-          <li><b>Shelby &amp; Avoca:</b> <span class="tbd">[__ min]</span></li>
-          <li><span class="tbd">[Jamie: the local spots you'd tell a friend about]</span></li>
+          <li><b>Council Bluffs:</b> about 30 min</li>
+          <li><b>Omaha:</b> about 35 min</li>
+          <li><b>Shelby &amp; Avoca:</b> about 10–15 min</li>
         </ul>
         <div class="frame">
           <iframe src="https://maps.google.com/maps?q=505%20Brady%20St%2C%20Minden%2C%20IA%2051553&amp;z=15&amp;output=embed" loading="lazy" title="Map of 505 Brady St, Minden, IA"></iframe>
@@ -317,10 +300,33 @@
 
   <p class="legal">
     Listing agent is a licensed Iowa broker with an ownership interest in this property. MLS #26-2141.<br>
-    Twilight hero image is a virtual twilight edit of the daytime front photo.<br>*Square footage &amp; room sizes from a CubiCasa floor plan, deemed highly reliable but not guaranteed. Buyer to verify all information.<br>
+    Opening drone clip includes a virtual twilight edit; the home itself is unaltered.<br>*Square footage &amp; room sizes from a CubiCasa floor plan, deemed highly reliable but not guaranteed. Buyer to verify all information.<br>
     J. Leaders Realty · 3396 Waverly Ave, Shelby, IA 51570 · 402.773.8511 · Iowa Firm License F06561000 · Equal Housing Opportunity
   </p>
 </div>
 
+
+<script>
+(function(){
+  var v=document.getElementById('jlrlHeroVid'); if(!v) return;
+  var track=document.querySelector('.jlrl .hero-track'), tag=document.querySelector('.jlrl .hero .vt');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var src = window.innerWidth < 800 ? 'hero-sm.mp4' : 'hero.mp4';
+  fetch(src).then(function(r){ if(!r.ok) throw 0; return r.blob(); }).then(function(b){
+    v.src = URL.createObjectURL(b);
+    v.addEventListener('loadeddata', function(){ v.classList.add('ready'); update(); }, {once:true});
+  }).catch(function(){ /* no clip yet: the daytime aerial stays */ });
+  var ticking=false;
+  function update(){
+    ticking=false;
+    var r=track.getBoundingClientRect(), span=track.offsetHeight-window.innerHeight;
+    var p=Math.min(1,Math.max(0,-r.top/span));
+    if (v.duration) v.currentTime = p*(v.duration-0.05);
+    if (tag) tag.style.opacity = p>0.55 ? 1 : 0;
+  }
+  window.addEventListener('scroll', function(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }, {passive:true});
+  window.addEventListener('resize', update);
+})();
+</script>
 </body>
 </html>
