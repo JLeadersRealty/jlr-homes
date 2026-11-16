@@ -307,32 +307,51 @@
 
 
 <script>
+/* JLR scroll hero: desktop scrubs hero.mp4; phones flip through hero-frames/ (works on every iPhone, Low Power Mode too) */
 (function(){
   var v=document.getElementById('jlrlHeroVid'); if(!v) return;
-  var track=document.querySelector('.jlrl .hero-track'), tag=document.querySelector('.jlrl .hero .vt');
+  var hero=v.parentNode, track=document.querySelector('.jlrl .hero-track'), tag=document.querySelector('.jlrl .hero .vt');
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var src = window.innerWidth < 800 ? 'hero-sm.mp4' : 'hero.mp4';
-  function ready(){ if(v.classList.contains('ready')) return; v.classList.add('ready'); update(); }
-  fetch(src).then(function(r){ if(!r.ok) throw 0; return r.blob(); }).then(function(b){
-    v.muted = true; v.setAttribute('muted','');
-    v.src = URL.createObjectURL(b);
-    v.addEventListener('loadeddata', ready, {once:true});
-    v.addEventListener('canplay', ready, {once:true});
-    v.load();
-    /* iPhone/iPad Safari won't decode frames until a muted play() starts; play then pause right away */
-    var p = v.play(); if (p && p.then) p.then(function(){ v.pause(); ready(); }).catch(function(){});
-  }).catch(function(){ /* no clip yet: the daytime aerial stays */ });
-  var ticking=false;
+  var small = window.innerWidth < 800, ticking=false, mode=null, frames=[], n=0, cv=null, cx=null, last=-1;
+  function progress(){ var r=track.getBoundingClientRect(), span=track.offsetHeight-window.innerHeight; return span>0 ? Math.min(1,Math.max(0,-r.top/span)) : 0; }
+  function sizeCanvas(){ if(!cv) return; var d=Math.min(window.devicePixelRatio||1,2); cv.width=Math.round(hero.clientWidth*d); cv.height=Math.round(hero.clientHeight*d); last=-1; }
+  function drawFrame(i){
+    var img=null; for(var k=i;k>=0;k--){ if(frames[k]&&frames[k].complete&&frames[k].naturalWidth){ img=frames[k]; break; } }
+    if(!img) return; if(k===last) return; last=k;
+    var W=cv.width,H=cv.height,iw=img.naturalWidth,ih=img.naturalHeight,s=Math.max(W/iw,H/ih),dw=iw*s,dh=ih*s;
+    cx.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh);
+  }
   function update(){
-    ticking=false;
-    var r=track.getBoundingClientRect(), span=track.offsetHeight-window.innerHeight;
-    var p=Math.min(1,Math.max(0,-r.top/span));
-    if (v.duration) v.currentTime = p*(v.duration-0.05);
+    ticking=false; var p=progress();
+    if (mode==='frames') drawFrame(Math.round(p*(n-1)));
+    else if (mode==='video' && v.duration) v.currentTime = p*(v.duration-0.05);
     if (tag) tag.style.opacity = p>0.55 ? 1 : 0;
   }
-  window.addEventListener('scroll', function(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }, {passive:true});
-  window.addEventListener('resize', update);
-  window.addEventListener('touchmove', function(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }, {passive:true});
+  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }
+  function useFrames(){
+    return fetch('hero-frames/count.txt',{cache:'no-cache'}).then(function(r){ if(!r.ok) throw 0; return r.text(); }).then(function(t){
+      n=parseInt(t,10); if(!n) throw 0;
+      cv=document.createElement('canvas'); cv.setAttribute('aria-hidden','true');
+      cv.style.cssText='position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .4s';
+      hero.insertBefore(cv, v); cx=cv.getContext('2d'); sizeCanvas(); mode='frames'; v.style.display='none';
+      for(var i=0;i<n;i++){ (function(i){ var im=new Image(); im.decoding='async';
+        im.onload=function(){ if(i===0){ cv.style.opacity=1; } update(); };
+        im.src='hero-frames/f'+('00'+(i+1)).slice(-3)+'.jpg'; frames[i]=im; })(i); }
+    });
+  }
+  function useVideo(){
+    var src = small ? 'hero-sm.mp4' : 'hero.mp4';
+    return fetch(src).then(function(r){ if(!r.ok) throw 0; return r.blob(); }).then(function(b){
+      v.muted=true; v.setAttribute('muted',''); v.src=URL.createObjectURL(b); mode='video';
+      function ready(){ if(v.classList.contains('ready')) return; v.classList.add('ready'); update(); }
+      v.addEventListener('loadeddata', ready, {once:true}); v.addEventListener('canplay', ready, {once:true}); v.load();
+      var pr=v.play(); if (pr && pr.then) pr.then(function(){ v.pause(); ready(); }).catch(function(){});
+    });
+  }
+  (small ? useFrames().catch(useVideo) : useVideo()).catch(function(){ /* no clip yet: the still photo stays */ });
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('touchmove', onScroll, {passive:true});
+  window.addEventListener('resize', function(){ sizeCanvas(); update(); });
 })();
 </script>
 </body>
