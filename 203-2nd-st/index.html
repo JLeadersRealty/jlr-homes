@@ -132,7 +132,7 @@
 
   <!-- HERO: daytime drone shot zooms in and fades to the twilight front as you scroll -->
   <div class="hero-track"><div class="hero">
-    <video id="jlrlHeroVid" muted playsinline preload="auto" aria-label="Drone shot of Valley Apartments moving from a daytime aerial down to the front of the building at twilight"></video>
+    <video id="jlrlHeroVid" muted playsinline webkit-playsinline disablepictureinpicture preload="auto" aria-label="Drone shot of Valley Apartments moving from a daytime aerial down to the front of the building at twilight"></video>
     <div class="shade"></div>
     <span class="vt">Virtually staged twilight</span>
     <div class="wrap">
@@ -347,9 +347,15 @@
   var track=document.querySelector('.jlrl .hero-track'), tag=document.querySelector('.jlrl .hero .vt');
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var src = window.innerWidth < 800 ? 'hero-sm.mp4' : 'hero.mp4';
+  function ready(){ if(v.classList.contains('ready')) return; v.classList.add('ready'); update(); }
   fetch(src).then(function(r){ if(!r.ok) throw 0; return r.blob(); }).then(function(b){
+    v.muted = true; v.setAttribute('muted','');
     v.src = URL.createObjectURL(b);
-    v.addEventListener('loadeddata', function(){ v.classList.add('ready'); update(); }, {once:true});
+    v.addEventListener('loadeddata', ready, {once:true});
+    v.addEventListener('canplay', ready, {once:true});
+    v.load();
+    /* iPhone/iPad Safari won't decode frames until a muted play() starts; play then pause right away */
+    var p = v.play(); if (p && p.then) p.then(function(){ v.pause(); ready(); }).catch(function(){});
   }).catch(function(){ /* no clip yet: the daytime drone photo stays */ });
   var ticking=false;
   function update(){
@@ -361,6 +367,7 @@
   }
   window.addEventListener('scroll', function(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }, {passive:true});
   window.addEventListener('resize', update);
+  window.addEventListener('touchmove', function(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }, {passive:true});
 })();
 </script>
 </body>
