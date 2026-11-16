@@ -34,10 +34,9 @@
 
 /* HERO */
 .jlrl .hero-track{position:relative;height:250vh}
-.jlrl .hero{position:sticky;top:0;height:100vh;min-height:560px;display:flex;align-items:flex-end;overflow:hidden;background:#2c3e50}
-.jlrl .hero .layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform,opacity}
-.jlrl .hero .day{object-position:center 55%;transform-origin:50% 55%}
-.jlrl .hero .night{object-position:center 45%;opacity:0}
+.jlrl .hero{position:sticky;top:0;height:100vh;min-height:560px;display:flex;align-items:flex-end;overflow:hidden;background:#2c3e50 url('photos/hero-day.jpg') center 55%/cover no-repeat}
+.jlrl .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s}
+.jlrl .hero video.ready{opacity:1}
 .jlrl .hero .shade{position:absolute;inset:0}
 .jlrl .hero .wrap{position:relative}
 .jlrl .hero .vt{position:absolute;top:12px;right:14px;font-size:11px;color:#fff;padding:3px 8px;opacity:0;transition:opacity .3s}
@@ -133,8 +132,7 @@
 
   <!-- HERO: daytime drone shot zooms in and fades to the twilight front as you scroll -->
   <div class="hero-track"><div class="hero">
-    <img class="layer day" src="photos/hero-day.jpg" alt="Drone view of Valley Apartments at 203 2nd St, Minden, IA">
-    <img class="layer night" src="photos/hero-twilight.jpg" alt="Front of Valley Apartments at twilight (virtually staged)" aria-hidden="true">
+    <video id="jlrlHeroVid" muted playsinline preload="auto" aria-label="Drone shot of Valley Apartments moving from a daytime aerial down to the front of the building at twilight"></video>
     <div class="shade"></div>
     <span class="vt">Virtually staged twilight</span>
     <div class="wrap">
@@ -338,30 +336,31 @@
   <p class="legal">
     *Projected figures are estimates, not guarantees. They assume vacant units leased at estimated market rent, 302 Lincoln St updated and leased, 8% vacancy and 10% management. Buyer to verify all income, expenses and information.<br>
     **Floor plan square footage from CubiCasa, deemed highly reliable but not guaranteed. 302 Lincoln St is sold as-is.<br>
-    Twilight image in the opening is virtually staged; the building itself is unaltered.<br>
+    Opening drone clip ends on a virtual twilight edit; the building itself is unaltered.<br>
     J. Leaders Realty · 3396 Waverly Ave, Shelby, IA 51570 · 402.773.8511 · Iowa Firm License F06561000 · Equal Housing Opportunity
   </p>
 </div>
 
 <script>
 (function(){
-  var track=document.querySelector('.jlrl .hero-track'), day=document.querySelector('.jlrl .hero .day'), night=document.querySelector('.jlrl .hero .night'), tag=document.querySelector('.jlrl .hero .vt');
-  if(!track||!day||!night) return;
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var v=document.getElementById('jlrlHeroVid'); if(!v) return;
+  var track=document.querySelector('.jlrl .hero-track'), tag=document.querySelector('.jlrl .hero .vt');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var src = window.innerWidth < 800 ? 'hero-sm.mp4' : 'hero.mp4';
+  fetch(src).then(function(r){ if(!r.ok) throw 0; return r.blob(); }).then(function(b){
+    v.src = URL.createObjectURL(b);
+    v.addEventListener('loadeddata', function(){ v.classList.add('ready'); update(); }, {once:true});
+  }).catch(function(){ /* no clip yet: the daytime drone photo stays */ });
   var ticking=false;
-  function clamp(x){return Math.min(1,Math.max(0,x));}
   function update(){
     ticking=false;
     var r=track.getBoundingClientRect(), span=track.offsetHeight-window.innerHeight;
-    var p=span>0?clamp(-r.top/span):0;
-    day.style.transform='scale('+(1+0.35*clamp(p/0.8))+')';
-    var f=clamp((p-0.35)/0.45);
-    night.style.opacity=f;
-    night.style.transform='scale('+(1.08-0.08*f)+')';
-    if(tag) tag.style.opacity = f>0.5 ? 1 : 0;
+    var p=Math.min(1,Math.max(0,-r.top/span));
+    if (v.duration) v.currentTime = p*(v.duration-0.05);
+    if (tag) tag.style.opacity = p>0.55 ? 1 : 0;
   }
-  window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(update);}},{passive:true});
-  window.addEventListener('resize',update); update();
+  window.addEventListener('scroll', function(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }, {passive:true});
+  window.addEventListener('resize', update);
 })();
 </script>
 </body>
