@@ -12,6 +12,21 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://homes.jleadersrealty.org/505-brady/">
 <style>html,body{margin:0;background:#fff}</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"RealEstateListing",
+ "name":"505 Brady St, Minden, IA 51553","url":"https://homes.jleadersrealty.org/505-brady/",
+ "description":"New construction 3-bedroom, 1.75-bath ranch with a full basement in Minden, Iowa. Tri-Center Community School District.",
+ "datePosted":"2026-11-16",
+ "image":["https://res.cloudinary.com/placester/image/upload/c_fill,w_1200,h_800,q_auto,f_auto/v1/inception-app-prod/N2QyNzhhYzItMjU5NC00N2U2LWEzYTQtYTUxZDY1MTRmMjAx/content/2026/11/bf13e85bbf863b0127c928798891bd98ff974e2e.jpg"],
+ "offers":{"@type":"Offer","price":349900,"priceCurrency":"USD","availability":"https://schema.org/InStock",
+   "seller":{"@type":"RealEstateAgent","name":"J. Leaders Realty","telephone":"+1-402-773-8511","url":"https://www.jleadersrealty.org/"}},
+ "mainEntity":{"@type":"SingleFamilyResidence","name":"505 Brady St",
+   "address":{"@type":"PostalAddress","streetAddress":"505 Brady St","addressLocality":"Minden","addressRegion":"IA","postalCode":"51553","addressCountry":"US"},
+   "numberOfRooms":3,"numberOfBedrooms":3,"numberOfBathroomsTotal":2,"numberOfFullBathrooms":1,"numberOfPartialBathrooms":1,
+   "floorSize":{"@type":"QuantitativeValue","value":1471,"unitCode":"FTK"},
+   "lotSize":{"@type":"QuantitativeValue","value":0.17,"unitCode":"ACR"}}}
+</script>
+<script src="/jlr.js" defer></script>
 </head>
 <body>
 <style>
@@ -109,6 +124,30 @@
 .jlrl .cta .btn-ghost{border:1px solid var(--ink);color:var(--ink)}
 .jlrl .cta .small{font-size:14px;color:var(--muted);margin-top:12px}
 .jlrl .cta .eyebrow{color:var(--gold)}
+/* LEAD FORMS */
+.jlrl .leads{border-top:1px solid var(--line)}
+.jlrl .leads .wrap{max-width:640px;margin:0 auto}
+.jlrl .leads .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 20px}
+.jlrl .leads .tabs button{font:inherit;font-size:14px;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);cursor:pointer}
+.jlrl .leads .tabs button[aria-selected=true]{background:var(--navy);border-color:var(--navy);color:#fff}
+.jlrl .leads form{display:grid;gap:12px}
+.jlrl .leads form[hidden],.jlrl .leads[hidden]{display:none}
+.jlrl .leads .row{display:grid;gap:12px}
+@media(min-width:560px){.jlrl .leads .row{grid-template-columns:1fr 1fr}}
+.jlrl .leads label{display:grid;gap:6px;font-size:13px;font-weight:500;color:var(--muted)}
+.jlrl .leads input,.jlrl .leads textarea{font:inherit;font-size:16px;color:var(--ink);padding:12px 14px;border:1px solid #d6d3cd;border-radius:6px;background:#fff;width:100%}
+.jlrl .leads input:focus,.jlrl .leads textarea:focus{outline:2px solid var(--navy);outline-offset:1px;border-color:var(--navy)}
+.jlrl .leads .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.jlrl .leads .consent{font-size:12px;color:var(--muted);margin:0}
+.jlrl .leads .btn{background:var(--navy);color:#fff;border:0;cursor:pointer;justify-self:start;margin:0}
+.jlrl .leads .btn-line{background:#fff;color:var(--ink);border:1px solid var(--ink)}
+.jlrl .leads .btn:disabled{opacity:.6}
+.jlrl .leads .jlr-msg{font-size:14px;color:#9b2c2c;margin:0}
+.jlrl .leads .jlr-done{font-size:17px;margin:8px 0}
+.jlrl .leads .seller{margin-top:48px;padding:28px;background:var(--soft);border-radius:8px}
+.jlrl .leads .seller h3{font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:26px;margin:0 0 6px}
+.jlrl .leads .seller p{margin:0 0 16px;color:#3a3c40}
+
 .jlrl .legal{font-size:12px;color:var(--muted);padding:24px;text-align:center;margin:0}
 </style>
 
@@ -116,13 +155,13 @@
 
   <!-- HERO: daytime aerial zooms in toward the house, then fades to the twilight close-up as you scroll -->
   <div class="hero-track"><div class="hero">
-    <video id="jlrlHeroVid" muted playsinline webkit-playsinline disablepictureinpicture preload="auto" aria-label="Drone shot of 505 Brady St moving in from a daytime aerial to the front porch at twilight"></video>
+    <video id="jlrlHeroVid" muted playsinline preload="auto" aria-label="Drone shot of 505 Brady St moving in from a daytime aerial to the front porch at twilight"></video>
     <div class="shade"></div>
     <span class="vt">Virtual twilight</span>
     <div class="wrap">
       <span class="eyebrow">New Construction · Minden, IA</span>
       <h1>Nobody's lived here yet.</h1>
-      <p class="sub">A brand-new 3-bedroom, 1.75-bath ranch at 505 Brady St, with corn &amp; bean fields off in the distance out front. New everything, small-town Minden.</p>
+      <p class="sub">A brand-new 3-bedroom, 1.75-bath ranch at 505 Brady St, with corn &amp; bean fields out the back windows. New everything, small-town Minden.</p>
       <a class="btn btn-gold" href="tel:+14027738511">Schedule a Showing</a>
       <a class="btn btn-ghost" href="#jlrl-photos">See the Photos</a>
     </div>
@@ -286,6 +325,53 @@
     </div>
   </section>
 
+  <!-- LEAD FORMS: hidden until jlr.js has a leads endpoint -->
+  <section class="leads" id="jlr-leads" hidden
+    data-slug="505-brady" data-address="505 Brady St" data-city="Minden" data-state="IA" data-zip="51553" data-mls="26-2141" data-price="349900">
+    <div class="wrap">
+      <span class="eyebrow">Let's Talk</span>
+      <h2>What can we help with?</h2>
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" data-tab="showing" aria-selected="true">Schedule a showing</button>
+        <button type="button" role="tab" data-tab="alerts" aria-selected="false">Price &amp; status alerts</button>
+        <button type="button" role="tab" data-tab="question" aria-selected="false">Ask a question</button>
+      </div>
+      <form data-form="showing">
+        <div class="row"><label>Name<input name="name" autocomplete="name" required></label><label>Phone<input name="phone" type="tel" autocomplete="tel" required></label></div>
+        <label>Email<input name="email" type="email" autocomplete="email"></label>
+        <label>When works for you?<input name="when" placeholder="e.g. Saturday morning or weekday after 5"></label>
+        <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="consent">By sending, you agree J. Leaders Realty may call, text or email you about this home. Msg &amp; data rates may apply. Reply STOP to opt out.</p>
+        <button class="btn jlr-submit" type="submit">Request a showing</button><p class="jlr-msg" role="alert"></p>
+      </form>
+      <form data-form="alerts" hidden>
+        <div class="row"><label>Name<input name="name" autocomplete="name" required></label><label>Phone<input name="phone" type="tel" autocomplete="tel"></label></div>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+        <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="consent">We'll let you know if the price changes or it goes under contract. Reply STOP or unsubscribe anytime.</p>
+        <button class="btn jlr-submit" type="submit">Keep me posted</button><p class="jlr-msg" role="alert"></p>
+      </form>
+      <form data-form="question" hidden>
+        <div class="row"><label>Name<input name="name" autocomplete="name" required></label><label>Phone<input name="phone" type="tel" autocomplete="tel"></label></div>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+        <label>Your question<textarea name="message" rows="3" required></textarea></label>
+        <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="consent">By sending, you agree J. Leaders Realty may call, text or email you about this home.</p>
+        <button class="btn jlr-submit" type="submit">Send my question</button><p class="jlr-msg" role="alert"></p>
+      </form>
+      <div class="seller">
+        <h3>Own a home nearby?</h3>
+        <p>Homes like this one are selling in your area. Want to know what yours is worth? No pressure, just a straight answer.</p>
+        <form data-form="home_value">
+          <label>Your address<input name="property_address" autocomplete="street-address" required></label>
+          <div class="row"><label>Name<input name="name" autocomplete="name" required></label><label>Phone or email<input name="contact" required></label></div>
+          <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn btn-line jlr-submit" type="submit">Get my home's value</button><p class="jlr-msg" role="alert"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="cta">
     <div class="wrap">
@@ -293,6 +379,7 @@
       <h2>Be the first one to call it home.</h2>
       <p>Showings are easy to set up. Call or text and we'll find a time that works for you.</p>
       <a class="btn btn-gold" href="tel:+14027738511">Call J. Leaders Realty · 402.773.8511</a>
+      <a class="btn btn-ghost" href="sms:+14027738511">Text us</a>
       <a class="btn btn-ghost" href="mailto:jamie@jleadersrealty.org?subject=Showing%20request%3A%20505%20Brady%20St%2C%20Minden">Email Jamie</a>
       <p class="small">Jamie Leaders, Broker/Owner · Direct 402.306.6255</p>
     </div>
@@ -307,51 +394,25 @@
 
 
 <script>
-/* JLR scroll hero: desktop scrubs hero.mp4; phones flip through hero-frames/ (works on every iPhone, Low Power Mode too) */
 (function(){
   var v=document.getElementById('jlrlHeroVid'); if(!v) return;
-  var hero=v.parentNode, track=document.querySelector('.jlrl .hero-track'), tag=document.querySelector('.jlrl .hero .vt');
+  var track=document.querySelector('.jlrl .hero-track'), tag=document.querySelector('.jlrl .hero .vt');
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var small = window.innerWidth < 800, ticking=false, mode=null, frames=[], n=0, cv=null, cx=null, last=-1;
-  function progress(){ var r=track.getBoundingClientRect(), span=track.offsetHeight-window.innerHeight; return span>0 ? Math.min(1,Math.max(0,-r.top/span)) : 0; }
-  function sizeCanvas(){ if(!cv) return; var d=Math.min(window.devicePixelRatio||1,2); cv.width=Math.round(hero.clientWidth*d); cv.height=Math.round(hero.clientHeight*d); last=-1; }
-  function drawFrame(i){
-    var img=null; for(var k=i;k>=0;k--){ if(frames[k]&&frames[k].complete&&frames[k].naturalWidth){ img=frames[k]; break; } }
-    if(!img) return; if(k===last) return; last=k;
-    var W=cv.width,H=cv.height,iw=img.naturalWidth,ih=img.naturalHeight,s=Math.max(W/iw,H/ih),dw=iw*s,dh=ih*s;
-    cx.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh);
-  }
+  var src = window.innerWidth < 800 ? 'hero-sm.mp4' : 'hero.mp4';
+  fetch(src).then(function(r){ if(!r.ok) throw 0; return r.blob(); }).then(function(b){
+    v.src = URL.createObjectURL(b);
+    v.addEventListener('loadeddata', function(){ v.classList.add('ready'); update(); }, {once:true});
+  }).catch(function(){ /* no clip yet: the daytime aerial stays */ });
+  var ticking=false;
   function update(){
-    ticking=false; var p=progress();
-    if (mode==='frames') drawFrame(Math.round(p*(n-1)));
-    else if (mode==='video' && v.duration) v.currentTime = p*(v.duration-0.05);
+    ticking=false;
+    var r=track.getBoundingClientRect(), span=track.offsetHeight-window.innerHeight;
+    var p=Math.min(1,Math.max(0,-r.top/span));
+    if (v.duration) v.currentTime = p*(v.duration-0.05);
     if (tag) tag.style.opacity = p>0.55 ? 1 : 0;
   }
-  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }
-  function useFrames(){
-    return fetch('hero-frames/count.txt',{cache:'no-cache'}).then(function(r){ if(!r.ok) throw 0; return r.text(); }).then(function(t){
-      n=parseInt(t,10); if(!n) throw 0;
-      cv=document.createElement('canvas'); cv.setAttribute('aria-hidden','true');
-      cv.style.cssText='position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .4s';
-      hero.insertBefore(cv, v); cx=cv.getContext('2d'); sizeCanvas(); mode='frames'; v.style.display='none';
-      for(var i=0;i<n;i++){ (function(i){ var im=new Image(); im.decoding='async';
-        im.onload=function(){ if(i===0){ cv.style.opacity=1; } update(); };
-        im.src='hero-frames/f'+('00'+(i+1)).slice(-3)+'.jpg'; frames[i]=im; })(i); }
-    });
-  }
-  function useVideo(){
-    var src = small ? 'hero-sm.mp4' : 'hero.mp4';
-    return fetch(src).then(function(r){ if(!r.ok) throw 0; return r.blob(); }).then(function(b){
-      v.muted=true; v.setAttribute('muted',''); v.src=URL.createObjectURL(b); mode='video';
-      function ready(){ if(v.classList.contains('ready')) return; v.classList.add('ready'); update(); }
-      v.addEventListener('loadeddata', ready, {once:true}); v.addEventListener('canplay', ready, {once:true}); v.load();
-      var pr=v.play(); if (pr && pr.then) pr.then(function(){ v.pause(); ready(); }).catch(function(){});
-    });
-  }
-  (small ? useFrames().catch(useVideo) : useVideo()).catch(function(){ /* no clip yet: the still photo stays */ });
-  window.addEventListener('scroll', onScroll, {passive:true});
-  window.addEventListener('touchmove', onScroll, {passive:true});
-  window.addEventListener('resize', function(){ sizeCanvas(); update(); });
+  window.addEventListener('scroll', function(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }, {passive:true});
+  window.addEventListener('resize', update);
 })();
 </script>
 </body>
