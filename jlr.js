@@ -2,7 +2,7 @@
    Every listing page loads this one file, so IDs only ever change here. */
 (function () {
   var CFG = window.JLR_CONFIG = {
-    ga4: '',               // Google Analytics 4 measurement ID, e.g. G-XXXXXXX
+    ga4: 'G-0Q0RWN3NFC',             // Google Analytics 4 measurement ID, e.g. G-XXXXXXX
     metaPixel: '',         // Meta Pixel ID (numbers only)
     fubPixel: '',          // Follow Up Boss Pixel script URL (from FUB Admin → Pixel)
     leadsEndpoint: '',     // Cloudflare Worker URL that sends form leads to FUB
