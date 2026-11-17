@@ -3,7 +3,7 @@
 (function () {
   var CFG = window.JLR_CONFIG = {
     ga4: 'G-0Q0RWN3NFC',             // Google Analytics 4 measurement ID, e.g. G-XXXXXXX
-    metaPixel: '',         // Meta Pixel ID (numbers only)
+    metaPixel: '2822795091494139', // Meta Pixel ("JLR Listing Websites" dataset)
     fubPixel: 'WT-OIINTZCR', // Follow Up Boss Pixel ID (FUB Admin → Integrations → Pixel). Its form capture turns form fills into FUB leads.
     leadsEndpoint: '',     // Cloudflare Worker URL that sends form leads to FUB
     turnstileSiteKey: ''   // Cloudflare Turnstile site key (spam check)
