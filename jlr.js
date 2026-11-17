@@ -58,6 +58,31 @@
     marks.forEach(function (m) { if (p >= m && !hit[m]) { hit[m] = 1; track('scroll_depth', { percent: m }); } });
   }, { passive: true });
 
+  /* ---------- Listing-agent contact bar (replaces FUB's bar, which shows whoever a contact is assigned to) ---------- */
+  function agentBar() {
+    var box = document.getElementById('jlr-leads'); if (!box || !box.dataset.agent) return;
+    var D = box.dataset, css = document.createElement('style');
+    css.textContent =
+      'body>iframe:not([src]){display:none!important}' +
+      '.jlr-bar{position:fixed;left:12px;right:12px;bottom:12px;z-index:50;background:#0B1B2B;color:#fff;border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.25);font:500 14px/1.3 Inter,Helvetica,Arial,sans-serif;transform:translateY(140%);transition:transform .3s}' +
+      '.jlr-bar.on{transform:none}.jlr-bar .who{flex:1;min-width:0}.jlr-bar .who b{display:block;font-weight:600}.jlr-bar .who span{opacity:.75;font-size:12px}' +
+      '.jlr-bar a{color:#0B1B2B;background:#fff;text-decoration:none;font-weight:600;padding:9px 12px;border-radius:8px;white-space:nowrap}' +
+      '.jlr-bar a.alt{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}' +
+      '@media(min-width:900px){.jlr-bar{left:auto;right:20px;bottom:20px;max-width:460px}}';
+    document.head.appendChild(css);
+    var bar = document.createElement('div'); bar.className = 'jlr-bar';
+    bar.innerHTML = '<div class="who"><b>' + D.agent + '</b><span>Listing agent · ' + (D.agentPhone || '') + '</span></div>' +
+      '<a href="tel:+14027738511">Call</a><a class="alt" href="sms:+14027738511">Text</a>';
+    document.body.appendChild(bar);
+    var show = function () { bar.classList.toggle('on', scrollY > innerHeight * 0.8); };
+    addEventListener('scroll', show, { passive: true }); show();
+    // keep FUB's injected bar hidden even if it is added later
+    new MutationObserver(function () {
+      document.querySelectorAll('body>iframe:not([src])').forEach(function (f) { f.style.setProperty('display', 'none', 'important'); });
+    }).observe(document.body, { childList: true });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', agentBar); else agentBar();
+
   /* ---------- Hero video: iPhones only draw frames after one play() ---------- */
   function primeHero() {
     var v = document.getElementById('jlrlHeroVid'); if (!v) return;
@@ -88,6 +113,9 @@
 
   function initForms() {
     var box = document.getElementById('jlr-leads'); if (!box) return;
+    if (CFG.leadsEndpoint) {   // Worker mode: our script sends the lead, so stop the Pixel from capturing it twice
+      addEventListener('submit', function (e) { if (box.contains(e.target)) { e.preventDefault(); e.stopImmediatePropagation(); e.target.dispatchEvent(new CustomEvent('jlr-submit')); } }, true);
+    }
     var pixelMode = !CFG.leadsEndpoint && !!CFG.fubPixel;     // no Worker yet: the FUB Pixel captures the form fill
     if (!CFG.leadsEndpoint && !pixelMode) { box.hidden = true; return; }
     box.hidden = false;
@@ -125,8 +153,8 @@
         };
         f.addEventListener('input', sync); sync();
       }
-      f.addEventListener('submit', function (e) {
-        e.preventDefault();
+      f.addEventListener(CFG.leadsEndpoint ? 'jlr-submit' : 'submit', function (e) {
+        if (e.preventDefault) e.preventDefault();
         var btn = f.querySelector('button[type=submit]'), msg = f.querySelector('.jlr-msg');
         var data = Object.fromEntries(new FormData(f).entries());
         if (data.website) return;                            // honeypot
