@@ -111,30 +111,59 @@
   }
   utm();
 
-  // Home-value form: instant local market snapshot + what happens next. Numbers come from data-mkt-* on #jlr-leads.
-  function esc(t) { return String(t || '').replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); }
-  function valueSnapshot(D, data) {
+  // Home-value form: Zillow-style instant estimate (from the jlr-leads Worker) + what happens next.
+  function esc(t) { return String(t == null ? '' : t).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); }
+  function money(n) { return '$' + Number(n).toLocaleString('en-US'); }
+  function facts(h) { return [h.beds && h.beds + ' bd', h.baths && h.baths + ' ba', h.sqft && Number(h.sqft).toLocaleString('en-US') + ' sq ft'].filter(Boolean).join(' · '); }
+  var FINE = '<p class="jlr-fine">This is an automated estimate, not an appraisal or a market analysis by a licensed agent. It\'s based on public records and nearby listings, ' +
+    'can miss updates, condition and land, and isn\'t a guarantee of what your home will sell for. The most accurate number comes from someone seeing the home in person. ' +
+    'Questions? Call or text <a href="tel:+14027738511">402.773.8511</a>.</p>';
+  function valueResult(D, data, est) {
     var first = esc(String(data.name || '').trim().split(/\s+/)[0]);
-    var agent = esc(String(D.agent || 'Your agent').split(' ')[0]);
+    var who = D.agent ? esc(String(D.agent).split(' ')[0]) : 'Jamie';
     var how = data.email ? 'email' : 'text';
-    var tiles = [];
-    if (D.mktPrice) tiles.push(['$' + Number(D.mktPrice).toLocaleString('en-US'), 'Median sale price']);
-    if (D.mktDom) tiles.push([esc(D.mktDom), 'Median days on market']);
-    if (D.mktRatio) tiles.push([esc(D.mktRatio) + '%', 'Sale-to-list price']);
-    var snap = tiles.length ? '<p class="jlr-snap-h">While we work on yours, here\'s the local market:</p><div class="jlr-snap">' +
-      tiles.map(function (t) { return '<div><b>' + t[0] + '</b><span>' + t[1] + '</span></div>'; }).join('') + '</div>' +
-      '<p class="jlr-snap-src">' + esc(D.mktArea) + (D.mktAsof ? ' · ' + esc(D.mktAsof) : '') + (D.mktSource ? ' · Source: ' + esc(D.mktSource) : '') + '</p>' : '';
-    return '<div class="jlr-value"><p class="jlr-done">Got it' + (first ? ', ' + first : '') + '. ' + agent + ' will ' + how +
-      ' you an estimated value range for <b>' + esc(data.property_address) + '</b> within 1 business day.</p>' + snap +
-      '<p class="jlr-fine">This is an estimate, not an appraisal. It\'s based on recent sales and market data and isn\'t a guarantee of what your home will sell for. ' +
-      'The most accurate number comes from seeing the home in person. Questions sooner? Call or text <a href="tel:+14027738511">402.773.8511</a>.</p></div>';
+    var full = esc([data.property_address, data.property_city, data.property_state].filter(Boolean).join(', '));
+    if (!est) {
+      return '<div class="jlr-value"><p class="jlr-done">Thanks' + (first ? ', ' + first : '') + '. Homes around <b>' + full + '</b> don\'t have enough recent sales for an instant number we\'d stand behind, ' +
+        'so ' + who + ' will put together your estimated value range by hand and ' + how + ' it to you within 1 business day.</p><p class="jlr-fine">Questions sooner? Call or text <a href="tel:+14027738511">402.773.8511</a>.</p></div>';
+    }
+    var h = est.home || {}, comps = (est.comps || []).map(function (c) {
+      var st = /active/i.test(c.status) && !/inactive/i.test(c.status) ? 'For sale' : 'Recently listed';
+      return '<li><div><b>' + money(c.price) + '</b><span>' + esc(c.address) + '</span><span>' + esc(facts(c)) + '</span></div><em>' + st +
+        (c.miles != null ? '<br>' + Number(c.miles).toFixed(1) + ' mi' : '') + '</em></li>';
+    }).join('');
+    return '<div class="jlr-value"><p class="jlr-est-l">Estimated value' + (first ? ' for ' + first : '') + '</p>' +
+      '<p class="jlr-est">' + money(est.price) + '</p>' +
+      '<div class="jlr-rng"><span>' + money(est.low) + '</span><i></i><span>' + money(est.high) + '</span></div>' +
+      '<p class="jlr-home"><b>' + esc(h.address || full) + '</b><br>' + esc(facts(h)) + (h.year ? ' · Built ' + esc(h.year) : '') +
+      '<br><small>Details wrong or recently updated? ' + who + ' will factor that in.</small></p>' +
+      (comps ? '<p class="jlr-snap-h">Nearby homes used for this estimate</p><ul class="jlr-comps">' + comps + '</ul>' : '') +
+      '<p class="jlr-next"><b>What\'s next:</b> ' + who + ' will ' + how + ' you within 1 business day with a closer look based on recent local sales. No pressure, no obligation.</p>' +
+      FINE + '</div>';
   }
   function snapCss() {
     var st = document.createElement('style');
-    st.textContent = '.jlr-snap-h{font-weight:600;margin:18px 0 10px}.jlr-snap{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px}' +
-      '.jlr-snap div{background:#fff;border:1px solid #e7e5e1;border-radius:8px;padding:12px}.jlr-snap b{display:block;font-size:21px;color:#0B1B2B;font-family:"DM Serif Display",Georgia,serif;font-weight:400}' +
-      '.jlr-snap span{display:block;font-size:13px;line-height:1.35;margin-top:4px;color:#6b6e73}.jlr-snap-src{font-size:12px;color:#6b6e73;margin:8px 0 0}.jlr-fine{font-size:12px;color:#6b6e73;margin:18px 0 0;line-height:1.5}';
+    st.textContent = '.jlr-est-l{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6b6e73;margin:0}' +
+      '.jlr-est{font-family:"DM Serif Display",Georgia,serif;font-size:clamp(40px,8vw,56px);line-height:1.05;color:#0B1B2B;margin:4px 0 12px}' +
+      '.jlr-rng{display:flex;align-items:center;gap:10px;font-size:14px;color:#2B2D31;margin-bottom:16px}.jlr-rng i{flex:1;height:6px;border-radius:3px;background:linear-gradient(90deg,#d6d3cd,#0B1B2B 50%,#d6d3cd)}' +
+      '.jlr-home{font-size:15px;line-height:1.5;margin:0 0 6px}.jlr-home small{color:#6b6e73;font-size:12px}' +
+      '.jlr-snap-h{font-weight:600;margin:20px 0 8px}.jlr-comps{list-style:none;margin:0;padding:0;border-top:1px solid #e7e5e1}' +
+      '.jlr-comps li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #e7e5e1;font-size:14px}' +
+      '.jlr-comps b{display:block;font-size:16px}.jlr-comps span{display:block;color:#6b6e73;font-size:13px}.jlr-comps em{font-style:normal;font-size:12px;color:#6b6e73;text-align:right;white-space:nowrap}' +
+      '.jlr-next{margin:18px 0 0;font-size:15px}.jlr-fine{font-size:12px;color:#6b6e73;margin:14px 0 0;line-height:1.5}' +
+      '.jlr-addr2{display:grid;gap:12px;grid-template-columns:2fr 1fr 1fr}@media(max-width:559px){.jlr-addr2{grid-template-columns:1fr 1fr}.jlr-addr2 label:first-child{grid-column:1/-1}}' +
+      '.jlr-addr2 select{font:inherit;font-size:16px;padding:12px 10px;border:1px solid #d6d3cd;border-radius:6px;background:#fff;width:100%}';
     document.head.appendChild(st);
+  }
+  // Older pages only have a street field: add City / State / ZIP so the estimate can find the home.
+  function addrFields(f) {
+    var pa = f.querySelector('[name=property_address]'); if (!pa || f.querySelector('[name=property_city]')) return;
+    pa.closest('label').firstChild.textContent = 'Street address';
+    var row = document.createElement('div'); row.className = 'jlr-addr2';
+    row.innerHTML = '<label>City<input name="property_city" autocomplete="address-level2" required></label>' +
+      '<label>State<select name="property_state" autocomplete="address-level1"><option>IA</option><option>NE</option></select></label>' +
+      '<label>ZIP<input name="property_zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" required></label>';
+    pa.closest('label').after(row);
   }
 
   function initForms() {
@@ -158,6 +187,7 @@
     box.querySelectorAll('form[data-form]').forEach(function (f) {
       // Phone and email are each optional, but we need at least one real way to reach them
       f.querySelectorAll('[name=phone],[name=email]').forEach(function (i) { i.required = false; });
+      addrFields(f);
       var ph = f.querySelector('[name=phone]'), em = f.querySelector('[name=email]');
       if (ph) ph.closest('label').firstChild.textContent = 'Phone';
       if (em) em.closest('label').firstChild.textContent = 'Email';
@@ -174,7 +204,7 @@
         var label = { showing: 'Showing request', alerts: 'Price/status alerts', home_value: 'Home value request' }[f.getAttribute('data-form')] || 'Inquiry';
         var sync = function () {
           var D = box.dataset, w = f.querySelector('[name=when]'), pa = f.querySelector('[name=property_address]');
-          hm.value = label + ' from the ' + D.address + ', ' + D.city + ' listing site' +
+          hm.value = label + (D.address ? ' from the ' + D.address + ', ' + D.city + ' listing site' : ' from the JLR website') +
             (w && w.value ? '. Best time: ' + w.value : '') + (pa && pa.value ? '. Their home: ' + pa.value : '') + '. ' + location.href;
         };
         f.addEventListener('input', sync); sync();
@@ -192,13 +222,13 @@
         data.form = f.getAttribute('data-form');
         data.listing = Object.assign({}, box.dataset);                           // slug, address, city, state, zip, mls, price
         data.page = location.href; data.utm = utm();
-        btn.disabled = true; btn.textContent = 'Sending…';
+        btn.disabled = true; btn.textContent = data.form === 'home_value' ? 'Looking up your home…' : 'Sending…';
         var send = pixelMode
           ? new Promise(function (ok) { setTimeout(function () { ok({ ok: true }); }, 1500); })   // give the Pixel time to send
           : fetch(CFG.leadsEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
             .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.ok) throw j; return j; }); });
-        send.then(function () {
-            f.innerHTML = data.form === 'home_value' ? valueSnapshot(box.dataset, data)
+        send.then(function (res) {
+            f.innerHTML = data.form === 'home_value' ? valueResult(box.dataset, data, res && res.estimate)
               : '<p class="jlr-done">Got it, thank you. We\'ll be in touch shortly. Need us sooner? Call or text <a href="tel:+14027738511">402.773.8511</a>.</p>';
             track('generate_lead', { form: data.form, listing: data.listing.slug });
             if (window.fbq) fbq('track', 'Lead', { content_name: data.listing.slug });
