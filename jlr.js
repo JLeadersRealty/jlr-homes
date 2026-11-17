@@ -111,8 +111,34 @@
   }
   utm();
 
+  // Home-value form: instant local market snapshot + what happens next. Numbers come from data-mkt-* on #jlr-leads.
+  function esc(t) { return String(t || '').replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); }
+  function valueSnapshot(D, data) {
+    var first = esc(String(data.name || '').trim().split(/\s+/)[0]);
+    var agent = esc(String(D.agent || 'Your agent').split(' ')[0]);
+    var how = data.email ? 'email' : 'text';
+    var tiles = [];
+    if (D.mktPrice) tiles.push(['$' + Number(D.mktPrice).toLocaleString('en-US'), 'Median sale price']);
+    if (D.mktDom) tiles.push([esc(D.mktDom), 'Median days on market']);
+    if (D.mktRatio) tiles.push([esc(D.mktRatio) + '%', 'Sale-to-list price']);
+    var snap = tiles.length ? '<p class="jlr-snap-h">While we work on yours, here\'s the local market:</p><div class="jlr-snap">' +
+      tiles.map(function (t) { return '<div><b>' + t[0] + '</b><span>' + t[1] + '</span></div>'; }).join('') + '</div>' +
+      '<p class="jlr-snap-src">' + esc(D.mktArea) + (D.mktAsof ? ' · ' + esc(D.mktAsof) : '') + (D.mktSource ? ' · Source: ' + esc(D.mktSource) : '') + '</p>' : '';
+    return '<div class="jlr-value"><p class="jlr-done">Got it' + (first ? ', ' + first : '') + '. ' + agent + ' will ' + how +
+      ' you an estimated value range for <b>' + esc(data.property_address) + '</b> within 1 business day.</p>' + snap +
+      '<p class="jlr-fine">This is an estimate, not an appraisal. It\'s based on recent sales and market data and isn\'t a guarantee of what your home will sell for. ' +
+      'The most accurate number comes from seeing the home in person. Questions sooner? Call or text <a href="tel:+14027738511">402.773.8511</a>.</p></div>';
+  }
+  function snapCss() {
+    var st = document.createElement('style');
+    st.textContent = '.jlr-snap-h{font-weight:600;margin:18px 0 10px}.jlr-snap{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px}' +
+      '.jlr-snap div{background:#fff;border:1px solid #e7e5e1;border-radius:8px;padding:12px}.jlr-snap b{display:block;font-size:21px;color:#0B1B2B;font-family:"DM Serif Display",Georgia,serif;font-weight:400}' +
+      '.jlr-snap span{display:block;font-size:13px;line-height:1.35;margin-top:4px;color:#6b6e73}.jlr-snap-src{font-size:12px;color:#6b6e73;margin:8px 0 0}.jlr-fine{font-size:12px;color:#6b6e73;margin:18px 0 0;line-height:1.5}';
+    document.head.appendChild(st);
+  }
+
   function initForms() {
-    var box = document.getElementById('jlr-leads'); if (!box) return;
+    var box = document.getElementById('jlr-leads'); if (!box) return; snapCss();
     if (CFG.leadsEndpoint) {   // Worker mode: our script sends the lead, so stop the Pixel from capturing it twice
       addEventListener('submit', function (e) { if (box.contains(e.target)) { e.preventDefault(); e.stopImmediatePropagation(); e.target.dispatchEvent(new CustomEvent('jlr-submit')); } }, true);
     }
@@ -172,7 +198,8 @@
           : fetch(CFG.leadsEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
             .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.ok) throw j; return j; }); });
         send.then(function () {
-            f.innerHTML = '<p class="jlr-done">Got it, thank you. We\'ll be in touch shortly. Need us sooner? Call or text <a href="tel:+14027738511">402.773.8511</a>.</p>';
+            f.innerHTML = data.form === 'home_value' ? valueSnapshot(box.dataset, data)
+              : '<p class="jlr-done">Got it, thank you. We\'ll be in touch shortly. Need us sooner? Call or text <a href="tel:+14027738511">402.773.8511</a>.</p>';
             track('generate_lead', { form: data.form, listing: data.listing.slug });
             if (window.fbq) fbq('track', 'Lead', { content_name: data.listing.slug });
           })
