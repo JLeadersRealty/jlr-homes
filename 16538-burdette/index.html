@@ -12,6 +12,22 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://homes.jleadersrealty.org/16538-burdette/">
 <style>html,body{margin:0;background:#fff}</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"RealEstateListing",
+ "name":"16538 Burdette St, Omaha, NE 68116","url":"https://homes.jleadersrealty.org/16538-burdette/",
+ "description":"3-bedroom, 1.75-bath split-level on a corner lot in West Omaha with a covered deck, pergola and fenced backyard. Omaha Public Schools.",
+ "datePosted":"2026-11-17",
+ "image":["https://homes.jleadersrealty.org/16538-burdette/photos/01.jpg"],
+ "offers":{"@type":"Offer","price":284900,"priceCurrency":"USD","availability":"https://schema.org/InStock",
+   "seller":{"@type":"RealEstateAgent","name":"J. Leaders Realty","telephone":"+1-402-773-8511","url":"https://www.jleadersrealty.org/"}},
+ "mainEntity":{"@type":"SingleFamilyResidence","name":"16538 Burdette St",
+   "address":{"@type":"PostalAddress","streetAddress":"16538 Burdette St","addressLocality":"Omaha","addressRegion":"NE","postalCode":"68116","addressCountry":"US"},
+   "numberOfRooms":3,"numberOfBedrooms":3,"numberOfBathroomsTotal":2,"numberOfFullBathrooms":1,"numberOfPartialBathrooms":1,
+   "yearBuilt":2003,
+   "floorSize":{"@type":"QuantitativeValue","value":1389,"unitCode":"FTK"},
+   "lotSize":{"@type":"QuantitativeValue","value":0.15,"unitCode":"ACR"}}}
+</script>
+<script src="/jlr.js" defer></script>
 </head>
 <body>
 <style>
@@ -109,6 +125,29 @@
 .jlrl .cta .btn-ghost{border:1px solid var(--ink);color:var(--ink)}
 .jlrl .cta .small{font-size:14px;color:var(--muted);margin-top:12px}
 .jlrl .cta .eyebrow{color:var(--gold)}
+.jlrl .leads{border-top:1px solid var(--line)}
+.jlrl .leads .wrap{max-width:640px;margin:0 auto}
+.jlrl .leads .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 20px}
+.jlrl .leads .tabs button{font:inherit;font-size:14px;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);cursor:pointer}
+.jlrl .leads .tabs button[aria-selected=true]{background:var(--navy);border-color:var(--navy);color:#fff}
+.jlrl .leads form{display:grid;gap:12px}
+.jlrl .leads form[hidden],.jlrl .leads[hidden]{display:none}
+.jlrl .leads .row{display:grid;gap:12px}
+@media(min-width:560px){.jlrl .leads .row{grid-template-columns:1fr 1fr}}
+.jlrl .leads label{display:grid;gap:6px;font-size:13px;font-weight:500;color:var(--muted)}
+.jlrl .leads input,.jlrl .leads textarea{font:inherit;font-size:16px;color:var(--ink);padding:12px 14px;border:1px solid #d6d3cd;border-radius:6px;background:#fff;width:100%}
+.jlrl .leads input:focus,.jlrl .leads textarea:focus{outline:2px solid var(--navy);outline-offset:1px;border-color:var(--navy)}
+.jlrl .leads .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.jlrl .leads .consent{font-size:12px;color:var(--muted);margin:0}
+.jlrl .leads .btn{background:var(--navy);color:#fff;border:0;cursor:pointer;justify-self:start;margin:0}
+.jlrl .leads .btn-line{background:#fff;color:var(--ink);border:1px solid var(--ink)}
+.jlrl .leads .btn:disabled{opacity:.6}
+.jlrl .leads .jlr-msg{font-size:14px;color:#9b2c2c;margin:0}
+.jlrl .leads .jlr-done{font-size:17px;margin:8px 0}
+.jlrl .leads .seller{margin-top:48px;padding:28px;background:var(--soft);border-radius:8px}
+.jlrl .leads .seller h3{font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:26px;margin:0 0 6px}
+.jlrl .leads .seller p{margin:0 0 16px;color:#3a3c40}
+
 .jlrl .legal{font-size:12px;color:var(--muted);padding:24px;text-align:center;margin:0}
 </style>
 
@@ -315,6 +354,53 @@
     </div>
   </section>
 
+  <!-- LEAD FORMS: hidden until jlr.js has a leads endpoint -->
+  <section class="leads" id="jlr-leads" hidden
+    data-slug="16538-burdette" data-address="16538 Burdette St" data-city="Omaha" data-state="NE" data-zip="68116" data-mls="26-2375" data-price="284900">
+    <div class="wrap">
+      <span class="eyebrow">Let's Talk</span>
+      <h2>What can we help with?</h2>
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" data-tab="showing" aria-selected="true">Schedule a showing</button>
+        <button type="button" role="tab" data-tab="alerts" aria-selected="false">Price &amp; status alerts</button>
+        <button type="button" role="tab" data-tab="question" aria-selected="false">Ask a question</button>
+      </div>
+      <form data-form="showing">
+        <div class="row"><label>Name<input name="name" autocomplete="name" required></label><label>Phone<input name="phone" type="tel" autocomplete="tel" required></label></div>
+        <label>Email<input name="email" type="email" autocomplete="email"></label>
+        <label>When works for you?<input name="when" placeholder="e.g. Saturday morning or weekday after 5"></label>
+        <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="consent">By sending, you agree J. Leaders Realty may call, text or email you about this home. Msg &amp; data rates may apply. Reply STOP to opt out.</p>
+        <button class="btn jlr-submit" type="submit">Request a showing</button><p class="jlr-msg" role="alert"></p>
+      </form>
+      <form data-form="alerts" hidden>
+        <div class="row"><label>Name<input name="name" autocomplete="name" required></label><label>Phone<input name="phone" type="tel" autocomplete="tel"></label></div>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+        <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="consent">We'll let you know if the price changes or it goes under contract. Reply STOP or unsubscribe anytime.</p>
+        <button class="btn jlr-submit" type="submit">Keep me posted</button><p class="jlr-msg" role="alert"></p>
+      </form>
+      <form data-form="question" hidden>
+        <div class="row"><label>Name<input name="name" autocomplete="name" required></label><label>Phone<input name="phone" type="tel" autocomplete="tel"></label></div>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+        <label>Your question<textarea name="message" rows="3" required></textarea></label>
+        <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="consent">By sending, you agree J. Leaders Realty may call, text or email you about this home.</p>
+        <button class="btn jlr-submit" type="submit">Send my question</button><p class="jlr-msg" role="alert"></p>
+      </form>
+      <div class="seller">
+        <h3>Own a home nearby?</h3>
+        <p>Homes like this one are selling in your area. Want to know what yours is worth? No pressure, just a straight answer.</p>
+        <form data-form="home_value">
+          <label>Your address<input name="property_address" autocomplete="street-address" required></label>
+          <div class="row"><label>Name<input name="name" autocomplete="name" required></label><label>Phone<input name="phone" type="tel" autocomplete="tel" required></label></div><label>Email<input name="email" type="email" autocomplete="email"></label>
+          <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn btn-line jlr-submit" type="submit">Get my home's value</button><p class="jlr-msg" role="alert"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="cta">
     <div class="wrap">
@@ -322,6 +408,7 @@
       <h2>Come find your spot on the deck.</h2>
       <p>Showings are easy to set up. Call or text and we'll find a time that works for you.</p>
       <a class="btn btn-gold" href="tel:+14027738511">Call J. Leaders Realty · 402.773.8511</a>
+      <a class="btn btn-ghost" href="sms:+14027738511">Text us</a>
       <a class="btn btn-ghost" href="mailto:jamie@jleadersrealty.org?subject=Showing%20request%3A%2016538%20Burdette%20St%2C%20Omaha">Email Jamie</a>
       <p class="small">Jamie Leaders, Broker/Owner · Direct 402.306.6255</p>
       <p class="small">Currently under contract and accepting backup offers.</p>
