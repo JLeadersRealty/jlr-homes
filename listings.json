@@ -1,5 +1,19 @@
 [
   {
+    "slug": "16538-burdette",
+    "status": "active",
+    "address": "16538 Burdette St",
+    "city": "Omaha, NE",
+    "price": "$284,900",
+    "beds": 3,
+    "baths": "1.75",
+    "sqft": "1,389",
+    "tagline": "Everyone ends up on the deck.",
+    "photo": "16538-burdette/photos/01.jpg",
+    "agent": "Jamie Leaders",
+    "added": "2026-11-17"
+  },
+  {
     "slug": "201-main-minden",
     "status": "active",
     "address": "201 Main St",
