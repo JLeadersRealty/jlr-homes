@@ -58,7 +58,26 @@
     marks.forEach(function (m) { if (p >= m && !hit[m]) { hit[m] = 1; track('scroll_depth', { percent: m }); } });
   }, { passive: true });
 
+  /* ---------- Hero video: iPhones only draw frames after one play() ---------- */
+  function primeHero() {
+    var v = document.getElementById('jlrlHeroVid'); if (!v) return;
+    v.muted = true; v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+    var prime = function () {
+      var p = v.play(); if (p && p.then) p.then(function () { v.pause(); }).catch(function () {});
+    };
+    if (v.readyState >= 1) prime(); else v.addEventListener('loadedmetadata', prime, { once: true });
+    // first touch anywhere also unlocks it on stricter phones
+    window.addEventListener('touchstart', prime, { once: true, passive: true });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', primeHero); else primeHero();
+
   /* ---------- Lead forms ---------- */
+  var CONSENT = 'I agree to be contacted by J. Leaders Realty LLC via call, email, and text for real estate services. ' +
+    'To opt out, you can reply \'stop\' at any time or reply \'help\' for assistance. You can also click the unsubscribe link in the emails. ' +
+    'Message and data rates may apply. Message frequency may vary. <a href="/privacy/">Privacy Policy &amp; SMS Terms</a>';
+  function digits(s) { return String(s || '').replace(/\D/g, ''); }
+  function validPhone(s) { var d = digits(s); return d.length === 10 || (d.length === 11 && d[0] === '1'); }
+  function validEmail(s) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(s || '').trim()); }
   function utm() {
     var q = new URLSearchParams(location.search), o = {};
     ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) { if (q.get(k)) o[k] = q.get(k); });
@@ -83,6 +102,13 @@
     });
 
     box.querySelectorAll('form[data-form]').forEach(function (f) {
+      // Phone and email are each optional, but we need at least one real way to reach them
+      f.querySelectorAll('[name=phone],[name=email]').forEach(function (i) { i.required = false; });
+      var ph = f.querySelector('[name=phone]'), em = f.querySelector('[name=email]');
+      if (ph) ph.closest('label').firstChild.textContent = 'Phone';
+      if (em) em.closest('label').firstChild.textContent = 'Email';
+      var c = f.querySelector('.consent'); if (c) c.innerHTML = CONSENT;
+      else { c = document.createElement('p'); c.className = 'consent'; c.innerHTML = CONSENT; f.querySelector('.jlr-submit').before(c); }
       if (CFG.turnstileSiteKey) {
         var w = document.createElement('div'); w.className = 'cf-turnstile';
         w.setAttribute('data-sitekey', CFG.turnstileSiteKey); w.setAttribute('data-size', 'flexible');
@@ -104,6 +130,11 @@
         var btn = f.querySelector('button[type=submit]'), msg = f.querySelector('.jlr-msg');
         var data = Object.fromEntries(new FormData(f).entries());
         if (data.website) return;                            // honeypot
+        msg.textContent = '';
+        var okPhone = validPhone(data.phone), okEmail = validEmail(data.email);
+        if (data.phone && !okPhone) { msg.textContent = 'That phone number doesn\'t look right. Please use a 10-digit number.'; ph && ph.focus(); return; }
+        if (data.email && !okEmail) { msg.textContent = 'That email doesn\'t look right. Please double-check it.'; em && em.focus(); return; }
+        if (!okPhone && !okEmail) { msg.textContent = 'Please give us a phone number or email so we can get back to you.'; (ph || em).focus(); return; }
         data.form = f.getAttribute('data-form');
         data.listing = box.dataset;                           // slug, address, city, state, zip, mls, price
         data.page = location.href; data.utm = utm();
