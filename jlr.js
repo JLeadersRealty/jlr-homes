@@ -124,8 +124,10 @@
     var how = data.email ? 'email' : 'text';
     var full = esc([data.property_address, data.property_city, data.property_state].filter(Boolean).join(', '));
     if (!est) {
-      return '<div class="jlr-value"><p class="jlr-done">Thanks' + (first ? ', ' + first : '') + '. Homes around <b>' + full + '</b> don\'t have enough recent sales for an instant number we\'d stand behind, ' +
-        'so ' + who + ' will put together your estimated value range by hand and ' + how + ' it to you within 1 business day.</p><p class="jlr-fine">Questions sooner? Call or text <a href="tel:+14027738511">402.773.8511</a>.</p></div>';
+      return '<div class="jlr-value"><p class="jlr-done">Thanks' + (first ? ', ' + first : '') + '. We looked up <b>' + full + '</b>, but we\'re not showing an instant number for this one.</p>' +
+        '<p class="jlr-next"><b>Why no number?</b> Online estimates work best where lots of similar homes have sold recently. Acreages, rural homes, small towns and one-of-a-kind houses usually don\'t have enough true matches nearby, so the computer\'s range comes back too wide to trust. ' +
+        'Rather than show you a number that could be way off, ' + who + ' will put together your estimated value range by hand and ' + how + ' it to you within 1 business day.</p>' +
+        '<p class="jlr-fine">Questions sooner? Call or text <a href="tel:+14027738511">402.773.8511</a>.</p></div>';
     }
     var h = est.home || {}, comps = (est.comps || []).map(function (c) {
       var st = /active/i.test(c.status) && !/inactive/i.test(c.status) ? 'For sale' : 'Recently listed';
