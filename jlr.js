@@ -5,7 +5,7 @@
     ga4: 'G-0Q0RWN3NFC',             // Google Analytics 4 measurement ID, e.g. G-XXXXXXX
     metaPixel: '2822795091494139', // Meta Pixel ("JLR Listing Websites" dataset)
     fubPixel: 'WT-OIINTZCR', // Follow Up Boss Pixel ID (FUB Admin → Integrations → Pixel). Its form capture turns form fills into FUB leads.
-    leadsEndpoint: '',     // Cloudflare Worker URL that sends form leads to FUB
+    leadsEndpoint: 'https://jlr-leads.jamieleare.workers.dev/',     // Cloudflare Worker URL that sends form leads to FUB
     turnstileSiteKey: ''   // Cloudflare Turnstile site key (spam check)
   };
 
@@ -164,7 +164,7 @@
         if (data.email && !okEmail) { msg.textContent = 'That email doesn\'t look right. Please double-check it.'; em && em.focus(); return; }
         if (!okPhone && !okEmail) { msg.textContent = 'Please give us a phone number or email so we can get back to you.'; (ph || em).focus(); return; }
         data.form = f.getAttribute('data-form');
-        data.listing = box.dataset;                           // slug, address, city, state, zip, mls, price
+        data.listing = Object.assign({}, box.dataset);                           // slug, address, city, state, zip, mls, price
         data.page = location.href; data.utm = utm();
         btn.disabled = true; btn.textContent = 'Sending…';
         var send = pixelMode
