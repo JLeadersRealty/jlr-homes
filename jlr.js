@@ -4,7 +4,7 @@
   var CFG = window.JLR_CONFIG = {
     ga4: 'G-0Q0RWN3NFC',             // Google Analytics 4 measurement ID, e.g. G-XXXXXXX
     metaPixel: '',         // Meta Pixel ID (numbers only)
-    fubPixel: '',          // Follow Up Boss Pixel script URL (from FUB Admin → Pixel)
+    fubPixel: 'WT-OIINTZCR', // Follow Up Boss Pixel ID (FUB Admin → Integrations → Pixel). Its form capture turns form fills into FUB leads.
     leadsEndpoint: '',     // Cloudflare Worker URL that sends form leads to FUB
     turnstileSiteKey: ''   // Cloudflare Turnstile site key (spam check)
   };
@@ -32,7 +32,11 @@
   }
 
   /* ---------- Follow Up Boss Pixel ---------- */
-  if (CFG.fubPixel) load(CFG.fubPixel);
+  if (CFG.fubPixel) {
+    (function (w, i, d, g, e, t) { w['WidgetTrackerObject'] = g; (w[g] = w[g] || function () { (w[g].q = w[g].q || []).push(arguments); }), (w[g].ds = 1 * new Date());
+      (e = 'script'), (t = d.createElement(e)), (e = d.getElementsByTagName(e)[0]); t.async = 1; t.src = i; e.parentNode.insertBefore(t, e); })(window, 'https://widgetbe.com/agent', document, 'widgetTracker');
+    window.widgetTracker('create', CFG.fubPixel); window.widgetTracker('send', 'pageview');
+  }
 
   function track(name, params) {
     try { gtag('event', name, params || {}); } catch (e) {}
@@ -65,7 +69,8 @@
 
   function initForms() {
     var box = document.getElementById('jlr-leads'); if (!box) return;
-    if (!CFG.leadsEndpoint) { box.hidden = true; return; }   // forms stay hidden until the endpoint is live
+    var pixelMode = !CFG.leadsEndpoint && !!CFG.fubPixel;     // no Worker yet: the FUB Pixel captures the form fill
+    if (!CFG.leadsEndpoint && !pixelMode) { box.hidden = true; return; }
     box.hidden = false;
     if (CFG.turnstileSiteKey) load('https://challenges.cloudflare.com/turnstile/v0/api.js');
 
@@ -83,6 +88,17 @@
         w.setAttribute('data-sitekey', CFG.turnstileSiteKey); w.setAttribute('data-size', 'flexible');
         f.querySelector('.jlr-submit').before(w);
       }
+      // Summary line the FUB Pixel can pick up as the lead's message (says which home and what they want)
+      if (!f.querySelector('[name=message]')) {
+        var hm = document.createElement('input'); hm.type = 'hidden'; hm.name = 'message'; f.appendChild(hm);
+        var label = { showing: 'Showing request', alerts: 'Price/status alerts', home_value: 'Home value request' }[f.getAttribute('data-form')] || 'Inquiry';
+        var sync = function () {
+          var D = box.dataset, w = f.querySelector('[name=when]'), pa = f.querySelector('[name=property_address]');
+          hm.value = label + ' from the ' + D.address + ', ' + D.city + ' listing site' +
+            (w && w.value ? '. Best time: ' + w.value : '') + (pa && pa.value ? '. Their home: ' + pa.value : '') + '. ' + location.href;
+        };
+        f.addEventListener('input', sync); sync();
+      }
       f.addEventListener('submit', function (e) {
         e.preventDefault();
         var btn = f.querySelector('button[type=submit]'), msg = f.querySelector('.jlr-msg');
@@ -92,9 +108,11 @@
         data.listing = box.dataset;                           // slug, address, city, state, zip, mls, price
         data.page = location.href; data.utm = utm();
         btn.disabled = true; btn.textContent = 'Sending…';
-        fetch(CFG.leadsEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-          .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.ok) throw j; return j; }); })
-          .then(function () {
+        var send = pixelMode
+          ? new Promise(function (ok) { setTimeout(function () { ok({ ok: true }); }, 1500); })   // give the Pixel time to send
+          : fetch(CFG.leadsEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+            .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.ok) throw j; return j; }); });
+        send.then(function () {
             f.innerHTML = '<p class="jlr-done">Got it, thank you. We\'ll be in touch shortly. Need us sooner? Call or text <a href="tel:+14027738511">402.773.8511</a>.</p>';
             track('generate_lead', { form: data.form, listing: data.listing.slug });
             if (window.fbq) fbq('track', 'Lead', { content_name: data.listing.slug });
