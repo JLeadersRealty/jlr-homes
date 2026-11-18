@@ -118,11 +118,27 @@
   var FINE = '<p class="jlr-fine">This is an automated estimate, not an appraisal or a market analysis by a licensed agent. It\'s based on public records and nearby listings, ' +
     'can miss updates, condition and land, and isn\'t a guarantee of what your home will sell for. The most accurate number comes from someone seeing the home in person. ' +
     'Questions? Call or text <a href="tel:+14027738511">402.773.8511</a>.</p>';
+  // Automated estimates miss badly on acreages and rural homes (tested 11/18: an $800K Persia acreage showed $422K).
+  // Never show a number when: the home isn't found in records, the lot is over ~1 acre, or it's an Iowa rural address
+  // (5-digit house number or a 100th+ numbered road). Those go to a hand-built range from a local agent.
+  function trustEstimate(est, data) {
+    var h = est.home || {};
+    if (!h.sqft && !h.beds) return false;
+    var lot = Number(h.lotSize || h.lotSqft || h.lot || 0);
+    if (lot > 43560) return false;
+    var addr = String(data.property_address || h.address || '').trim();
+    var ia = String(data.property_state || h.state || 'IA').toUpperCase() === 'IA';
+    if (ia && /^\d{5,}\b/.test(addr)) return false;
+    var road = addr.match(/\b(\d{3,})(st|nd|rd|th)\b/i);
+    if (ia && road && Number(road[1]) >= 100) return false;
+    return true;
+  }
   function valueResult(D, data, est) {
     var first = esc(String(data.name || '').trim().split(/\s+/)[0]);
     var who = D.agent ? esc(String(D.agent).split(' ')[0]) : 'Jamie';
     var how = data.email ? 'email' : 'text';
     var full = esc([data.property_address, data.property_city, data.property_state].filter(Boolean).join(', '));
+    if (est && !trustEstimate(est, data)) est = null;   // acreage / rural / home not found: hand-built range instead
     if (!est) {
       return '<div class="jlr-value"><p class="jlr-done">Thanks' + (first ? ', ' + first : '') + '. We looked up <b>' + full + '</b>, but we\'re not showing an instant number for this one.</p>' +
         '<p class="jlr-next"><b>Why no number?</b> Online estimates work best where lots of similar homes have sold recently. Acreages, rural homes, small towns and one-of-a-kind houses usually don\'t have enough true matches nearby, so the computer\'s range comes back too wide to trust. ' +
