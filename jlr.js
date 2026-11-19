@@ -216,6 +216,11 @@
       if (em) em.closest('label').firstChild.textContent = 'Email';
       var c = f.querySelector('.consent'); if (c) c.innerHTML = CONSENT + SMS;
       else { c = document.createElement('p'); c.className = 'consent'; c.innerHTML = CONSENT + SMS; f.querySelector('.jlr-submit').before(c); }
+      if (f.getAttribute('data-form') === 'text_signup') {   // the whole point of this form is texting: phone + box required
+        var sb = f.querySelector('[name=sms_consent]'); sb.required = true;
+        sb.nextSibling.querySelector('b').textContent = 'Yes, text me (required to sign up).';
+        if (ph) { ph.required = true; ph.closest('label').firstChild.textContent = 'Mobile number'; }
+      }
       if (CFG.turnstileSiteKey) {
         var w = document.createElement('div'); w.className = 'cf-turnstile';
         w.setAttribute('data-sitekey', CFG.turnstileSiteKey); w.setAttribute('data-size', 'flexible');
@@ -224,7 +229,7 @@
       // Summary line the FUB Pixel can pick up as the lead's message (says which home and what they want)
       if (!f.querySelector('[name=message]')) {
         var hm = document.createElement('input'); hm.type = 'hidden'; hm.name = 'message'; f.appendChild(hm);
-        var label = { showing: 'Showing request', alerts: 'Price/status alerts', home_value: 'Home value request' }[f.getAttribute('data-form')] || 'Inquiry';
+        var label = { showing: 'Showing request', alerts: 'Price/status alerts', home_value: 'Home value request', text_signup: 'Text updates sign-up' }[f.getAttribute('data-form')] || 'Inquiry';
         var sync = function () {
           var D = box.dataset, w = f.querySelector('[name=when]'), pa = f.querySelector('[name=property_address]');
           hm.value = label + (D.address ? ' from the ' + D.address + ', ' + D.city + ' listing site' : ' from the JLR website') +
@@ -241,6 +246,7 @@
         var okPhone = validPhone(data.phone), okEmail = validEmail(data.email);
         if (data.phone && !okPhone) { msg.textContent = 'That phone number doesn\'t look right. Please use a 10-digit number.'; ph && ph.focus(); return; }
         if (data.email && !okEmail) { msg.textContent = 'That email doesn\'t look right. Please double-check it.'; em && em.focus(); return; }
+        if (f.getAttribute('data-form') === 'text_signup' && (!okPhone || data.sms_consent !== 'yes')) { msg.textContent = 'To get texts, add your mobile number and check the box.'; return; }
         if (!okPhone && !okEmail) { msg.textContent = 'Please give us a phone number or email so we can get back to you.'; (ph || em).focus(); return; }
         data.form = f.getAttribute('data-form');
         data.listing = Object.assign({}, box.dataset);                           // slug, address, city, state, zip, mls, price
@@ -252,6 +258,7 @@
             .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.ok) throw j; return j; }); });
         send.then(function (res) {
             f.innerHTML = data.form === 'home_value' ? valueResult(box.dataset, data, res && res.estimate)
+              : data.form === 'text_signup' ? '<p class="jlr-done">You\'re in! Texts will come from <b>402.773.8511</b>. Reply STOP anytime to opt out, or HELP for help.</p>'
               : '<p class="jlr-done">Got it, thank you. We\'ll be in touch shortly. Need us sooner? Call or text <a href="tel:+14027738511">402.773.8511</a>.</p>';
             track('generate_lead', { form: data.form, listing: data.listing.slug });
             if (window.fbq) fbq('track', 'Lead', { content_name: data.listing.slug });
