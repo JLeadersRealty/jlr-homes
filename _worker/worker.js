@@ -206,12 +206,16 @@ var P = {
         },
       },
       d = f[s.form] || f.question,
+      smsOk = s.sms_consent === "yes" && !!p, // optional, unchecked-by-default box on the form
+      smsLine = smsOk
+        ? ` Texting: OPTED IN via website checkbox ${new Date().toISOString().slice(0, 10)} on ${e(s.page)}.`
+        : " Texting: no text consent. Call or email only.",
       I = s.utm || {},
       R = {
         source: e(a.source) || j,
         system: "JLR Listing Websites",
         type: d.type,
-        message: d.msg,
+        message: d.msg + smsLine,
         description: `${d.label} from ${e(s.page)}${I.utm_source ? ` (via ${e(I.utm_source)}/${e(I.utm_medium)})` : ""}`,
         pageUrl: e(s.page),
         person: {
@@ -219,7 +223,12 @@ var P = {
           lastName: C.slice(1).join(" "),
           emails: r ? [{ value: r }] : [],
           phones: p ? [{ value: p }] : [],
-          tags: ["Listing Website", e(a.slug), d.label].filter(Boolean),
+          tags: [
+            "Listing Website",
+            e(a.slug),
+            d.label,
+            smsOk ? "SMS Opt-In" : "No SMS Consent",
+          ].filter(Boolean),
         },
         campaign: {
           source: e(I.utm_source),
