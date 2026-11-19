@@ -36,6 +36,20 @@ jobs:
             unzip -oq /tmp/b/$id.zip -d _website
             echo "unpacked $id"
           done
+      - name: Fetch missing photos and videos from the live site
+        run: |
+          set -e
+          if [ -f _website/_assets.txt ]; then
+            while read -r f; do
+              f=$(echo "$f" | tr -cd 'A-Za-z0-9_./-')
+              case "$f" in img/*|video/*) ;; *) continue ;; esac
+              if [ ! -s "_website/$f" ]; then mkdir -p "_website/$(dirname "$f")"; curl -sSfL "https://www.jleadersrealty.org/$f" -o "_website/$f" && echo "fetched $f"; fi
+            done < _website/_assets.txt
+          fi
+      - name: Save to repo
+        if: ${{ github.event.inputs.bundles != '' && github.event.inputs.bundles != null }}
+        run: |
+          set -e
           git config user.name "jlr-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add _website
