@@ -4,6 +4,15 @@ const $ = [
     "https://jleadersrealty.org",
   ],
   j = "JLR Listing Website";
+// Acreage/rural: never show an instant number (an $800K Persia acreage came back $422K in testing).
+// Iowa rural addressing = 5-digit house number or a 100th+ numbered road. Skips the RentCast lookup entirely.
+function isRural(s) {
+  const addr = String(s.property_address || "").trim(),
+    ia = String(s.property_state || "IA").toUpperCase() === "IA";
+  if (ia && /^\d{5,}\b/.test(addr)) return true;
+  const road = addr.match(/\b(\d{3,})(st|nd|rd|th)\b/i);
+  return !!(ia && road && Number(road[1]) >= 100);
+}
 async function k(c, b, h) {
   if (!c.RENTCAST_API_KEY || !h) return null;
   const y = caches.default,
@@ -71,6 +80,8 @@ async function k(c, b, h) {
   if (!S || p.length < 3 || !C || !r || (r - C) / S > 0.35) return null;
   const a = (t) => Math.round(t / 1e3) * 1e3,
     u = e.subjectProperty || {};
+  if (!u.squareFootage && !u.bedrooms) return null; // home not found in records
+  if (Number(u.lotSize) > 43560) return null; // over ~1 acre
   return {
     price: a(S),
     low: a(C),
@@ -159,8 +170,9 @@ var P = {
       ]
         .filter(Boolean)
         .join(", "),
+      isTest = /^TEST\b/.test(S), // name starting with TEST (caps): no Follow Up Boss, nothing saved
       t =
-        s.form === "home_value"
+        s.form === "home_value" && !isRural(s)
           ? await k(b, c, u).catch(
               (o) => (console.log("avm error", String(o)), null),
             )
@@ -232,6 +244,7 @@ var P = {
           code: e(s.property_zip),
         }),
         t && (R.property.price = t.price));
+    if (isTest) return i(200, { ok: !0, estimate: t, test: !0 });
     const _ = {
         Authorization: "Basic " + btoa(b.FUB_API_KEY + ":"),
         "Content-Type": "application/json",
@@ -313,7 +326,7 @@ var P = {
           )
             n.setUTCDate(n.getUTCDate() + 1);
           await v(
-            `Home value follow-up for ${u}: ${t ? "saw instant estimate " + m(t.price) + "; call/send your comps-based range" : "no instant number; send their estimated range"} (promised within 1 business day)`,
+            `Home value follow-up for ${u}: ${t ? "saw instant estimate " + m(t.price) + "; call/send your comps-based range" : "no instant number; send their estimated range"} (promised within 1 business day). In Claude: "run comps on ${u}"`,
             n.toISOString().slice(0, 10),
           );
         } else
