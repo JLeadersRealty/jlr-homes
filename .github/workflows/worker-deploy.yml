@@ -1,0 +1,26 @@
+name: Deploy jlr-leads worker to Cloudflare
+on:
+  push:
+    branches: [main]
+    paths: ['_worker/worker.js']
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      ACCT: f66193d08a12dd0421635aac4664a34a
+      SCRIPT: jlr-leads
+    steps:
+      - uses: actions/checkout@v4
+      - name: Syntax check
+        run: cp _worker/worker.js /tmp/worker.mjs && node --check /tmp/worker.mjs
+      - name: Upload code only (keeps secrets and settings as they are)
+        run: |
+          set -e
+          curl -sS -X PUT -H "Authorization: Bearer $CF_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$ACCT/workers/scripts/$SCRIPT/content" \
+            -F 'metadata={"main_module":"worker.js"};type=application/json' \
+            -F "worker.js=@_worker/worker.js;filename=worker.js;type=application/javascript+module" \
+            -o /tmp/resp.json
+          python3 -c "import json;r=json.load(open('/tmp/resp.json'));print('success:',r.get('success'));[print('error:',e.get('code'),e.get('message')) for e in r.get('errors',[])];exit(0 if r.get('success') else 1)"
