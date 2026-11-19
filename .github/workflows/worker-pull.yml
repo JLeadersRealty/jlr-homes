@@ -1,0 +1,60 @@
+name: Pull jlr-leads worker from Cloudflare
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    env:
+      CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      ACCT: f66193d08a12dd0421635aac4664a34a
+      SCRIPT: jlr-leads
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download code and settings (names only, never secret values)
+        run: |
+          set -e
+          mkdir -p /tmp/w _worker
+          curl -sSf -H "Authorization: Bearer $CF_TOKEN" -D /tmp/w/headers "https://api.cloudflare.com/client/v4/accounts/$ACCT/workers/scripts/$SCRIPT/content/v2" -o /tmp/w/raw
+          curl -sSf -H "Authorization: Bearer $CF_TOKEN" "https://api.cloudflare.com/client/v4/accounts/$ACCT/workers/scripts/$SCRIPT/settings" -o /tmp/w/settings.json
+          python3 - <<'PY'
+          import json, email, re
+          raw = open('/tmp/w/raw', 'rb').read()
+          hdr = open('/tmp/w/headers').read()
+          ct = re.search(r'(?im)^content-type:\s*(.+)$', hdr)
+          ct = ct.group(1).strip() if ct else ''
+          files = {}
+          if 'multipart' in ct:
+              msg = email.message_from_bytes(b'Content-Type: ' + ct.encode() + b'\r\n\r\n' + raw)
+              for part in msg.walk():
+                  fn = part.get_filename() or part.get_param('name', header='content-disposition')
+                  if fn and not part.is_multipart():
+                      files[fn] = part.get_payload(decode=True)
+          else:
+              files['jlr-leads.js'] = raw
+          for fn, data in files.items():
+              open('/tmp/w/' + fn.replace('/', '_'), 'wb').write(data)
+          s = json.load(open('/tmp/w/settings.json'))['result']
+          keep = {'compatibility_date': s.get('compatibility_date'), 'compatibility_flags': s.get('compatibility_flags'),
+                  'bindings': [{'type': b.get('type'), 'name': b.get('name')} for b in s.get('bindings', [])],
+                  'files': sorted(files)}
+          json.dump(keep, open('/tmp/w/settings-safe.json', 'w'), indent=2)
+          print('files:', sorted(files), 'content-type:', ct.split(';')[0])
+          PY
+      - name: Safety check (stops if anything looks like a key or password)
+        run: |
+          set -e
+          hits=$(cat /tmp/w/*.js /tmp/w/*.mjs 2>/dev/null | grep -Eo "fka_[A-Za-z0-9]{10,}|re_[A-Za-z0-9]{16,}|sk[-_][A-Za-z0-9]{16,}|(Bearer|Basic) [A-Za-z0-9+/=_.-]{20,}|['\"][A-Za-z0-9+/=_-]{32,}['\"]" | wc -l)
+          echo "possible secrets found: $hits"
+          if [ "$hits" -gt 0 ]; then echo "STOPPING: not saving the code to a public repo. Move those values into Cloudflare secrets first."; exit 1; fi
+      - name: Make it readable and save to _worker/
+        run: |
+          set -e
+          cp /tmp/w/settings-safe.json _worker/settings.json
+          for f in /tmp/w/*.js /tmp/w/*.mjs; do if [ -f "$f" ]; then cp "$f" _worker/; fi; done
+          npx --yes prettier@3.3.3 --write "_worker/*.js" "_worker/*.mjs" 2>/dev/null || true
+          ls -la _worker
+          git config user.name "jlr-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _worker
+          git diff --cached --quiet && echo "no changes" || (git commit -m "Pull jlr-leads worker from Cloudflare" && git push)
