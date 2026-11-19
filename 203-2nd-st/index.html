@@ -12,6 +12,18 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://homes.jleadersrealty.org/203-2nd-st/">
 <style>html,body{margin:0;background:#fff}</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"RealEstateListing",
+ "name":"203 2nd St + 302 Lincoln St, Minden, IA 51553","url":"https://homes.jleadersrealty.org/203-2nd-st/",
+ "description":"Investment package in Minden, Iowa: a 6-unit apartment building at 203 2nd St plus a 3-bedroom house next door at 302 Lincoln St, sold together.",
+ "datePosted":"2026-11-16",
+ "image":["https://homes.jleadersrealty.org/203-2nd-st/photos/01-front.jpg"],
+ "offers":{"@type":"Offer","price":414900,"priceCurrency":"USD","availability":"https://schema.org/InStock",
+   "seller":{"@type":"RealEstateAgent","name":"J. Leaders Realty","telephone":"+1-402-773-8511","url":"https://www.jleadersrealty.org/"}},
+ "mainEntity":{"@type":"Apartment","name":"203 2nd St",
+   "address":{"@type":"PostalAddress","streetAddress":"203 2nd St","addressLocality":"Minden","addressRegion":"IA","postalCode":"51553","addressCountry":"US"}}}
+</script>
+<script src="/jlr.js" defer></script>
 </head>
 <body>
 <style>
@@ -110,6 +122,29 @@
 .jlrl .cta .small{font-size:14px;color:var(--muted);margin-top:12px}
 .jlrl .cta .eyebrow{color:var(--gold)}
 .jlrl .legal{font-size:12px;color:var(--muted);padding:24px;text-align:center;margin:0}
+/* LEAD FORMS */
+.jlrl .leads{border-top:1px solid var(--line)}
+.jlrl .leads .wrap{max-width:640px;margin:0 auto}
+.jlrl .leads .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 20px}
+.jlrl .leads .tabs button{font:inherit;font-size:14px;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);cursor:pointer}
+.jlrl .leads .tabs button[aria-selected=true]{background:var(--navy);border-color:var(--navy);color:#fff}
+.jlrl .leads form{display:grid;gap:12px}
+.jlrl .leads form[hidden],.jlrl .leads[hidden]{display:none}
+.jlrl .leads .row{display:grid;gap:12px}
+@media(min-width:560px){.jlrl .leads .row{grid-template-columns:1fr 1fr}}
+.jlrl .leads label{display:grid;gap:6px;font-size:13px;font-weight:500;color:var(--muted)}
+.jlrl .leads input,.jlrl .leads textarea{font:inherit;font-size:16px;color:var(--ink);padding:12px 14px;border:1px solid #d6d3cd;border-radius:6px;background:#fff;width:100%}
+.jlrl .leads input:focus,.jlrl .leads textarea:focus{outline:2px solid var(--navy);outline-offset:1px;border-color:var(--navy)}
+.jlrl .leads .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.jlrl .leads .consent{font-size:12px;color:var(--muted);margin:0}
+.jlrl .leads .btn{background:var(--navy);color:#fff;border:0;cursor:pointer;justify-self:start;margin:0}
+.jlrl .leads .btn-line{background:#fff;color:var(--ink);border:1px solid var(--ink)}
+.jlrl .leads .btn:disabled{opacity:.6}
+.jlrl .leads .jlr-msg{font-size:14px;color:#9b2c2c;margin:0}
+.jlrl .leads .jlr-done{font-size:17px;margin:8px 0}
+.jlrl .leads .seller{margin-top:48px;padding:28px;background:var(--soft);border-radius:8px}
+.jlrl .leads .seller h3{font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:26px;margin:0 0 6px}
+.jlrl .leads .seller p{margin:0 0 16px;color:#3a3c40}
 </style>
 
 <style>
@@ -321,6 +356,53 @@
     </div>
   </section>
 
+  <!-- LEAD FORMS: hidden until jlr.js has a leads endpoint -->
+  <section class="leads" id="jlr-leads" hidden
+    data-slug="203-2nd-st" data-address="203 2nd St" data-city="Minden" data-state="IA" data-zip="51553" data-mls="" data-price="414900" data-agent="Jamie Leaders" data-agent-phone="402.306.6255" data-agent-id="1">
+    <div class="wrap">
+      <span class="eyebrow">Let's Talk</span>
+      <h2>What can we help with?</h2>
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" data-tab="showing" aria-selected="true">Schedule a showing</button>
+        <button type="button" role="tab" data-tab="alerts" aria-selected="false">Price &amp; status alerts</button>
+        <button type="button" role="tab" data-tab="question" aria-selected="false">Ask a question</button>
+      </div>
+      <form data-form="showing">
+        <div class="row"><label>Name<input name="name" autocomplete="name" required></label><label>Phone<input name="phone" type="tel" autocomplete="tel" required></label></div>
+        <label>Email<input name="email" type="email" autocomplete="email"></label>
+        <label>When works for you?<input name="when" placeholder="e.g. Saturday morning or weekday after 5"></label>
+        <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="consent">By sending, you agree J. Leaders Realty may call, text or email you about this home. Msg &amp; data rates may apply. Reply STOP to opt out.</p>
+        <button class="btn jlr-submit" type="submit">Request a showing</button><p class="jlr-msg" role="alert"></p>
+      </form>
+      <form data-form="alerts" hidden>
+        <div class="row"><label>Name<input name="name" autocomplete="name" required></label><label>Phone<input name="phone" type="tel" autocomplete="tel"></label></div>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+        <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="consent">We'll let you know if the price changes or it goes under contract. Reply STOP or unsubscribe anytime.</p>
+        <button class="btn jlr-submit" type="submit">Keep me posted</button><p class="jlr-msg" role="alert"></p>
+      </form>
+      <form data-form="question" hidden>
+        <div class="row"><label>Name<input name="name" autocomplete="name" required></label><label>Phone<input name="phone" type="tel" autocomplete="tel"></label></div>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+        <label>Your question<textarea name="message" rows="3" required></textarea></label>
+        <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="consent">By sending, you agree J. Leaders Realty may call, text or email you about this home.</p>
+        <button class="btn jlr-submit" type="submit">Send my question</button><p class="jlr-msg" role="alert"></p>
+      </form>
+      <div class="seller">
+        <h3>Own a home or rental nearby?</h3>
+        <p>Want to know what yours is worth? No pressure, just a straight answer.</p>
+        <form data-form="home_value">
+          <label>Your address<input name="property_address" autocomplete="street-address" required></label>
+          <div class="row"><label>Name<input name="name" autocomplete="name" required></label><label>Phone<input name="phone" type="tel" autocomplete="tel" required></label></div><label>Email<input name="email" type="email" autocomplete="email"></label>
+          <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn btn-line jlr-submit" type="submit">Get my home's value</button><p class="jlr-msg" role="alert"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="cta">
     <div class="wrap">
@@ -328,6 +410,7 @@
       <h2>Want the investor packet?</h2>
       <p>Rent roll, lease summary, income &amp; expenses. Call or text and we'll send it, answer questions, and set up a showing.</p>
       <a class="btn btn-gold" href="tel:+14027738511">Call J. Leaders Realty · 402.773.8511</a>
+      <a class="btn btn-ghost" href="sms:+14027738511">Text us</a>
       <a class="btn btn-ghost" href="mailto:jamie@jleadersrealty.org?subject=Investor%20packet%3A%20203%202nd%20St%20%2B%20302%20Lincoln%20St%2C%20Minden">Email Jamie</a>
       <p class="small">Jamie Leaders, Broker/Owner · Direct 402.306.6255</p>
     </div>
