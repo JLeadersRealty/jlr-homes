@@ -99,7 +99,7 @@
   /* ---------- Lead forms ---------- */
   var CONSENT = 'I agree to be contacted by J. Leaders Realty LLC via call, email, and text for real estate services. ' +
     'To opt out, you can reply \'stop\' at any time or reply \'help\' for assistance. You can also click the unsubscribe link in the emails. ' +
-    'Message and data rates may apply. Message frequency may vary. <a href="/privacy/">Privacy Policy &amp; SMS Terms</a>';
+    'Message and data rates may apply. Message frequency may vary. Consent is not a condition of any purchase or service. <a href="/privacy/">Privacy Policy &amp; SMS Terms</a>';
   function digits(s) { return String(s || '').replace(/\D/g, ''); }
   function validPhone(s) { var d = digits(s); return d.length === 10 || (d.length === 11 && d[0] === '1'); }
   function validEmail(s) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(s || '').trim()); }
