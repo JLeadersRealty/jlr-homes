@@ -1,0 +1,17 @@
+{
+  "compatibility_date": "2026-11-17",
+  "compatibility_flags": [],
+  "bindings": [
+    {
+      "type": "secret_text",
+      "name": "FUB_API_KEY"
+    },
+    {
+      "type": "secret_text",
+      "name": "RENTCAST_API_KEY"
+    }
+  ],
+  "files": [
+    "worker.js"
+  ]
+}
