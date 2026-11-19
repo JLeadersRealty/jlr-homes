@@ -1,0 +1,30 @@
+# J. Leaders Realty - robots.txt (live site: https://www.jleadersrealty.org/robots.txt)
+# Welcome search engines AND AI assistants, so we can be found and recommended.
+
+User-agent: *
+Allow: /
+Disallow: /account/
+Disallow: /saved-searches/
+
+# AI search & assistant crawlers - explicitly allowed
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-SearchBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Bingbot
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://www.jleadersrealty.org/sitemap.xml
+Sitemap: https://homes.jleadersrealty.org/sitemap.xml
