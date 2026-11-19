@@ -162,6 +162,9 @@ var P = {
       o.includes("@") ? (r = r || o) : (p = p || o);
     }
     if (!S || (!r && !p)) return i(400, { ok: !1, error: "missing" });
+    // Text sign-up page: the whole point is texting, so a phone + the checked box are required
+    if (s.form === "text_signup" && (!p || s.sms_consent !== "yes"))
+      return i(400, { ok: !1, error: "consent" });
     const a = s.listing || {},
       u = [
         e(s.property_address),
@@ -194,6 +197,11 @@ var P = {
           type: "Property Inquiry",
           label: "Question",
           msg: `Question about ${g}: ${e(s.message)}`,
+        },
+        text_signup: {
+          type: "General Inquiry",
+          label: "Text Updates",
+          msg: "Signed up for text updates (new listings, open houses, market news) on the JLR website.",
         },
         home_value: {
           type: "Seller Inquiry",
@@ -265,7 +273,9 @@ var P = {
         body: JSON.stringify(R),
       });
     if (!w.ok && w.status !== 204) return i(502, { ok: !1, error: "crm" });
-    const T = Number(a.agentId) || (s.form === "home_value" ? 1 : 0);
+    const T =
+      Number(a.agentId) ||
+      (s.form === "home_value" || s.form === "text_signup" ? 1 : 0);
     if (T && w.status !== 204) {
       const o = await w.json().catch(() => ({}));
       let l =
@@ -338,7 +348,12 @@ var P = {
             `Home value follow-up for ${u}: ${t ? "saw instant estimate " + m(t.price) + "; call/send your comps-based range" : "no instant number; send their estimated range"} (promised within 1 business day). In Claude: "run comps on ${u}"`,
             n.toISOString().slice(0, 10),
           );
-        } else
+        } else if (s.form === "text_signup")
+          await v(
+            "Text updates sign-up: send a short welcome text from 402.773.8511 (they opted in on the website)",
+            new Date().toISOString().slice(0, 10),
+          );
+        else
           w.status !== 201 &&
             (await v(
               `${d.label} on ${e(a.address)} listing site: follow up`,
