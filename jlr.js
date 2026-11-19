@@ -97,9 +97,14 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', primeHero); else primeHero();
 
   /* ---------- Lead forms ---------- */
-  var CONSENT = 'I agree to be contacted by J. Leaders Realty LLC via call, email, and text for real estate services. ' +
-    'To opt out, you can reply \'stop\' at any time or reply \'help\' for assistance. You can also click the unsubscribe link in the emails. ' +
-    'Message and data rates may apply. Message frequency may vary. Consent is not a condition of any purchase or service. <a href="/privacy/">Privacy Policy &amp; SMS Terms</a>';
+  // Calls/emails about their request come with submitting. Texting is a separate, optional, unchecked box (carrier best practice).
+  var CONSENT = 'By sending this, you agree J. Leaders Realty LLC may contact you by phone and email about your request. ' +
+    'You can unsubscribe from emails anytime. <a href="/privacy/">Privacy Policy &amp; SMS Terms</a>';
+  var SMS = '<label class="jlr-sms" style="display:flex!important;gap:10px;align-items:flex-start;margin-top:10px;cursor:pointer;font-weight:400">' +
+    '<input type="checkbox" name="sms_consent" value="yes" style="width:18px!important;height:18px;padding:0!important;margin:1px 0 0!important;flex:none;accent-color:#0B1B2B">' +
+    '<span style="display:block;font-size:12px;line-height:1.45"><b>Text me too (optional).</b> I agree to receive text messages from J. Leaders Realty LLC at the number above about my request, ' +
+    'property searches, listings, showings, appointments and market updates. Message frequency varies. Message and data rates may apply. ' +
+    'Reply STOP to opt out or HELP for help. Consent is not a condition of any purchase or service.</span></label>';
   function digits(s) { return String(s || '').replace(/\D/g, ''); }
   function validPhone(s) { var d = digits(s); return d.length === 10 || (d.length === 11 && d[0] === '1'); }
   function validEmail(s) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(s || '').trim()); }
@@ -209,8 +214,8 @@
       var ph = f.querySelector('[name=phone]'), em = f.querySelector('[name=email]');
       if (ph) ph.closest('label').firstChild.textContent = 'Phone';
       if (em) em.closest('label').firstChild.textContent = 'Email';
-      var c = f.querySelector('.consent'); if (c) c.innerHTML = CONSENT;
-      else { c = document.createElement('p'); c.className = 'consent'; c.innerHTML = CONSENT; f.querySelector('.jlr-submit').before(c); }
+      var c = f.querySelector('.consent'); if (c) c.innerHTML = CONSENT + SMS;
+      else { c = document.createElement('p'); c.className = 'consent'; c.innerHTML = CONSENT + SMS; f.querySelector('.jlr-submit').before(c); }
       if (CFG.turnstileSiteKey) {
         var w = document.createElement('div'); w.className = 'cf-turnstile';
         w.setAttribute('data-sitekey', CFG.turnstileSiteKey); w.setAttribute('data-size', 'flexible');
