@@ -453,6 +453,38 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.1);padding
   .hero-track{height:auto}.hero{position:relative}
   *{transition-duration:.01ms!important}
 }
+
+/* Explore map */
+.xmap{background:var(--stone)}
+.xm-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+.xm-map svg{display:block;width:100%;height:auto;background:#EDEAE2;border:1px solid var(--line)}
+.xm-ne{fill:#E6E2D8}
+.xm-loess{fill:#8CA484;opacity:.28}
+.xm-river{fill:none;stroke:#376FA3;stroke-width:9;stroke-linecap:round;opacity:.55}
+.xm-hwy{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round}
+.xm-sh path{fill:#376FA3;stroke:#fff;stroke-width:2}.xm-sh text{font:700 14px var(--label);fill:#fff;text-anchor:middle}
+.xm-state{font:600 19px var(--label);letter-spacing:.42em;fill:#9a978e}
+.xm-geo{font:600 15px var(--label);letter-spacing:.32em;fill:#5f7756;opacity:.8}.xm-riv{fill:#376FA3}
+.xm-pin{cursor:pointer;outline:none}
+.xm-pin .xm-halo{fill:#D4A017;opacity:0;transition:opacity .25s}
+.xm-pin .xm-dot{fill:#0B1B2B;stroke:#fff;stroke-width:2.5;transition:r .25s,fill .25s}
+.xm-pin text{font:600 21px var(--label);fill:#0B1B2B;paint-order:stroke;stroke:#EDEAE2;stroke-width:5px;stroke-linejoin:round}
+.xm-pin.xm-hq .xm-dot{fill:#D4A017}
+.xm-pin:hover .xm-halo,.xm-pin:focus-visible .xm-halo{opacity:.25}
+.xm-pin.on .xm-halo{opacity:.35}.xm-pin.on .xm-dot{fill:#D4A017;r:13}
+.xm-note{font:600 10.5px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:10px}.xm-star{color:#D4A017}
+.xm-panel{background:#fff;border:1px solid var(--line);padding:clamp(22px,3vw,34px);position:sticky;top:96px}
+.xm-card h3{font:400 clamp(28px,2.6vw,38px)/1.08 var(--serif);margin:8px 0 10px}
+.xm-card p{color:#4a5260;font-size:15.5px}
+.xm-img{aspect-ratio:16/10;overflow:hidden;margin-bottom:18px;background:var(--ink)}.xm-img img{width:100%;height:100%;object-fit:cover;display:block}
+.xm-act{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-top:20px}
+.xm-back{background:none;border:0;font:600 12px var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);cursor:pointer;padding:8px 0}
+.xm-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.xm-list a{font:600 12.5px var(--label);letter-spacing:.04em;text-decoration:none;color:var(--ink);border:1px solid var(--line);padding:8px 12px;border-radius:999px;transition:background .2s,border-color .2s}
+.xm-list a:hover{border-color:var(--ink);background:#F5F3EE}
+.xm-acre{display:inline-block;margin-top:18px;font:600 12px var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+@media(max-width:900px){.xm-grid{grid-template-columns:1fr}.xm-panel{position:static}}
+@media(max-width:560px){.xm-pin text{font-size:28px}.xm-pin .xm-dot{r:12}.xm-state{font-size:26px}}
 </style>
 </head>
 <body data-page="home">
@@ -505,6 +537,146 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.1);padding
     </div>
   </div>
 </section>
+
+<section class="band xmap" id="explore" aria-label="Explore our area">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="label rv"><span class="dot"></span>Explore Our Area</div>
+        <h2 class="rv">From the river to the rolling hills</h2>
+      </div>
+      <p class="lede rv" style="max-width:44ch">Pick a town to see what it's like, then open its local's guide.</p>
+    </div>
+    <div class="xm-grid">
+      <div class="xm-map rv">
+        <svg viewBox="0 0 1000 1067" role="group" aria-label="Map of the towns J. Leaders Realty serves">
+          <rect class="xm-ne" x="0" y="0" width="178.9" height="1067"/>
+          <path class="xm-loess" d="M168.4,-14.0 L210.5,140.4 L242.1,238.6 L252.6,378.9 L273.7,491.2 L294.7,603.5 L315.8,729.8 L336.8,870.2 L357.9,1080.7 L431.6,1080.7 L410.5,870.2 L378.9,729.8 L357.9,603.5 L326.3,491.2 L305.3,378.9 L294.7,238.6 L263.2,140.4 L231.6,-14.0Z"/>
+          <path class="xm-river" d="M21.1,-14.0 Q63.2,140.4 89.5,189.5 Q115.8,238.6 131.6,294.8 Q147.4,350.9 160.6,400.0 Q173.7,449.1 185.8,491.2 Q197.9,533.3 210.6,561.4 Q223.2,589.5 214.2,610.5 Q205.3,631.6 200.0,652.7 Q194.7,673.7 210.5,715.8 Q226.3,757.9 238.4,814.0 Q250.5,870.2 259.4,926.4 Q268.4,982.5 271.0,1031.6 L273.7,1080.7"/>
+          <path class="xm-hwy" d="M-10.5,680.7 Q126.3,673.7 162.1,676.5 Q197.9,679.3 230.6,682.1 Q263.2,684.9 310.5,637.2 Q357.9,589.5 394.8,533.4 Q431.6,477.2 465.8,435.1 Q500.0,393.0 539.5,377.6 Q578.9,362.1 625.2,343.9 Q671.6,325.6 733.2,341.8 Q794.7,357.9 855.2,360.0 Q915.8,362.1 963.1,362.1 L1010.5,362.1"/>
+          <path class="xm-hwy" d="M315.8,1080.7 Q310.5,940.4 296.3,870.2 Q282.1,800.0 271.6,742.5 Q261.1,684.9 255.8,637.2 Q250.5,589.5 245.2,540.4 Q240.0,491.2 227.9,435.0 Q215.8,378.9 212.1,308.8 Q208.4,238.6 193.7,182.4 Q178.9,126.3 157.9,56.1 L136.8,-14.0"/>
+          <g class="xm-sh" transform="translate(457.9,442.1)"><path d="M-16,-15 h32 v15 q0,16 -16,20 q-16,-4 -16,-20z"/><text y="5">80</text></g><g class="xm-sh" transform="translate(742.1,301.8)"><path d="M-16,-15 h32 v15 q0,16 -16,20 q-16,-4 -16,-20z"/><text y="5">80</text></g><g class="xm-sh" transform="translate(210.5,308.8)"><path d="M-16,-15 h32 v15 q0,16 -16,20 q-16,-4 -16,-20z"/><text y="5">29</text></g><g class="xm-sh" transform="translate(296.8,870.2)"><path d="M-16,-15 h32 v15 q0,16 -16,20 q-16,-4 -16,-20z"/><text y="5">29</text></g>
+          <text class="xm-state" x="42.1" y="842.1">NEBRASKA</text><text class="xm-state" x="736.8" y="842.1">IOWA</text>
+          <text class="xm-geo" x="331.6" y="898.2" transform="rotate(-80 331.6 898.2)">LOESS HILLS</text>
+          <text class="xm-geo xm-riv" x="26.3" y="140.4" transform="rotate(68 26.3 140.4)">MISSOURI RIVER</text>
+<g class="xm-pin" data-i="0" tabindex="0" role="button" aria-label="Omaha Metro" transform="translate(105.3,649.8)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="0" y="34" text-anchor="middle">Omaha</text></g>
+<g class="xm-pin" data-i="1" tabindex="0" role="button" aria-label="Council Bluffs" transform="translate(251.6,642.8)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="17" y="25" text-anchor="start">Council Bluffs</text></g>
+<g class="xm-pin" data-i="2" tabindex="0" role="button" aria-label="Carter Lake" transform="translate(191.6,589.5)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="-17" y="-11" text-anchor="end">Carter Lake</text></g>
+<g class="xm-pin" data-i="3" tabindex="0" role="button" aria-label="Crescent" transform="translate(254.7,495.4)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="17" y="7" text-anchor="start">Crescent</text></g>
+<g class="xm-pin" data-i="4" tabindex="0" role="button" aria-label="Missouri Valley" transform="translate(223.2,230.2)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="17" y="7" text-anchor="start">Missouri Valley</text></g>
+<g class="xm-pin" data-i="5" tabindex="0" role="button" aria-label="Logan" transform="translate(327.4,108.1)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="17" y="7" text-anchor="start">Logan</text></g>
+<g class="xm-pin" data-i="6" tabindex="0" role="button" aria-label="Underwood" transform="translate(444.2,467.4)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="17" y="7" text-anchor="start">Underwood</text></g>
+<g class="xm-pin" data-i="7" tabindex="0" role="button" aria-label="Treynor" transform="translate(520.0,686.3)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="17" y="7" text-anchor="start">Treynor</text></g>
+<g class="xm-pin" data-i="8" tabindex="0" role="button" aria-label="Neola" transform="translate(509.5,381.8)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="-17" y="-8" text-anchor="end">Neola</text></g>
+<g class="xm-pin" data-i="9" tabindex="0" role="button" aria-label="Minden" transform="translate(589.5,353.7)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="14" y="-14" text-anchor="start">Minden</text></g>
+<g class="xm-pin" data-i="10" tabindex="0" role="button" aria-label="Persia" transform="translate(557.9,199.3)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="17" y="7" text-anchor="start">Persia</text></g>
+<g class="xm-pin xm-hq" data-i="11" tabindex="0" role="button" aria-label="Shelby" transform="translate(682.1,286.3)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="17" y="-8" text-anchor="start">Shelby</text></g>
+<g class="xm-pin" data-i="12" tabindex="0" role="button" aria-label="Avoca" transform="translate(802.1,341.1)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="14" y="28" text-anchor="start">Avoca</text></g>
+<g class="xm-pin" data-i="13" tabindex="0" role="button" aria-label="Walnut" transform="translate(920.0,341.1)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="0" y="-17" text-anchor="middle">Walnut</text></g>
+<g class="xm-pin" data-i="14" tabindex="0" role="button" aria-label="Harlan" transform="translate(814.7,94.0)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="17" y="7" text-anchor="start">Harlan</text></g>
+<g class="xm-pin" data-i="15" tabindex="0" role="button" aria-label="Glenwood" transform="translate(376.8,944.6)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="17" y="7" text-anchor="start">Glenwood</text></g>
+<g class="xm-pin" data-i="16" tabindex="0" role="button" aria-label="Malvern" transform="translate(542.1,1006.3)"><circle class="xm-halo" r="26"/><circle class="xm-dot" r="9"/><text x="17" y="7" text-anchor="start">Malvern</text></g>
+        </svg>
+        <p class="xm-note">Illustrative · Not to scale · <span class="xm-star">★</span> J. Leaders Realty home base</p>
+      </div>
+      <div class="xm-panel" aria-live="polite">
+      <article class="xm-card xm-intro" data-i="-1">
+        <span class="gst">17 local guides</span><h3>Where do you want to live?</h3>
+        <p>We work the whole map: the Omaha metro, Council Bluffs, Loess Hills acreages and the small towns along I-80. Tap a town on the map, or pick one here.</p>
+        <nav class="xm-list" aria-label="Community guides"><a href="/communities/omaha-metro/" data-i="0">Omaha Metro</a> <a href="/communities/council-bluffs/" data-i="1">Council Bluffs</a> <a href="/communities/carter-lake/" data-i="2">Carter Lake</a> <a href="/communities/crescent/" data-i="3">Crescent</a> <a href="/communities/missouri-valley/" data-i="4">Missouri Valley</a> <a href="/communities/logan/" data-i="5">Logan</a> <a href="/communities/underwood/" data-i="6">Underwood</a> <a href="/communities/treynor/" data-i="7">Treynor</a> <a href="/communities/neola/" data-i="8">Neola</a> <a href="/communities/minden/" data-i="9">Minden</a> <a href="/communities/persia/" data-i="10">Persia</a> <a href="/communities/shelby/" data-i="11">Shelby</a> <a href="/communities/avoca/" data-i="12">Avoca</a> <a href="/communities/walnut/" data-i="13">Walnut</a> <a href="/communities/harlan/" data-i="14">Harlan</a> <a href="/communities/glenwood/" data-i="15">Glenwood</a> <a href="/communities/malvern/" data-i="16">Malvern</a></nav>
+        <a class="xm-acre" href="/acreages/">Looking for land? Read our acreage guide →</a>
+      </article>
+      <article class="xm-card" data-i="0" hidden>
+        <div class="xm-img"><img src="/img/f0f3d553abf2.jpg" alt="Omaha Metro" loading="lazy"></div>
+        <span class="gst">Nebraska · Guide</span><h3>Omaha Metro</h3><p>Omaha, Elkhorn, Papillion, La Vista, Gretna &amp; Bellevue</p>
+        <div class="xm-act"><a class="btn" href="/communities/omaha-metro/">Open the Omaha Metro guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="1" hidden>
+        <div class="xm-img"><img src="/img/1707fb3286c9.jpg" alt="Council Bluffs" loading="lazy"></div>
+        <span class="gst">Iowa · Guide</span><h3>Council Bluffs</h3><p>Luxury homes, Loess Hills acreages and a monthly market snapshot</p>
+        <div class="xm-act"><a class="btn" href="/communities/council-bluffs/">Open the Council Bluffs guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="2" hidden>
+        <div class="xm-img"><img src="/img/8ade32bb3002.jpg" alt="Carter Lake" loading="lazy"></div>
+        <span class="gst">Iowa · Guide</span><h3>Carter Lake</h3><p>Iowa on the Nebraska side of the river: lakefront homes minutes from downtown Omaha</p>
+        <div class="xm-act"><a class="btn" href="/communities/carter-lake/">Open the Carter Lake guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="3" hidden>
+        <div class="xm-img"><img src="/img/e73a30ead9d8.jpg" alt="Crescent" loading="lazy"></div>
+        <span class="gst">Iowa · Guide</span><h3>Crescent</h3><p>Honey Creek, Hitchcock and Loess Hills acreages across the bridge from Omaha</p>
+        <div class="xm-act"><a class="btn" href="/communities/crescent/">Open the Crescent guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="4" hidden>
+        <div class="xm-img"><img src="/img/44adf51a0df8.jpg" alt="Missouri Valley" loading="lazy"></div>
+        <span class="gst">Iowa · Guide</span><h3>Missouri Valley</h3><p>DeSoto refuge, the Loess Hills and I-29 to Omaha in about 30 minutes</p>
+        <div class="xm-act"><a class="btn" href="/communities/missouri-valley/">Open the Missouri Valley guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="5" hidden>
+        <div class="xm-img"><img src="/img/5c2f3d98f9d0.jpg" alt="Logan" loading="lazy"></div>
+        <span class="gst">Iowa · Guide</span><h3>Logan</h3><p>The Harrison County seat on the Lincoln Highway, with Lo-Ma Panthers pride</p>
+        <div class="xm-act"><a class="btn" href="/communities/logan/">Open the Logan guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="6" hidden>
+        <div class="xm-img"><img src="/img/1ae709a2398b.jpg" alt="Underwood" loading="lazy"></div>
+        <span class="gst">Iowa · Guide</span><h3>Underwood</h3><p>Small town on I-80, acreages in the Loess Hills and a big Fourth of July</p>
+        <div class="xm-act"><a class="btn" href="/communities/underwood/">Open the Underwood guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="7" hidden>
+        <div class="xm-img"><img src="/img/d68a723dbe19.jpg" alt="Treynor" loading="lazy"></div>
+        <span class="gst">Iowa · Guide</span><h3>Treynor</h3><p>Cardinal pride, Treynor Days and country all around, just east of Council Bluffs</p>
+        <div class="xm-act"><a class="btn" href="/communities/treynor/">Open the Treynor guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="8" hidden>
+        <div class="xm-img"><img src="/img/518cd9cb9d6d.jpg" alt="Neola" loading="lazy"></div>
+        <span class="gst">Iowa · Guide</span><h3>Neola</h3><p>Family neighborhoods, Meyering Addition and Tri-Center</p>
+        <div class="xm-act"><a class="btn" href="/communities/neola/">Open the Neola guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="9" hidden>
+        <div class="xm-img"><img src="/img/fad4927ae4f8.jpg" alt="Minden" loading="lazy"></div>
+        <span class="gst">Iowa · Guide</span><h3>Minden</h3><p>New construction, acreages and a town that rebuilds</p>
+        <div class="xm-act"><a class="btn" href="/communities/minden/">Open the Minden guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="10" hidden>
+        <div class="xm-img"><img src="/img/9c273956aaf8.jpg" alt="Persia" loading="lazy"></div>
+        <span class="gst">Iowa · Guide</span><h3>Persia</h3><p>Tri-Center schools, a Main Street that ends at the fields and country properties</p>
+        <div class="xm-act"><a class="btn" href="/communities/persia/">Open the Persia guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="11" hidden>
+        <div class="xm-img"><img src="/img/ba519aa1d960.jpg" alt="Shelby" loading="lazy"></div>
+        <span class="gst">Iowa · Our Home Base</span><h3>Shelby</h3><p>A brick Main Street, Carstens Farm Days and I-80 at the edge of town</p>
+        <div class="xm-act"><a class="btn" href="/communities/shelby/">Open the Shelby guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="12" hidden>
+        <div class="xm-img"><img src="/img/c77c4d29f8fb.jpg" alt="Avoca" loading="lazy"></div>
+        <span class="gst">Iowa · Guide</span><h3>Avoca</h3><p>Music on Main Street, a pool, farmers markets and AHSTW</p>
+        <div class="xm-act"><a class="btn" href="/communities/avoca/">Open the Avoca guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="13" hidden>
+        <div class="xm-img"><img src="/img/fecc2f3ecc76.jpg" alt="Walnut" loading="lazy"></div>
+        <span class="gst">Iowa · Guide</span><h3>Walnut</h3><p>Iowa's Antique City: brick streets, the June antique show and I-80 at Exit 46</p>
+        <div class="xm-act"><a class="btn" href="/communities/walnut/">Open the Walnut guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="14" hidden>
+        <div class="xm-img"><img src="/img/665370eb0662.jpg" alt="Harlan" loading="lazy"></div>
+        <span class="gst">Iowa · Guide</span><h3>Harlan</h3><p>The Shelby County seat, Prairie Rose and a hometown agent with a different playbook</p>
+        <div class="xm-act"><a class="btn" href="/communities/harlan/">Open the Harlan guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="15" hidden>
+        <div class="xm-img"><img src="/img/523b96e8aec8.jpg" alt="Glenwood" loading="lazy"></div>
+        <span class="gst">Iowa · Guide</span><h3>Glenwood</h3><p>The Mills County seat: a courthouse square, a lake park and Omaha in under 30</p>
+        <div class="xm-act"><a class="btn" href="/communities/glenwood/">Open the Glenwood guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      <article class="xm-card" data-i="16" hidden>
+        <div class="xm-img"><img src="/img/f5eed7ca825a.jpg" alt="Malvern" loading="lazy"></div>
+        <span class="gst">Iowa · Guide</span><h3>Malvern</h3><p>A Mills County town on the Wabash Trace, home of the county fair</p>
+        <div class="xm-act"><a class="btn" href="/communities/malvern/">Open the Malvern guide <span aria-hidden="true">→</span></a><button type="button" class="xm-back">← All towns</button></div>
+      </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
 <section class="proof" aria-label="Our track record">
   <div class="wrap">
@@ -1069,6 +1241,12 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.1);padding
   
 })();
 </script>
+<script>(function(){var r=document.getElementById('explore');if(!r)return;var cards=r.querySelectorAll('.xm-card'),pins=r.querySelectorAll('.xm-pin');
+function show(i){cards.forEach(function(c){c.hidden=(+c.dataset.i!==i)});pins.forEach(function(p){p.classList.toggle('on',+p.dataset.i===i)});
+if(i>=0&&window.innerWidth<900){var pn=r.querySelector('.xm-panel');pn.scrollIntoView({behavior:'smooth',block:'nearest'})}}
+pins.forEach(function(p){p.addEventListener('click',function(){show(+p.dataset.i)});p.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();show(+p.dataset.i)}})});
+r.querySelectorAll('.xm-list a').forEach(function(a){a.addEventListener('click',function(e){if(e.metaKey||e.ctrlKey)return;e.preventDefault();show(+a.dataset.i)})});
+r.querySelectorAll('.xm-back').forEach(function(b){b.addEventListener('click',function(){show(-1)})});})();</script>
 
 <script src="/js/forms.js" defer></script>
 </body>
