@@ -394,6 +394,8 @@ section{position:relative}
 .also b{display:block;font:600 10.5px var(--label);letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-bottom:8px}
 @media(max-width:860px){.guides{grid-template-columns:1fr 1fr}.guide,.guide:nth-child(-n+2){grid-column:span 1}.guide:first-child{grid-column:1/-1}}
 @media(max-width:520px){.guides{grid-template-columns:1fr}.guide:first-child{grid-column:auto}}
+@media(min-width:861px){.guide.wide{grid-column:1/-1;flex-direction:row;gap:28px;align-items:center}.guide.wide .gimg{flex:0 0 calc(66.666% - 9px);aspect-ratio:21/9}.guide.wide .gtxt{padding-top:0}}
+@media(max-width:860px) and (min-width:521px){.guide.wide{grid-column:1/-1}}
 
 .towns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
 .town{padding:26px 20px 26px 0;border-bottom:1px solid var(--line);text-decoration:none;display:flex;justify-content:space-between;align-items:baseline;gap:10px;min-width:0}
@@ -754,9 +756,10 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.1);padding
       <a class="guide rv" href="/communities/underwood/"><div class="gimg"><img src="/img/1ae709a2398b.jpg" alt="Underwood" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Underwood</b><small>Small town on I-80, acreages in the Loess Hills and a big Fourth of July</small><span class="go">Explore <span>→</span></span></div></a>
       <a class="guide rv" href="/communities/shelby/"><div class="gimg"><img src="/img/ba519aa1d960.jpg" alt="Shelby" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Our Home Base</span><b>Shelby</b><small>A brick Main Street, Carstens Farm Days and I-80 at the edge of town</small><span class="go">Explore <span>→</span></span></div></a>
       <a class="guide rv" href="/communities/persia/"><div class="gimg"><img src="/img/9c273956aaf8.jpg" alt="Persia" loading="lazy" style="object-position:30% 50%"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Persia</b><small>Tri-Center schools, a Main Street that ends at the fields and country properties</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/acreages/"><div class="gimg"><img src="/img/85d2bc129ed6.jpg" alt="Acreages" loading="lazy"></div><div class="gtxt"><span class="gst">Western Iowa · Guide</span><b>Acreages</b><small>The 12-point checklist before you buy land</small><span class="go">Explore <span>→</span></span></div></a>
+      <a class="guide rv" href="/communities/harlan/"><div class="gimg"><img src="/img/665370eb0662.jpg" alt="Harlan" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Harlan</b><small>The Shelby County seat, Prairie Rose and a hometown agent with a different playbook</small><span class="go">Explore <span>→</span></span></div></a>
+      <a class="guide rv wide" href="/acreages/"><div class="gimg"><img src="/img/85d2bc129ed6.jpg" alt="Acreages" loading="lazy"></div><div class="gtxt"><span class="gst">Western Iowa · Guide</span><b>Acreages</b><small>The 12-point checklist before you buy land</small><span class="go">Explore <span>→</span></span></div></a>
     </div>
-    <p class="also rv"><b>Also serving</b>Treynor · Missouri Valley · Carter Lake · Harlan · Okoboji · and acreages across Pottawattamie, Harrison, Shelby, Mills &amp; Cass counties</p>
+    <p class="also rv"><b>Also serving</b>Treynor · Missouri Valley · Carter Lake · Okoboji · and acreages across Pottawattamie, Harrison, Shelby, Mills &amp; Cass counties</p>
     </div>
 </section>
 
