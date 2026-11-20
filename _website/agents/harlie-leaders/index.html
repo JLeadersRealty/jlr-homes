@@ -104,6 +104,12 @@ p{margin:0}
 .tile small{display:block;color:rgba(255,255,255,.7);font-size:13.5px;margin-top:3px}
 .tile .arr{font-size:20px;transition:transform .35s var(--ease)}
 .tile:hover .arr{transform:translateX(5px)}
+.qbar{position:relative;z-index:2;background:var(--ink);color:#fff;border-bottom:1px solid rgba(255,255,255,.12)}
+.qbar .tiles{margin:0;border:0;border-inline:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.14);backdrop-filter:none;-webkit-backdrop-filter:none}
+.qbar .tile{background:var(--ink);color:#fff;padding:26px 24px}
+.qbar .tile:hover{background:#15293d}
+.qbar .tile .arr{color:var(--gold)}
+@media(max-width:760px){.qbar .wrap{padding-inline:0}.qbar .tiles{border-inline:0}.qbar .tile{padding:18px 20px}}
 .scrollcue{position:absolute;right:max(20px,env(safe-area-inset-right,0px));top:50%;writing-mode:vertical-rl;font:600 10.5px var(--label);letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.7)}
 .scrollcue::after{content:"";display:block;width:1px;height:56px;margin:14px auto 0;background:linear-gradient(var(--gold),transparent);animation:cue 2.4s var(--ease) infinite}
 @keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
@@ -385,7 +391,9 @@ section{position:relative}
 .also b{display:block;font:600 10.5px var(--label);letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-bottom:8px}
 @media(max-width:860px){.guides{grid-template-columns:1fr 1fr}.guide,.guide:nth-child(-n+2){grid-column:span 1}.guide:first-child{grid-column:1/-1}}
 @media(max-width:520px){.guides{grid-template-columns:1fr}.guide:first-child{grid-column:auto}}
-@media(min-width:861px){.guide.wide{grid-column:1/-1;flex-direction:row;gap:28px;align-items:center}.guide.wide .gimg{flex:0 0 calc(66.666% - 9px);aspect-ratio:21/9}.guide.wide .gtxt{padding-top:0}}
+.guide.half{grid-column:span 3}
+@media(max-width:860px){.guides .guide:first-child,.guide.half{grid-column:span 1}}
+@media(max-width:520px){.guides .guide:first-child,.guide.half{grid-column:auto}}
 
 .towns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
 .town{padding:26px 20px 26px 0;border-bottom:1px solid var(--line);text-decoration:none;display:flex;justify-content:space-between;align-items:baseline;gap:10px;min-width:0}
@@ -561,7 +569,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.1);padding
 <section class="band" id="towns"><div class="wrap">
   <div class="label rv"><span class="dot"></span>Where Harlie Works</div>
   <h2 class="rv" style="margin:14px 0 18px">Minden and the small towns of Pottawattamie County</h2>
-  <div class="towns2 rv"><a href="/communities/minden/">Minden</a><a href="/communities/neola/">Neola</a><a href="/communities/avoca/">Avoca</a><span>Shelby</span><a href="/communities/council-bluffs/">Council Bluffs</a></div>
+  <div class="towns2 rv"><a href="/communities/minden/">Minden</a><a href="/communities/neola/">Neola</a><a href="/communities/avoca/">Avoca</a><a href="/communities/shelby/">Shelby</a><a href="/communities/council-bluffs/">Council Bluffs</a></div>
 </div></section>
 
 <section class="band stoneband" id="reviews" data-live-sec="reviews" data-agent="Harlie Leaders" hidden><div class="wrap">
