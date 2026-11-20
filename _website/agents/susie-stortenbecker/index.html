@@ -394,6 +394,7 @@ section{position:relative}
 .guide.half{grid-column:span 3}
 @media(max-width:860px){.guide.half{grid-column:span 1}}
 @media(max-width:520px){.guide.half{grid-column:auto}}
+@media(max-width:860px) and (min-width:521px){.guide.tfull{grid-column:1/-1}}
 
 .towns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
 .town{padding:26px 20px 26px 0;border-bottom:1px solid var(--line);text-decoration:none;display:flex;justify-content:space-between;align-items:baseline;gap:10px;min-width:0}
@@ -569,7 +570,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.1);padding
 <section class="band" id="towns"><div class="wrap">
   <div class="label rv"><span class="dot"></span>Where Susie Works</div>
   <h2 class="rv" style="margin:14px 0 18px">Council Bluffs and the small towns around it</h2>
-  <div class="towns2 rv"><a href="/communities/council-bluffs/">Council Bluffs</a><a href="/communities/omaha-metro/">Omaha</a><span>Carter Lake</span><span>Treynor</span><a href="/communities/underwood/">Underwood</a><a href="/communities/neola/">Neola</a><a href="/acreages/">Acreages</a></div>
+  <div class="towns2 rv"><a href="/communities/council-bluffs/">Council Bluffs</a><a href="/communities/omaha-metro/">Omaha</a><span>Carter Lake</span><a href="/communities/treynor/">Treynor</a><a href="/communities/underwood/">Underwood</a><a href="/communities/neola/">Neola</a><a href="/acreages/">Acreages</a></div>
 </div></section>
 <section class="band stoneband" id="sold"><div class="wrap">
   <div class="label rv"><span class="dot"></span>Recent Sales</div>
