@@ -106,6 +106,12 @@ p{margin:0}
 .tile small{display:block;color:rgba(255,255,255,.7);font-size:13.5px;margin-top:3px}
 .tile .arr{font-size:20px;transition:transform .35s var(--ease)}
 .tile:hover .arr{transform:translateX(5px)}
+.qbar{position:relative;z-index:2;background:var(--ink);color:#fff;border-bottom:1px solid rgba(255,255,255,.12)}
+.qbar .tiles{margin:0;border:0;border-inline:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.14);backdrop-filter:none;-webkit-backdrop-filter:none}
+.qbar .tile{background:var(--ink);color:#fff;padding:26px 24px}
+.qbar .tile:hover{background:#15293d}
+.qbar .tile .arr{color:var(--gold)}
+@media(max-width:760px){.qbar .wrap{padding-inline:0}.qbar .tiles{border-inline:0}.qbar .tile{padding:18px 20px}}
 .scrollcue{position:absolute;right:max(20px,env(safe-area-inset-right,0px));top:50%;writing-mode:vertical-rl;font:600 10.5px var(--label);letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.7)}
 .scrollcue::after{content:"";display:block;width:1px;height:56px;margin:14px auto 0;background:linear-gradient(var(--gold),transparent);animation:cue 2.4s var(--ease) infinite}
 @keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
@@ -141,6 +147,7 @@ section{position:relative}
 .listings{display:grid;grid-template-columns:1.35fr 1fr;grid-template-rows:auto auto;gap:28px}
 .lcard{position:relative;display:flex;flex-direction:column;text-decoration:none;color:inherit;min-width:0}
 .lcard.big{grid-row:span 2}
+.lcard.wide{grid-column:1/-1}.lcard.wide .ph-img{aspect-ratio:21/9}@media(max-width:860px){.lcard.wide .ph-img{aspect-ratio:4/3}}.lcard .vt{position:absolute;right:12px;bottom:12px;z-index:2;background:rgba(11,27,43,.72);color:#fff;font:600 10px var(--label);letter-spacing:.14em;text-transform:uppercase;padding:5px 8px}
 .lcard .ph-img{position:relative;overflow:hidden;background:var(--ink);aspect-ratio:4/3;max-width:100%}
 .lcard.big .ph-img{aspect-ratio:auto;flex:1;min-height:420px}
 .lcard .ph-img img,.lcard .ph-img .story{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
@@ -386,6 +393,9 @@ section{position:relative}
 .also b{display:block;font:600 10.5px var(--label);letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-bottom:8px}
 @media(max-width:860px){.guides{grid-template-columns:1fr 1fr}.guide,.guide:nth-child(-n+2){grid-column:span 1}.guide:first-child{grid-column:1/-1}}
 @media(max-width:520px){.guides{grid-template-columns:1fr}.guide:first-child{grid-column:auto}}
+.guide.half{grid-column:span 3}
+@media(max-width:860px){.guide.half{grid-column:span 1}}
+@media(max-width:520px){.guide.half{grid-column:auto}}
 
 .towns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
 .town{padding:26px 20px 26px 0;border-bottom:1px solid var(--line);text-decoration:none;display:flex;justify-content:space-between;align-items:baseline;gap:10px;min-width:0}
@@ -641,8 +651,8 @@ Jamie Leaders is the Broker/Owner of J. Leaders Realty, an independent real esta
   <div class="wrap">
     <div><img src="/img/62f2dbae1dba.svg" alt="J. Leaders Realty"><p style="margin-top:14px">Serving western Iowa and the Omaha metro.</p></div>
     <div><b>Explore</b><a href="/#homes">Homes for Sale</a><br><a href="/#value">Home Value</a><br><a href="/#quiz">Ready to Sell Quiz</a><br><a href="/#towns">Communities</a></div>
-    <div><b>Contact</b>402.773.8511<br>jamie@jleadersrealty.org<br>Licensed in Iowa &amp; Nebraska<span style="display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:14px"><a href="https://www.instagram.com/jleadersrealty/" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">Instagram</a><a href="https://www.facebook.com/profile.php?id=61560753417800" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">Facebook</a><a href="https://www.tiktok.com/@jleadersrealty" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">TikTok</a><a href="https://www.youtube.com/@JamieLeaders" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">YouTube</a><a href="https://share.google/I27w3H8i5Ffjr2v86" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">Google</a><a href="https://www.zillow.com/profile/Jamie771" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">Zillow</a></span></div>
-    <div class="legal">J. Leaders Realty · Iowa firm license F06561000 · Nebraska firm license 20230475 · Jamie Leaders, Broker/Owner, IA B63469000, NE 20230475. Equal Housing Opportunity. © 2026 J. Leaders Realty. <a href="/privacy/" style="text-decoration:underline">Privacy Policy</a> · <a href="/privacy/#sms" style="text-decoration:underline">Text Message Terms</a></div>
+    <div><b>Contact</b>402.773.8511<br>jamie@jleadersrealty.org<br>3396 Waverly Ave, Shelby, IA 51570<br>Licensed in Iowa &amp; Nebraska<span style="display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:14px"><a href="https://www.instagram.com/jleadersrealty/" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">Instagram</a><a href="https://www.facebook.com/profile.php?id=61560753417800" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">Facebook</a><a href="https://www.tiktok.com/@jleadersrealty" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">TikTok</a><a href="https://www.youtube.com/@JamieLeaders" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">YouTube</a><a href="https://share.google/I27w3H8i5Ffjr2v86" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">Google</a><a href="https://www.zillow.com/profile/Jamie771" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">Zillow</a></span></div>
+    <div class="legal">J. Leaders Realty LLC · Main office: Shelby, IA · Iowa firm license F06561000 · Nebraska firm license 20230475 · Jamie Leaders, Broker/Owner, IA B63469000, NE 20230475. Equal Housing Opportunity. © 2026 J. Leaders Realty LLC. <a href="/privacy/" style="text-decoration:underline">Privacy Policy</a> · <a href="/privacy/#sms" style="text-decoration:underline">Text Message Terms</a></div>
   </div>
 </footer>
 
