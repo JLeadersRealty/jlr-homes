@@ -9,6 +9,8 @@
 /about/            /#about       301
 /contact           /#talk        301
 /contact/          /#talk        301
+/harlan             /communities/harlan/?utm_source=postcard&utm_medium=mail&utm_campaign=harlan-second-opinion#value   302
+/harlan/            /communities/harlan/?utm_source=postcard&utm_medium=mail&utm_campaign=harlan-second-opinion#value   302
 
 # Old Placester URLs
 /2026/12/02/council-bluffs-or-omaha-which-side-of-the-river-should-you-buy-on/ /council-bluffs-or-omaha-which-side-of-the-river-should-you-buy-on/ 301
