@@ -1,0 +1,23 @@
+{
+  "name": "J. Leaders Realty",
+  "short_name": "JLR",
+  "description": "Search homes, check your home's value and explore Council Bluffs, Omaha and western Iowa with J. Leaders Realty.",
+  "id": "/?source=pwa",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B1B2B",
+  "theme_color": "#0B1B2B",
+  "categories": ["lifestyle", "business"],
+  "icons": [
+    {"src": "/img/app/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "/img/app/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "/img/app/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {"name": "Home Value", "url": "/?source=pwa#value", "icons": [{"src": "/img/app/icon-192.png", "sizes": "192x192"}]},
+    {"name": "Communities", "url": "/?source=pwa#explore", "icons": [{"src": "/img/app/icon-192.png", "sizes": "192x192"}]},
+    {"name": "Search Homes", "url": "/search/?source=pwa", "icons": [{"src": "/img/app/icon-192.png", "sizes": "192x192"}]}
+  ]
+}
