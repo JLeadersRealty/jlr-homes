@@ -50,7 +50,12 @@ input[type=email]:focus{outline:none;border-color:var(--gold)}
 .bar i{display:block;height:100%;background:var(--sage);border-radius:99px}
 .update{background:var(--cream);border-left:3px solid var(--gold);border-radius:8px;padding:12px 14px;margin:18px 0 4px}
 .update b{display:block;font:600 12px Montserrat,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
-ol.steps{list-style:none;margin:18px 0 0;padding:0}
+.legend{margin:18px 0 0;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.lg{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;border:2px solid #d8d4cb;font-size:9px;color:#fff;vertical-align:-3px}
+.lg.done{background:var(--sage);border-color:var(--sage)}
+.lg.sch{border-color:var(--blue)}
+.lg.sch::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--blue)}
+ol.steps{list-style:none;margin:10px 0 0;padding:0}
 ol.steps li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
 ol.steps .dot{width:22px;height:22px;border-radius:50%;border:2px solid #d8d4cb;display:grid;place-items:center;font-size:12px;color:#fff}
 ol.steps .done .dot{background:var(--sage);border-color:var(--sage)}
@@ -144,9 +149,9 @@ body{padding-bottom:calc(70px + env(safe-area-inset-bottom,0px))}
       if(f.closingDetails)h+='<p class="small" style="margin:2px 0 0"><b>Closing:</b> '+esc(f.closingDetails)+'</p>';
       h+='<div class="bar" aria-hidden="true"><i style="width:'+pct+'%"></i></div><p class="small" style="margin:0">'+done+' of '+need.length+' steps done</p>';
       if(f.update)h+='<div class="update"><b>Latest from your agent</b>'+esc(f.update)+'</div>';
-      h+='<ol class="steps">';
+      h+='<p class="small legend"><span class="lg done">✓</span> Done &nbsp; <span class="lg sch"></span> Date set &nbsp; <span class="lg up"></span> Coming up</p><ol class="steps">';
       ms.forEach(function(m){
-        var when=m.status==='done'?fmt(m.date):m.status==='scheduled'?'Scheduled '+fmt(m.date):m.status==='not_needed'?'Not needed':'Coming up';
+        var when=m.status==='done'?fmt(m.date):m.status==='scheduled'?fmt(m.date):m.status==='not_needed'?'Not needed':'Coming up';
         h+='<li class="'+m.status+'"><span class="dot">'+(m.status==='done'?'✓':'')+'</span><span class="lab">'+esc(m.label)+'</span><span class="when">'+esc(when)+'</span></li>';
       });
       h+='</ol>';

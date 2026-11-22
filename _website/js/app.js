@@ -8,12 +8,12 @@
   var tabs=[
     ['home','/','Home','<path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/>'],
     ['search','/search/','Search','<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/>'],
-    ['value','/#value','Home Value','<path d="M4 20V10l8-6 8 6v10"/><path d="M9.5 15.5c0-1.2 1.1-2 2.5-2s2.5.8 2.5 2-1.1 1.6-2.5 1.9-2.5.8-2.5 2 1.1 2 2.5 2 2.5-.8 2.5-2M12 12v1.5m0 7.5v1.5"/>'],
+    ['value','/#value','Home Value','<path d="M4 20V10l8-6 8 6v10"/><path d="M14.5 15.5c0-1.2-1.1-2-2.5-2s-2.5.8-2.5 2 1.1 1.6 2.5 1.9 2.5.8 2.5 2-1.1 2-2.5 2-2.5-.8-2.5-2M12 12v1.5m0 7.5v1.5"/>'],
     ['towns','/#explore','Communities','<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10" r="2.3"/>'],
-    ['call','tel:+14027738511','Contact','<path d="M6.6 3.5h3l1.5 4-2 1.3a11 11 0 0 0 6.1 6.1l1.3-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/>']];
-  var on=p.indexOf('/search')===0?'search':(p.indexOf('/communities/')===0||h==='#explore'||h==='#towns')?'towns':h==='#value'?'value':(p==='/'?'home':'');
+    ['portal','/portal/','My Portal','<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c1.2-3.6 4.1-5.5 7.5-5.5s6.3 1.9 7.5 5.5"/>']];
+  var on=p.indexOf('/portal')===0?'portal':p.indexOf('/search')===0?'search':(p.indexOf('/communities/')===0||h==='#explore'||h==='#towns')?'towns':h==='#value'?'value':(p==='/'?'home':'');
   var nav=d.createElement('nav');nav.className='jlr-tabs';nav.setAttribute('aria-label','App navigation');
-  nav.innerHTML=tabs.map(function(t){return '<a href="'+t[1]+'"'+(t[0]===on?' aria-current="page"':'')+(t[0]==='call'?' aria-label="Call J. Leaders Realty at 402.773.8511"':'')+'><svg viewBox="0 0 24 24" aria-hidden="true">'+t[3]+'</svg><span>'+t[2]+'</span></a>';}).join('');
+  nav.innerHTML=tabs.map(function(t){return '<a href="'+t[1]+'"'+(t[0]===on?' aria-current="page"':'')+'><svg viewBox="0 0 24 24" aria-hidden="true">'+t[3]+'</svg><span>'+t[2]+'</span></a>';}).join('');
   d.body.appendChild(nav);
   nav.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;[].forEach.call(nav.querySelectorAll('a'),function(x){x.removeAttribute('aria-current');});if(a.getAttribute('href').indexOf('tel:')!==0)a.setAttribute('aria-current','page');});
   /* add to home screen prompt */
