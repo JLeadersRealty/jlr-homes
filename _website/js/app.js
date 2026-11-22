@@ -16,6 +16,15 @@
   nav.innerHTML=tabs.map(function(t){return '<a href="'+t[1]+'"'+(t[0]===on?' aria-current="page"':'')+'><svg viewBox="0 0 24 24" aria-hidden="true">'+t[3]+'</svg><span>'+t[2]+'</span></a>';}).join('');
   d.body.appendChild(nav);
   nav.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;[].forEach.call(nav.querySelectorAll('a'),function(x){x.removeAttribute('aria-current');});if(a.getAttribute('href').indexOf('tel:')!==0)a.setAttribute('aria-current','page');});
+  /* client login link: desktop header nav + footer on every page */
+  try{
+    var nv=d.querySelector('header .nav, header nav');
+    if(nv&&!nv.querySelector('a[href="/portal/"]')){var cl=d.createElement('a');cl.href='/portal/';cl.className='jlr-login';cl.textContent='Client Login';var cs=d.createElement('style');cs.textContent='@media(min-width:1200px){header .nav{gap:20px}header .nav a{white-space:nowrap}}@media(min-width:761px) and (max-width:1199px){header .nav a.jlr-login{display:none}}';d.head.appendChild(cs);if(p.indexOf('/portal')===0)cl.setAttribute('aria-current','page');nv.appendChild(cl);}
+    var ft=d.querySelector('footer');
+    var ex=ft&&[].filter.call(ft.querySelectorAll('b'),function(b){return /explore/i.test(b.textContent)})[0];
+    if(ex&&ex.parentNode&&!ft.querySelector('a[href="/portal/"]')){ex.parentNode.insertAdjacentHTML('beforeend','<br><a href="/portal/">Client Login</a>');}
+    if(ft&&!ft.querySelector('a[href="/portal/"]')){var fp=d.createElement('p');fp.style.cssText='margin:12px 0 0';fp.innerHTML='<a href="/portal/" style="color:inherit;text-decoration:underline;font-weight:600">Client Login</a> &middot; Buying or selling with us? See where things stand on your file.';ft.appendChild(fp);}
+  }catch(e){}
   /* add to home screen prompt */
   var KEY='jlr-a2hs-dismissed', seen=false; try{seen=!!localStorage.getItem(KEY);}catch(e){}
   var ua=navigator.userAgent, ios=/iPhone|iPad|iPod/.test(ua)&&!w.MSStream, safari=ios&&/Safari/.test(ua)&&!/CriOS|FxiOS|EdgiOS/.test(ua), android=/Android/.test(ua), deferred=null;
