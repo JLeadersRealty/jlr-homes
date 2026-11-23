@@ -59,7 +59,7 @@
 /home-valuation/ /#value 301
 /area/home-valuation/ /#value 301
 /privacy-policy/ /privacy/ 301
-/terms-and-conditions/ /terms/ 301
+/terms-and-conditions/ /privacy/#sms 301
 /accessibility/ /privacy/ 301
 /dmca-compliance/ /privacy/ 301
 /responsible-business/ / 301

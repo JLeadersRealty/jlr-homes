@@ -146,6 +146,7 @@ section{position:relative}
 .listings{display:grid;grid-template-columns:1.35fr 1fr;grid-template-rows:auto auto;gap:28px}
 .lcard{position:relative;display:flex;flex-direction:column;text-decoration:none;color:inherit;min-width:0}
 .lcard.big{grid-row:span 2}
+.lcard.wide{grid-column:1/-1}.lcard.wide .ph-img{aspect-ratio:21/9}@media(max-width:860px){.lcard.wide .ph-img{aspect-ratio:4/3}}.lcard .vt{position:absolute;right:12px;bottom:12px;z-index:2;background:rgba(11,27,43,.72);color:#fff;font:600 10px var(--label);letter-spacing:.14em;text-transform:uppercase;padding:5px 8px}
 .lcard .ph-img{position:relative;overflow:hidden;background:var(--ink);aspect-ratio:4/3;max-width:100%}
 .lcard.big .ph-img{aspect-ratio:auto;flex:1;min-height:420px}
 .lcard .ph-img img,.lcard .ph-img .story{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
@@ -391,6 +392,10 @@ section{position:relative}
 .also b{display:block;font:600 10.5px var(--label);letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-bottom:8px}
 @media(max-width:860px){.guides{grid-template-columns:1fr 1fr}.guide,.guide:nth-child(-n+2){grid-column:span 1}.guide:first-child{grid-column:1/-1}}
 @media(max-width:520px){.guides{grid-template-columns:1fr}.guide:first-child{grid-column:auto}}
+.guide.half{grid-column:span 3}
+@media(max-width:860px){.guide.half{grid-column:span 1}}
+@media(max-width:520px){.guide.half{grid-column:auto}}
+@media(max-width:860px) and (min-width:521px){.guide.tfull{grid-column:1/-1}}
 
 .towns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
 .town{padding:26px 20px 26px 0;border-bottom:1px solid var(--line);text-decoration:none;display:flex;justify-content:space-between;align-items:baseline;gap:10px;min-width:0}
@@ -446,6 +451,42 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.1);padding
   .hero-track{height:auto}.hero{position:relative}
   *{transition-duration:.01ms!important}
 }
+
+/* Explore map */
+.xmap{background:var(--stone)}
+.xm-grid{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:clamp(24px,3vw,44px);align-items:start}
+.xm-map svg{display:block;width:100%;height:auto;border:1px solid var(--line);background:#F1EEE7}
+.xm-bg{fill:#F1EEE7}
+.xm-z{fill:#ECE8DF;stroke:#fff;stroke-width:1}
+.xm-r path{fill:#E3E6DC;stroke:#fff;stroke-width:2;stroke-linejoin:round;transition:fill .25s}
+.xm-r.xm-g path{fill:#C9D6C2}
+.xm-r.xm-m path{fill:#D3DCCD}
+.xm-r.xm-hq path{fill:#EBD9A3}
+.xm-r{cursor:pointer;outline:none}
+.xm-r:hover path,.xm-r:focus-visible path{fill:#F3E2B0}
+.xm-r.on path{fill:#D4A017}
+.xm-river{fill:none;stroke:#376FA3;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;opacity:.65;pointer-events:none}
+.xm-hwy{fill:none;stroke:#fff;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;opacity:.95;pointer-events:none}
+.xm-sh{pointer-events:none}.xm-sh path{fill:#376FA3;stroke:#fff;stroke-width:2}.xm-sh text{font:700 11px var(--label);fill:#fff;text-anchor:middle}
+.xm-state{font:600 15px var(--label);letter-spacing:.42em;fill:#a5a196;pointer-events:none}
+.xm-l{pointer-events:none;text-anchor:middle;dominant-baseline:middle;font:500 14px var(--sans,Inter),sans-serif;fill:#59606b;paint-order:stroke;stroke:rgba(241,238,231,.9);stroke-width:3px;stroke-linejoin:round;letter-spacing:.01em}
+.xm-l.xm-ls{font-size:12px}
+.xm-l.xm-lg{font:400 22px var(--serif);fill:#0B1B2B;stroke-width:4px;letter-spacing:0}
+.xm-l.on{fill:#0B1B2B;font-weight:600}
+.xm-note{font:600 10.5px var(--label);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:12px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.xm-key{display:inline-block;width:12px;height:12px;background:#E3E6DC;border:1px solid #cfd3c6;margin-right:-4px}.xm-key-g{background:#C9D6C2}.xm-star{color:#D4A017}
+.xm-panel{background:#fff;border:1px solid var(--line);padding:clamp(22px,2.6vw,32px);position:sticky;top:96px}
+.xm-card h3{font:400 clamp(28px,2.6vw,38px)/1.08 var(--serif);margin:8px 0 10px}
+.xm-card p{color:#4a5260;font-size:15.5px}
+.xm-img{aspect-ratio:16/10;overflow:hidden;margin-bottom:18px;background:var(--ink)}.xm-img img{width:100%;height:100%;object-fit:cover;display:block}
+.xm-act{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-top:20px}
+.xm-back{background:none;border:0;font:600 12px var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);cursor:pointer;padding:8px 0}
+.xm-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.xm-list a{font:600 12.5px var(--label);letter-spacing:.04em;text-decoration:none;color:var(--ink);border:1px solid var(--line);padding:8px 12px;border-radius:999px;transition:background .2s,border-color .2s}
+.xm-list a:hover{border-color:var(--ink);background:#F5F3EE}
+.xm-acre{display:inline-block;margin-top:18px;font:600 12px var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+@media(max-width:980px){.xm-grid{grid-template-columns:1fr}.xm-panel{position:static}}
+@media(max-width:560px){.xm-l{font-size:17px;stroke-width:4px}.xm-l.xm-ls{display:none}.xm-l:not(.xm-lg){display:none}.xm-l.xm-lg{font-size:30px;stroke-width:6px}.xm-l.on{display:block;font-size:30px}.xm-state{font-size:24px}}
 /* ---------- Council Bluffs page ---------- */
 .crumbs{font:500 12.5px var(--label);color:rgba(255,255,255,.7);margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap}
 .crumbs a{text-decoration:none}.crumbs a:hover{color:#fff}
@@ -657,7 +698,35 @@ body{padding-bottom:calc(70px + env(safe-area-inset-bottom,0px))}
       <div class="rv"><h3>A mom-and-pop coffee shop</h3><p>Grab your coffee from a locally owned shop instead of a drive-through chain.</p></div>
       <div class="rv"><h3>A real grocery store</h3><p>Avoca has a midsize grocery store, bigger than most small-town markets and smaller than a Hy-Vee. For bigger runs, Harlan's Hy-Vee and Fareway, Atlantic and Council Bluffs are all an easy drive.</p></div>
     </div>
-  </div>
+    <style>
+    .avmedia{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:56px;max-width:880px}
+    .avmedia figure{margin:0}
+    .avmedia .frame{position:relative;border-radius:14px;overflow:hidden;background:#0B1B2B;aspect-ratio:3/4}
+    .avmedia video,.avmedia img{display:block;width:100%;height:100%;object-fit:cover}
+    .avmedia .snd{position:absolute;left:14px;bottom:14px;border:0;border-radius:999px;padding:9px 15px;background:rgba(11,27,43,.78);color:#fff;font:600 12.5px var(--label);letter-spacing:.04em;cursor:pointer}
+    .avmedia .snd:hover{background:#0B1B2B}
+    .avmedia figcaption{margin-top:12px;font-size:15px;line-height:1.55;color:#2b3442}
+    .avmedia figcaption b{display:block;font:600 11px var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+    @media(max-width:700px){.avmedia{grid-template-columns:1fr;gap:36px}}
+    </style>
+    <div class="avmedia">
+      <figure class="rv">
+        <div class="frame">
+          <video id="avMain" src="/video/avoca-main-street.mp4" poster="/img/avoca/avoca-main-street-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A slow look down Avoca's Main Street"></video>
+          <button class="snd" type="button" aria-pressed="false">Sound on</button>
+        </div>
+        <figcaption><b>Main Street, Avoca</b>Brick storefronts, angled parking and that music we mentioned. Tap "Sound on" and take a 12-second stroll.</figcaption>
+      </figure>
+      <figure class="rv">
+        <div class="frame"><img src="/img/avoca/avoca-spider-car.jpg" loading="lazy" width="900" height="1200" alt="A vintage car mounted on tall black metal spider legs, with metal animal sculptures on the lawn and grain bins behind"></div>
+        <figcaption><b>Spotted around Avoca</b>Yes, that's a vintage car with spider legs. Avoca's got personality, and we love it for that.</figcaption>
+      </figure>
+    </div>
+    <script>
+    (function(){var v=document.getElementById('avMain');if(!v)return;var b=v.parentNode.querySelector('.snd');
+    b.addEventListener('click',function(){v.muted=!v.muted;if(!v.muted){v.play();}b.textContent=v.muted?'Sound on':'Sound off';b.setAttribute('aria-pressed',String(!v.muted));});})();
+    </script>
+    </div>
 </section>
 
 <section class="band soldband" id="sold">

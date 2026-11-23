@@ -32,8 +32,6 @@
     return fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
       .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.ok) throw j; track('generate_lead', { form: form, page: PAGE }); return j; }); });
   }
-  // Carrier-approved opt-in wording (Follow Up Boss business registration). Same on every form with a phone field.
-  var CONSENT = 'I agree to be contacted by J. Leaders Realty LLC via call, email, and text for real estate services. To opt out, you can reply \'stop\' at any time or reply \'help\' for assistance. You can also click the unsubscribe link in the emails. Message and data rates may apply. Message frequency may vary. <a href="/privacy/">Privacy Policy</a> &amp; <a href="/terms/">Terms</a>.';
   var FAIL = 'That didn\'t go through. Please call or text <a href="tel:+14027738511">402.773.8511</a> and we\'ll take care of you.';
 
   // Split "123 Main St, Minden, IA 51553" into parts the estimate lookup needs
@@ -75,45 +73,8 @@
     new MutationObserver(function () { document.querySelectorAll('body>iframe:not([src])').forEach(function (f) { f.style.setProperty('display', 'none', 'important'); }); })
       .observe(document.body, { childList: true });
   }
-
-  // Main contact form for the "Let's Talk" section (carrier opt-in wording required by FUB business registration)
-  function buildContactForm() {
-    var st = document.createElement('style');
-    st.textContent = '.cform{display:grid;gap:12px;background:#fff;color:#0B1B2B;padding:24px;margin-top:10px;border-radius:2px;text-align:left}' +
-      '.cform .cf-title{font:400 24px "DM Serif Display",Georgia,serif}' +
-      '.cform .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:560px){.cform .row2{grid-template-columns:1fr}}' +
-      '.cform .field{display:flex;flex-direction:column;gap:6px}' +
-      '.cform .field label{font:600 11px Montserrat,system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6b6e73}' +
-      '.cform input:not([type=checkbox]),.cform textarea{font:400 16px Inter,system-ui,sans-serif;padding:14px;border:1px solid #CFCBC1;border-radius:2px;background:#fff;color:#0B1B2B;width:100%;box-sizing:border-box}' +
-      '.cform textarea{resize:vertical}.cform input:focus,.cform textarea:focus{outline:none;border-color:#0B1B2B;box-shadow:0 0 0 3px rgba(212,160,23,.25)}' +
-      '.cform .consent{display:flex;gap:10px;font-size:12px;color:#6b6e73;line-height:1.5;align-items:flex-start}.cform .consent input{margin-top:3px}' +
-      '.consent a{color:inherit;text-decoration:underline}' +
-      '.cform .result{border-left:2px solid #D4A017;padding:4px 0 4px 16px;font-size:14px;line-height:1.5}.cform .result b{display:block;margin-bottom:4px;font-size:18px}' +
-      '.cform .hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0}';
-    document.head.appendChild(st);
-    var talk = document.querySelector('#talk .contact');
-    if (talk && !$('contactForm')) {
-      var old = talk.querySelector('a.btn');
-      var f = document.createElement('form'); f.className = 'cform'; f.id = 'contactForm'; f.noValidate = true;
-      f.innerHTML = '<div class="cf-title">Send us a message</div>' +
-        '<div class="row2"><div class="field"><label for="cfName">Name</label><input id="cfName" autocomplete="name"></div><div class="field"><label for="cfPhone">Phone</label><input id="cfPhone" type="tel" autocomplete="tel" placeholder="402-555-0123"></div></div>' +
-        '<div class="field"><label for="cfEmail">Email</label><input id="cfEmail" type="email" autocomplete="email"></div>' +
-        '<div class="field"><label for="cfMsg">How can we help?</label><textarea id="cfMsg" rows="3" placeholder="Buying, selling, a question about a home..."></textarea></div>' +
-        '<input type="text" id="cfWebsite" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">' +
-        '<label class="consent"><input type="checkbox" id="cfOk" name="sms_consent" value="yes"> <span>' + CONSENT + '</span></label>' +
-        '<button class="btn" type="submit" id="cfBtn">Send message</button><div class="result" id="cfOut" hidden></div>';
-      if (old) talk.replaceChild(f, old); else talk.appendChild(f);
-    }
-    // Terms of Use link next to Privacy Policy in every footer
-    [].forEach.call(document.querySelectorAll('a[href="/privacy/#sms"]'), function (a) {
-      if (a.parentNode.querySelector('a[href="/terms/"]')) return;
-      var t = a.cloneNode(false); t.href = '/terms/'; t.textContent = 'Terms of Use';
-      a.parentNode.insertBefore(document.createTextNode(' · '), a.nextSibling); a.parentNode.insertBefore(t, a.nextSibling.nextSibling);
-    });
-  }
   function setup() {
     hideFubBar();
-    buildContactForm();
     /* ---- Home value form ---- */
     var vf = $('valForm');
     if (vf) {
@@ -152,7 +113,7 @@
     var mf = $('mForm');
     if (mf) {
       var ok = $('mOk');
-      if (ok && ok.parentNode) { var lab = ok.parentNode; while (ok.nextSibling) lab.removeChild(ok.nextSibling); var sp = document.createElement('span'); sp.innerHTML = CONSENT; lab.appendChild(document.createTextNode(' ')); lab.appendChild(sp); }
+      if (ok && ok.parentNode) ok.parentNode.lastChild.textContent = ' Text me too (optional). I agree to receive texts from J. Leaders Realty LLC about my request. Msg & data rates may apply. Reply STOP to opt out. Consent isn\'t required to work with us.';
       if (!$('mEmail')) addField(mf, $('mMsgWrap'), '<div class="field"><label for="mEmail">Email (optional)</label><input id="mEmail" type="email" autocomplete="email"></div>');
       mf.addEventListener('submit', function (e) {
         e.preventDefault(); e.stopImmediatePropagation();
@@ -165,25 +126,6 @@
           mf.hidden = true; done.hidden = false;
           done.innerHTML = '<b>Got it, thank you.</b>We\'ll be in touch shortly. Need us sooner? Call or text <a href="tel:+14027738511">402.773.8511</a>.';
         }).catch(function () { b.disabled = false; b.textContent = 'Try again'; done.hidden = false; done.innerHTML = FAIL; });
-      }, true);
-    }
-
-    /* ---- Main contact form (Let's Talk) ---- */
-    var cf2 = $('contactForm');
-    if (cf2) {
-      cf2.addEventListener('submit', function (e) {
-        e.preventDefault(); e.stopImmediatePropagation();
-        var out = $('cfOut'), b = $('cfBtn'), d = { name: $('cfName').value.trim(), phone: $('cfPhone').value.trim(), email: $('cfEmail').value.trim(),
-          website: $('cfWebsite').value, sms_consent: $('cfOk').checked ? 'yes' : '' }, msg = $('cfMsg').value.trim();
-        out.hidden = false;
-        if (!d.name) { out.innerHTML = '<b>Almost there</b>Add your name so we know who we\'re talking to.'; return; }
-        if (!validPhone(d.phone) && !validEmail(d.email)) { out.innerHTML = '<b>Almost there</b>Add a phone number or email so we can get back to you.'; return; }
-        d.message = 'Contact form' + (msg ? ': ' + msg : ' (no message)');
-        b.disabled = true; b.textContent = 'Sending…';
-        send('question', d).then(function () {
-          [].forEach.call(cf2.querySelectorAll('.row2,.field,.consent,#cfBtn'), function (x) { x.hidden = true; x.style.display = 'none'; });
-          out.innerHTML = '<b>Got it, thank you' + (d.name ? ', ' + esc(d.name.split(/\s+/)[0]) : '') + '.</b>A real person will get back to you shortly. Need us sooner? Call or text <a href="tel:+14027738511">402.773.8511</a>.';
-        }).catch(function () { b.disabled = false; b.textContent = 'Try again'; out.innerHTML = FAIL; });
       }, true);
     }
 
