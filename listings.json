@@ -1,5 +1,19 @@
 [
   {
+    "slug": "933-east-ridge",
+    "status": "active",
+    "address": "933 E Ridge Dr",
+    "city": "Malvern, IA",
+    "price": "$260,000",
+    "beds": 2,
+    "baths": "2.5",
+    "sqft": "2,028",
+    "tagline": "One floor. Big projects done. No HOA.",
+    "photo": "933-east-ridge/photos/01.jpg",
+    "agent": "Kris Brockhoff",
+    "added": "2026-11-22"
+  },
+  {
     "slug": "16538-burdette",
     "status": "active",
     "address": "16538 Burdette St",
