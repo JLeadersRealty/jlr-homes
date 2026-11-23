@@ -23,7 +23,14 @@ def load_rows():
     if os.path.exists("_tools/sheet.csv"):  # local testing
         text = open("_tools/sheet.csv", encoding="utf-8").read()
     else:
-        with urllib.request.urlopen(SHEET_CSV, timeout=30) as r: text = r.read().decode("utf-8")
+        try:
+            with urllib.request.urlopen(SHEET_CSV, timeout=30) as r: text = r.read().decode("utf-8")
+        except Exception as e:
+            print("Couldn't read the updates sheet (it must be shared 'Anyone with the link: Viewer'):", e)
+            return []
+        if text.lstrip().startswith("<"):
+            print("The updates sheet isn't shared 'Anyone with the link: Viewer' yet; nothing to apply.")
+            return []
     return list(csv.DictReader(io.StringIO(text)))
 
 def rid(r):
