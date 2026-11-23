@@ -1,11 +1,12 @@
 # Publishes the main website (www.jleadersrealty.org) to Cloudflare Pages project "jlr-website".
 # _website/ holds the built site. Jekyll ignores folders that start with "_", so it never shows on homes.jleadersrealty.org.
+# The "Our Listings" cards on the homepage are rebuilt from listings.json on every deploy (_tools/render_home.py).
 # Claude updates the site by dropping a zip in the "JLR Website Bundles" Drive folder and running this with its file ID.
 name: Deploy main website
 on:
   push:
     branches: [main]
-    paths: ['_website/**']
+    paths: ['_website/**', 'listings.json', '_tools/render_home.py']
   workflow_dispatch:
     inputs:
       bundles:
@@ -54,6 +55,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add _website
           git diff --cached --quiet && echo "no changes" || (git commit -qm "Website update from bundle" && git push)
+      - name: Render homepage listings from listings.json
+        run: python3 _tools/render_home.py
       - name: Safety checks
         run: |
           set -e
