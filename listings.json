@@ -11,11 +11,16 @@
     "tagline": "One floor. Big projects done. No HOA.",
     "photo": "933-east-ridge/photos/01.jpg",
     "agent": "Kris Brockhoff",
-    "added": "2026-11-22"
+    "added": "2026-11-22",
+    "home": {
+      "alt": "Front of 933 E Ridge Dr, a ranch-style townhome in Malvern, Iowa",
+      "specs": "2 beds · 2.5 baths · 2,028 sq ft · No HOA",
+      "hook": "“One floor. Big projects done.”"
+    }
   },
   {
     "slug": "16538-burdette",
-    "status": "active",
+    "status": "pending",
     "address": "16538 Burdette St",
     "city": "Omaha, NE",
     "price": "$284,900",
@@ -25,7 +30,12 @@
     "tagline": "Everyone ends up on the deck.",
     "photo": "16538-burdette/photos/01.jpg",
     "agent": "Jamie Leaders",
-    "added": "2026-11-17"
+    "added": "2026-11-17",
+    "home": {
+      "img": "/img/c3d2fda5ee53.jpg",
+      "alt": "Aerial view of 16538 Burdette St on a corner lot in fall",
+      "status_pill": "Under Contract · Backups Welcome"
+    }
   },
   {
     "slug": "201-main-minden",
@@ -40,7 +50,13 @@
     "tagline": "Small building. Big head start.",
     "photo": "201-main-minden/photos/01.jpg",
     "agent": "Jamie Leaders",
-    "added": "2026-11-17"
+    "added": "2026-11-17",
+    "home": {
+      "pill": "Commercial",
+      "img": "/img/805386eebcbf.jpg",
+      "alt": "Front of 201 Main St, a small white commercial building in Minden",
+      "specs": "444 sq ft · Main Street frontage"
+    }
   },
   {
     "slug": "203-2nd-st",
@@ -55,7 +71,14 @@
     "tagline": "Investment package. Seven doors, one deal.",
     "photo": "203-2nd-st/photos/01-front.jpg",
     "agent": "Jamie Leaders",
-    "added": "2026-11-16"
+    "added": "2026-11-16",
+    "home": {
+      "pill": "Investment Package",
+      "img": "/img/d273973b3cfe.jpg",
+      "alt": "203 2nd St in Minden at dusk (virtual twilight)",
+      "vt": true,
+      "specs": "6-unit building + a 3 bed, 1 bath house next door · sold together"
+    }
   },
   {
     "slug": "505-brady",
@@ -69,6 +92,20 @@
     "tagline": "New construction. Nobody's lived here yet.",
     "photo": "https://res.cloudinary.com/placester/image/upload/c_fill,w_1200,h_800,q_auto,f_auto/v1/inception-app-prod/N2QyNzhhYzItMjU5NC00N2U2LWEzYTQtYTUxZDY1MTRmMjAx/content/2026/11/bf13e85bbf863b0127c928798891bd98ff974e2e.jpg",
     "agent": "Jamie Leaders",
-    "added": "2026-11-16"
+    "added": "2026-11-16",
+    "home": {
+      "pill": "New Construction",
+      "img": [
+        "/img/008302c39caa.jpg",
+        "/img/a8b10c9d24cb.jpg",
+        "/img/2f7181d72ef0.jpg"
+      ],
+      "alt": [
+        "Kitchen peninsula with bar seating and pendant lights at 505 Brady St",
+        "Primary bath with double vanity and arched mirrors",
+        "Bedroom with a window looking out to open fields"
+      ],
+      "hook": "Brand-new ranch with field views out back"
+    }
   }
 ]
