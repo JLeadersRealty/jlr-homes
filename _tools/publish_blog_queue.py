@@ -56,7 +56,8 @@ def slugify(t): return re.sub(r"-+", "-", re.sub(r"[^a-z0-9]+", "-", t.lower()))
 def md_to_html(md):
     import markdown
     if md.lstrip().startswith("<"):  # already HTML (e.g. imported from the old AiM feed)
-        out = re.sub(r"<h1[^>]*>.*?</h1>", "", md, count=1, flags=re.S)
+        out = re.sub(r"</?(article|main|body|html)[^>]*>", "", md, flags=re.I)
+        out = re.sub(r"<h1[^>]*>.*?</h1>", "", out, count=1, flags=re.S)
         out = re.sub(r"<(script|iframe|style)[^>]*>.*?</\1>", "", out, flags=re.S | re.I)
         out = re.sub(r"<h2[^>]*>", "<h2>", out); out = re.sub(r"<h3[^>]*>", "<h3>", out)
         return _finish(out)
@@ -278,6 +279,15 @@ def main():
         log.append({"id": i, "at": now(), "slug": r.get("Slug"), "date": r.get("Publish date"), "result": res, "reason": why})
         print(f"{res}: {r.get('Slug')} ({r.get('Publish date')}) {why}")
         n += res == "published"
+    # tidy: older imported pages may carry a second <article> wrapper from the AiM feed
+    for e in log:
+        f = f"{ROOT}/{e.get('slug')}/index.html"
+        if e["result"] == "published" and os.path.exists(f):
+            s = open(f, encoding="utf-8").read()
+            t = re.sub(r'(<article class="prose">\s*)<article>', r"\1", s)
+            if t != s:
+                t = re.sub(r"</article>(\s*</article>)", r"\1", t, count=1)
+                open(f, "w", encoding="utf-8").write(t); print("tidied", e["slug"])
     json.dump(log[-1000:], open(LOG, "w", encoding="utf-8"), indent=1, ensure_ascii=False)
     print(f"Done. {n} published.")
 
