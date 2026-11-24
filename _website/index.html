@@ -489,6 +489,13 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.1);padding
 .xm-acre{display:inline-block;margin-top:18px;font:600 12px var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
 @media(max-width:980px){.xm-grid{grid-template-columns:1fr}.xm-panel{position:static}}
 @media(max-width:560px){.xm-l{font-size:17px;stroke-width:4px}.xm-l.xm-ls{display:none}.xm-l:not(.xm-lg){display:none}.xm-l.xm-lg{font-size:30px;stroke-width:6px}.xm-l.on{display:block;font-size:30px}.xm-state{font-size:24px}}
+
+/* phone: swipe rows for listings + team (2026-11-24) */
+@media (max-width:760px){
+#homes .listings,#team .agents{display:flex!important;grid-template-columns:none!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;padding:4px 20px 16px;margin-left:-20px;margin-right:-20px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+#homes .listings::-webkit-scrollbar,#team .agents::-webkit-scrollbar{display:none}
+#homes .listings>*,#team .agents>*{flex:0 0 84%;scroll-snap-align:center;min-width:0;margin:0!important}
+}
 </style>
 <meta name="theme-color" content="#0B1B2B">
 <link rel="manifest" href="/manifest.webmanifest">
@@ -543,7 +550,7 @@ body{padding-bottom:calc(70px + env(safe-area-inset-bottom,0px))}
       <a href="#quiz">Ready to Sell?</a>
       <a href="#team">Our Team</a>
       <a href="#faq" class="navfaq">FAQ</a>
-      <a href="#towns">Communities</a>
+      <a href="#explore">Communities</a>
       <a href="/our-blog/">Blog</a>
     </nav>
     
@@ -580,6 +587,7 @@ body{padding-bottom:calc(70px + env(safe-area-inset-bottom,0px))}
   </div>
 </section>
 
+<span id="towns" aria-hidden="true"></span>
 <section class="band xmap" id="explore" aria-label="Explore our area">
   <div class="wrap">
     <div class="head">
@@ -1261,39 +1269,6 @@ body{padding-bottom:calc(70px + env(safe-area-inset-bottom,0px))}
   </div>
 </section>
 
-<section class="band stoneband" id="towns">
-  <div class="wrap">
-    <div class="head">
-      <div>
-        <div class="label rv"><span class="dot"></span>Where We Work</div>
-        <h2 class="rv">The metro, small towns and acreages</h2>
-      </div>
-      <p class="lede rv" style="max-width:40ch">We live here too. Start with a local guide: what it's like to live there, what we've sold and what homes are worth.</p>
-    </div>
-    <div class="guides">
-      <a class="guide rv" href="/communities/council-bluffs/"><div class="gimg"><img src="/img/1707fb3286c9.jpg" alt="Council Bluffs" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Council Bluffs</b><small>Luxury homes, Loess Hills acreages and a monthly market snapshot</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/omaha-metro/"><div class="gimg"><img src="/img/f0f3d553abf2.jpg" alt="Omaha Metro" loading="lazy"></div><div class="gtxt"><span class="gst">Nebraska · Guide</span><b>Omaha Metro</b><small>Omaha, Elkhorn, Papillion, La Vista, Gretna &amp; Bellevue</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/minden/"><div class="gimg"><img src="/img/fad4927ae4f8.jpg" alt="Minden" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Minden</b><small>New construction, acreages and a town that rebuilds</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/neola/"><div class="gimg"><img src="/img/518cd9cb9d6d.jpg" alt="Neola" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Neola</b><small>Family neighborhoods, Meyering Addition and Tri-Center</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/avoca/"><div class="gimg"><img src="/img/c77c4d29f8fb.jpg" alt="Avoca" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Avoca</b><small>Music on Main Street, a pool, farmers markets and AHSTW</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/underwood/"><div class="gimg"><img src="/img/1ae709a2398b.jpg" alt="Underwood" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Underwood</b><small>Small town on I-80, acreages in the Loess Hills and a big Fourth of July</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/shelby/"><div class="gimg"><img src="/img/ba519aa1d960.jpg" alt="Shelby" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Our Home Base</span><b>Shelby</b><small>A brick Main Street, Carstens Farm Days and I-80 at the edge of town</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/persia/"><div class="gimg"><img src="/img/9c273956aaf8.jpg" alt="Persia" loading="lazy" style="object-position:30% 50%"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Persia</b><small>Tri-Center schools, a Main Street that ends at the fields and country properties</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/harlan/"><div class="gimg"><img src="/img/665370eb0662.jpg" alt="Harlan" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Harlan</b><small>The Shelby County seat, Prairie Rose and a hometown agent with a different playbook</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/walnut/"><div class="gimg"><img src="/img/fecc2f3ecc76.jpg" alt="Walnut" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Walnut</b><small>Iowa's Antique City: brick streets, the June antique show and I-80 at Exit 46</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/treynor/"><div class="gimg"><img src="/img/d68a723dbe19.jpg" alt="Treynor" loading="lazy" style="object-position:center 62%"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Treynor</b><small>Cardinal pride, Treynor Days and country all around, just east of Council Bluffs</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/missouri-valley/"><div class="gimg"><img src="/img/44adf51a0df8.jpg" alt="Missouri Valley" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Missouri Valley</b><small>DeSoto refuge, the Loess Hills and I-29 to Omaha in about 30 minutes</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/glenwood/"><div class="gimg"><img src="/img/523b96e8aec8.jpg" alt="Glenwood" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Glenwood</b><small>The Mills County seat: a courthouse square, a lake park and Omaha in under 30</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/carter-lake/"><div class="gimg"><img src="/img/8ade32bb3002.jpg" alt="Carter Lake" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Carter Lake</b><small>Iowa on the Nebraska side of the river: lakefront homes minutes from downtown Omaha</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/crescent/"><div class="gimg"><img src="/img/e73a30ead9d8.jpg" alt="Crescent" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Crescent</b><small>Honey Creek, Hitchcock and Loess Hills acreages across the bridge from Omaha</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/logan/"><div class="gimg"><img src="/img/5c2f3d98f9d0.jpg" alt="Logan" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Logan</b><small>The Harrison County seat on the Lincoln Highway, with Lo-Ma Panthers pride</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv" href="/communities/malvern/"><div class="gimg"><img src="/img/f5eed7ca825a.jpg" alt="Malvern" loading="lazy"></div><div class="gtxt"><span class="gst">Iowa · Guide</span><b>Malvern</b><small>A Mills County town on the Wabash Trace, home of the county fair</small><span class="go">Explore <span>→</span></span></div></a>
-      <a class="guide rv tfull" href="/acreages/"><div class="gimg"><img src="/img/85d2bc129ed6.jpg" alt="Acreages" loading="lazy"></div><div class="gtxt"><span class="gst">Western Iowa · Guide</span><b>Acreages</b><small>The 12-point checklist before you buy land</small><span class="go">Explore <span>→</span></span></div></a>
-    </div>
-    <p class="also rv"><b>Also serving</b>Okoboji · and acreages across Pottawattamie, Harrison, Shelby, Mills &amp; Cass counties</p>
-    </div>
-</section>
-
 <section class="band" id="about">
   <div class="wrap about">
     <div class="rv">
@@ -1405,9 +1380,10 @@ body{padding-bottom:calc(70px + env(safe-area-inset-bottom,0px))}
 <footer>
   <div class="wrap">
     <div><img src="/img/62f2dbae1dba.svg" alt="J. Leaders Realty"><p style="margin-top:14px">Serving western Iowa and the Omaha metro.</p></div>
-    <div><b>Explore</b><a href="#homes">Homes for Sale</a><br><a href="#value">Home Value</a><br><a href="#quiz">Ready to Sell Quiz</a><br><a href="#towns">Communities</a></div>
+    <div><b>Explore</b><a href="#homes">Homes for Sale</a><br><a href="#value">Home Value</a><br><a href="#quiz">Ready to Sell Quiz</a><br><a href="#explore">Communities</a></div>
     <div><b>Contact</b>402.773.8511<br>jamie@jleadersrealty.org<br>3396 Waverly Ave, Shelby, IA 51570<br>Licensed in Iowa &amp; Nebraska<span style="display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:14px"><a href="https://www.instagram.com/jleadersrealty/" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">Instagram</a><a href="https://www.facebook.com/profile.php?id=61560753417800" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">Facebook</a><a href="https://www.tiktok.com/@jleadersrealty" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">TikTok</a><a href="https://www.youtube.com/@JamieLeaders" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">YouTube</a><a href="https://share.google/I27w3H8i5Ffjr2v86" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">Google</a><a href="https://www.zillow.com/profile/Jamie771" target="_blank" rel="noopener" style="font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase">Zillow</a></span></div>
-    <div class="legal">J. Leaders Realty LLC · Main office: Shelby, IA · Iowa firm license F06561000 · Nebraska firm license 20230475 · Jamie Leaders, Broker/Owner, IA B63469000, NE 20230475. Equal Housing Opportunity. © 2026 J. Leaders Realty LLC. <a href="/privacy/" style="text-decoration:underline">Privacy Policy</a> · <a href="/privacy/#sms" style="text-decoration:underline">Text Message Terms</a></div>
+    <p class="ftowns" style="grid-column:1/-1;margin:8px 0 0;font-size:13px;line-height:1.9;opacity:.85">Communities we serve: <a href="/communities/council-bluffs/">Council Bluffs</a> · <a href="/communities/omaha-metro/">Omaha Metro</a> · <a href="/communities/carter-lake/">Carter Lake</a> · <a href="/communities/crescent/">Crescent</a> · <a href="/communities/treynor/">Treynor</a> · <a href="/communities/glenwood/">Glenwood</a> · <a href="/communities/malvern/">Malvern</a> · <a href="/communities/underwood/">Underwood</a> · <a href="/communities/neola/">Neola</a> · <a href="/communities/minden/">Minden</a> · <a href="/communities/avoca/">Avoca</a> · <a href="/communities/walnut/">Walnut</a> · <a href="/communities/shelby/">Shelby</a> · <a href="/communities/persia/">Persia</a> · <a href="/communities/logan/">Logan</a> · <a href="/communities/missouri-valley/">Missouri Valley</a> · <a href="/communities/harlan/">Harlan</a> · <a href="/acreages/">Acreages</a></p>
+<div class="legal">J. Leaders Realty LLC · Main office: Shelby, IA · Iowa firm license F06561000 · Nebraska firm license 20230475 · Jamie Leaders, Broker/Owner, IA B63469000, NE 20230475. Equal Housing Opportunity. © 2026 J. Leaders Realty LLC. <a href="/privacy/" style="text-decoration:underline">Privacy Policy</a> · <a href="/privacy/#sms" style="text-decoration:underline">Text Message Terms</a> <a href="/terms/">Terms of Use</a></div>
   </div>
 </footer>
 
