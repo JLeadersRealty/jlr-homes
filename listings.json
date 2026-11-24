@@ -1,129 +1,129 @@
 [
- {
-  "slug": "103-washington",
-  "status": "active",
-  "address": "103 W Washington St",
-  "city": "Avoca, IA",
-  "price": "$114,900",
-  "beds": 2,
-  "baths": "1",
-  "sqft": "900",
-  "tagline": "Everything on one floor.",
-  "photo": "https://homes.jleadersrealty.org/103-washington/photos/01.jpg",
-  "agent": "Harlie Leaders",
-  "added": "2026-11-24",
-  "home": {
-   "alt": "103 W Washington St, a one-level home on a corner lot in Avoca, Iowa",
-   "specs": "2 beds · 1 bath · 900 sq ft · .28-acre corner lot"
+  {
+    "slug": "103-washington",
+    "status": "active",
+    "address": "103 W Washington St",
+    "city": "Avoca, IA",
+    "price": "$114,900",
+    "beds": 2,
+    "baths": "1",
+    "sqft": "900",
+    "tagline": "Everything on one floor.",
+    "photo": "https://homes.jleadersrealty.org/103-washington/photos/01.jpg",
+    "agent": "Harlie Leaders",
+    "added": "2026-11-24",
+    "home": {
+      "alt": "103 W Washington St, a one-level home on a corner lot in Avoca, Iowa",
+      "specs": "2 beds · 1 bath · 900 sq ft · .28-acre corner lot"
+    }
+  },
+  {
+    "slug": "933-east-ridge",
+    "status": "active",
+    "address": "933 E Ridge Dr",
+    "city": "Malvern, IA",
+    "price": "$260,000",
+    "beds": 2,
+    "baths": "2.5",
+    "sqft": "2,028",
+    "tagline": "One floor. Big projects done. No HOA.",
+    "photo": "933-east-ridge/photos/01.jpg",
+    "agent": "Kris Brockhoff",
+    "added": "2026-11-22",
+    "home": {
+      "alt": "Front of 933 E Ridge Dr, a ranch-style townhome in Malvern, Iowa",
+      "specs": "2 beds · 2.5 baths · 2,028 sq ft · No HOA",
+      "hook": "“One floor. Big projects done.”"
+    }
+  },
+  {
+    "slug": "16538-burdette",
+    "status": "pending",
+    "address": "16538 Burdette St",
+    "city": "Omaha, NE",
+    "price": "$284,900",
+    "beds": 3,
+    "baths": "1.75",
+    "sqft": "1,389",
+    "tagline": "Everyone ends up on the deck.",
+    "photo": "16538-burdette/photos/01.jpg",
+    "agent": "Jamie Leaders",
+    "added": "2026-11-17",
+    "home": {
+      "img": "/img/c3d2fda5ee53.jpg",
+      "alt": "Aerial view of 16538 Burdette St on a corner lot in fall",
+      "status_pill": "Under Contract · Backups Welcome"
+    }
+  },
+  {
+    "slug": "201-main-minden",
+    "status": "active",
+    "address": "201 Main St",
+    "city": "Minden, IA",
+    "price": "$63,000",
+    "beds": "",
+    "baths": "",
+    "sqft": "444",
+    "meta": "Commercial · 444 sq ft · Main Street",
+    "tagline": "Small building. Big head start.",
+    "photo": "201-main-minden/photos/01.jpg",
+    "agent": "Jamie Leaders",
+    "added": "2026-11-17",
+    "home": {
+      "pill": "Commercial",
+      "img": "/img/805386eebcbf.jpg",
+      "alt": "Front of 201 Main St, a small white commercial building in Minden",
+      "specs": "444 sq ft · Main Street frontage"
+    }
+  },
+  {
+    "slug": "203-2nd-st",
+    "status": "active",
+    "address": "203 2nd St + 302 Lincoln St",
+    "city": "Minden, IA",
+    "price": "$414,900",
+    "beds": "",
+    "baths": "",
+    "sqft": "",
+    "meta": "6-unit apartments + house next door · 7 doors",
+    "tagline": "Investment package. Seven doors, one deal.",
+    "photo": "203-2nd-st/photos/01-front.jpg",
+    "agent": "Jamie Leaders",
+    "added": "2026-11-16",
+    "home": {
+      "pill": "Investment Package",
+      "img": "/img/d273973b3cfe.jpg",
+      "alt": "203 2nd St in Minden at dusk (virtual twilight)",
+      "vt": true,
+      "specs": "6-unit building + a 3 bed, 1 bath house next door · sold together"
+    }
+  },
+  {
+    "slug": "505-brady",
+    "status": "active",
+    "address": "505 Brady St",
+    "city": "Minden, IA",
+    "price": "$349,900",
+    "beds": 3,
+    "baths": "1.75",
+    "sqft": "1,471",
+    "tagline": "New construction. Nobody's lived here yet.",
+    "photo": "https://res.cloudinary.com/placester/image/upload/c_fill,w_1200,h_800,q_auto,f_auto/v1/inception-app-prod/N2QyNzhhYzItMjU5NC00N2U2LWEzYTQtYTUxZDY1MTRmMjAx/content/2026/11/bf13e85bbf863b0127c928798891bd98ff974e2e.jpg",
+    "agent": "Jamie Leaders",
+    "added": "2026-11-16",
+    "home": {
+      "pill": "New Construction",
+      "img": [
+        "/img/008302c39caa.jpg",
+        "/img/a8b10c9d24cb.jpg",
+        "/img/2f7181d72ef0.jpg"
+      ],
+      "alt": [
+        "Kitchen peninsula with bar seating and pendant lights at 505 Brady St",
+        "Primary bath with double vanity and arched mirrors",
+        "Bedroom with a window looking out to open fields"
+      ],
+      "hook": "Brand-new ranch with field views out back"
+    }
   }
- },
- {
-  "slug": "933-east-ridge",
-  "status": "active",
-  "address": "933 E Ridge Dr",
-  "city": "Malvern, IA",
-  "price": "$260,000",
-  "beds": 2,
-  "baths": "2.5",
-  "sqft": "2,028",
-  "tagline": "One floor. Big projects done. No HOA.",
-  "photo": "933-east-ridge/photos/01.jpg",
-  "agent": "Kris Brockhoff",
-  "added": "2026-11-22",
-  "home": {
-   "alt": "Front of 933 E Ridge Dr, a ranch-style townhome in Malvern, Iowa",
-   "specs": "2 beds · 2.5 baths · 2,028 sq ft · No HOA",
-   "hook": "“One floor. Big projects done.”"
-  }
- },
- {
-  "slug": "16538-burdette",
-  "status": "pending",
-  "address": "16538 Burdette St",
-  "city": "Omaha, NE",
-  "price": "$284,900",
-  "beds": 3,
-  "baths": "1.75",
-  "sqft": "1,389",
-  "tagline": "Everyone ends up on the deck.",
-  "photo": "16538-burdette/photos/01.jpg",
-  "agent": "Jamie Leaders",
-  "added": "2026-11-17",
-  "home": {
-   "img": "/img/c3d2fda5ee53.jpg",
-   "alt": "Aerial view of 16538 Burdette St on a corner lot in fall",
-   "status_pill": "Under Contract · Backups Welcome"
-  }
- },
- {
-  "slug": "201-main-minden",
-  "status": "active",
-  "address": "201 Main St",
-  "city": "Minden, IA",
-  "price": "$63,000",
-  "beds": "",
-  "baths": "",
-  "sqft": "444",
-  "meta": "Commercial · 444 sq ft · Main Street",
-  "tagline": "Small building. Big head start.",
-  "photo": "201-main-minden/photos/01.jpg",
-  "agent": "Jamie Leaders",
-  "added": "2026-11-17",
-  "home": {
-   "pill": "Commercial",
-   "img": "/img/805386eebcbf.jpg",
-   "alt": "Front of 201 Main St, a small white commercial building in Minden",
-   "specs": "444 sq ft · Main Street frontage"
-  }
- },
- {
-  "slug": "203-2nd-st",
-  "status": "active",
-  "address": "203 2nd St + 302 Lincoln St",
-  "city": "Minden, IA",
-  "price": "$414,900",
-  "beds": "",
-  "baths": "",
-  "sqft": "",
-  "meta": "6-unit apartments + house next door · 7 doors",
-  "tagline": "Investment package. Seven doors, one deal.",
-  "photo": "203-2nd-st/photos/01-front.jpg",
-  "agent": "Jamie Leaders",
-  "added": "2026-11-16",
-  "home": {
-   "pill": "Investment Package",
-   "img": "/img/d273973b3cfe.jpg",
-   "alt": "203 2nd St in Minden at dusk (virtual twilight)",
-   "vt": true,
-   "specs": "6-unit building + a 3 bed, 1 bath house next door · sold together"
-  }
- },
- {
-  "slug": "505-brady",
-  "status": "active",
-  "address": "505 Brady St",
-  "city": "Minden, IA",
-  "price": "$349,900",
-  "beds": 3,
-  "baths": "1.75",
-  "sqft": "1,471",
-  "tagline": "New construction. Nobody's lived here yet.",
-  "photo": "https://res.cloudinary.com/placester/image/upload/c_fill,w_1200,h_800,q_auto,f_auto/v1/inception-app-prod/N2QyNzhhYzItMjU5NC00N2U2LWEzYTQtYTUxZDY1MTRmMjAx/content/2026/11/bf13e85bbf863b0127c928798891bd98ff974e2e.jpg",
-  "agent": "Jamie Leaders",
-  "added": "2026-11-16",
-  "home": {
-   "pill": "New Construction",
-   "img": [
-    "/img/008302c39caa.jpg",
-    "/img/a8b10c9d24cb.jpg",
-    "/img/2f7181d72ef0.jpg"
-   ],
-   "alt": [
-    "Kitchen peninsula with bar seating and pendant lights at 505 Brady St",
-    "Primary bath with double vanity and arched mirrors",
-    "Bedroom with a window looking out to open fields"
-   ],
-   "hook": "Brand-new ranch with field views out back"
-  }
- }
 ]
