@@ -1,0 +1,47 @@
+# Publishes blog posts from the "JLR Blog Queue" Google Sheet onto www.jleadersrealty.org
+# (replaces AiM Blog Engine and Placester). Claude's weekly blog writer adds rows; this builds
+# every "Ready" row once, then redeploys the site. Future-dated posts go live at midnight Central
+# on their date without another run. Runs every hour; can also be run by hand.
+# One-time: "Run workflow" with an AiM feed address (+ optional comma-separated slugs) imports old AiM posts.
+name: Blog queue
+on:
+  schedule:
+    - cron: '41 * * * *'
+  workflow_dispatch:
+    inputs:
+      aim_feed:
+        description: 'One-time import: AiM blog feed address (leave blank for the normal sheet run)'
+        required: false
+        default: ''
+      aim_slugs:
+        description: 'Only these AiM slugs, comma separated (blank = all)'
+        required: false
+        default: ''
+permissions:
+  contents: write
+  actions: write
+concurrency: blog-queue
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      BLOG_SHEET_CSV: https://docs.google.com/spreadsheets/d/1oNMrgtM77I7xw16JmWqTe71LkPNCpCMtUsssbAvi7gE/export?format=csv&gid=0
+      AIM_FEED: ${{ github.event.inputs.aim_feed }}
+      AIM_SLUGS: ${{ github.event.inputs.aim_slugs }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install helpers
+        run: pip install -q markdown pillow
+      - name: Publish ready posts
+        run: python3 _tools/publish_blog_queue.py
+      - name: Save and redeploy
+        run: |
+          set -e
+          git config user.name "jlr-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A _website _tools/blog-queue-log.json _tools/blog-post-template.html
+          if git diff --cached --quiet; then echo "No new posts"; exit 0; fi
+          git commit -qm "Blog posts from the queue"
+          git pull --rebase -q && git push
+          gh workflow run website-deploy.yml
