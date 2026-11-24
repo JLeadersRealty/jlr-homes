@@ -27,6 +27,14 @@ for dp,dn,fn in os.walk(root):
   else: c='Blog'
   out.append({'u':u,'t':ti or h1,'d':clean(meta.get('description',''))[:170],'k':h1 if h1 and h1!=ti else '','c':c})
 out.sort(key=lambda x:x['u'])
+# Scheduled blog posts (SCHED in _worker.js) carry their go-live date so search hides them until then
+sched={}
+try:
+  wm=re.search(r'const SCHED\s*=\s*(\{.*?\});',open(os.path.join(root,'_worker.js'),encoding='utf-8').read())
+  if wm: sched=json.loads(wm.group(1))
+except Exception as e: print('SCHED not read:',e)
+for x in out:
+  if x['u'] in sched: x['p']=sched[x['u']]
 json.dump(out,open(os.path.join(root,'search-index.json'),'w',encoding='utf-8'),ensure_ascii=False,separators=(',',':'))
 print(len(out),'pages in site search index')
 # Add any indexable page that's missing from sitemap.xml (adds only, never removes)
@@ -35,7 +43,7 @@ sp=os.path.join(root,'sitemap.xml')
 if os.path.exists(sp):
   sm=open(sp,encoding='utf-8').read()
   have=set(re.findall(r'<loc>https?://[^/<]+(/[^<]*)</loc>',sm))
-  miss=[x['u'] for x in out if x['u'] not in have]
+  miss=[x['u'] for x in out if x['u'] not in have and x['u'] not in sched]
   if miss and '</urlset>' in sm:
     today=datetime.date.today().isoformat()
     add=''.join('  <url><loc>https://www.jleadersrealty.org%s</loc><lastmod>%s</lastmod></url>\n'%(u,today) for u in miss)
