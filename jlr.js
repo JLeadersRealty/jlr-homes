@@ -72,7 +72,7 @@
     document.head.appendChild(css);
     var bar = document.createElement('div'); bar.className = 'jlr-bar';
     bar.innerHTML = '<div class="who"><b>' + D.agent + '</b><span>Listing agent · ' + (D.agentPhone || '') + '</span></div>' +
-      '<a href="tel:+14027738511">Call</a><a class="alt" href="sms:+14027738511">Text</a>';
+      '<a href="tel:+14027738511">Call</a><a class="alt" href="sms:+1' + (String(D.agentPhone || '').replace(/\D/g, '').slice(-10) || '4023066255') + '">Text</a>';
     document.body.appendChild(bar);
     var show = function () { bar.classList.toggle('on', scrollY > innerHeight * 0.8); };
     addEventListener('scroll', show, { passive: true }); show();
@@ -265,7 +265,7 @@
           })
           .catch(function () {
             btn.disabled = false; btn.textContent = 'Try again';
-            msg.textContent = 'That didn\'t go through. Please call or text 402.773.8511 and we\'ll get you taken care of.';
+            msg.textContent = 'That didn\'t go through. Please call 402.773.8511 or text 402.306.6255 and we\'ll get you taken care of.';
           });
       });
     });
