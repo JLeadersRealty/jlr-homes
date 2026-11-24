@@ -29,3 +29,15 @@ for dp,dn,fn in os.walk(root):
 out.sort(key=lambda x:x['u'])
 json.dump(out,open(os.path.join(root,'search-index.json'),'w',encoding='utf-8'),ensure_ascii=False,separators=(',',':'))
 print(len(out),'pages in site search index')
+# Add any indexable page that's missing from sitemap.xml (adds only, never removes)
+import datetime
+sp=os.path.join(root,'sitemap.xml')
+if os.path.exists(sp):
+  sm=open(sp,encoding='utf-8').read()
+  have=set(re.findall(r'<loc>https?://[^/<]+(/[^<]*)</loc>',sm))
+  miss=[x['u'] for x in out if x['u'] not in have]
+  if miss and '</urlset>' in sm:
+    today=datetime.date.today().isoformat()
+    add=''.join('  <url><loc>https://www.jleadersrealty.org%s</loc><lastmod>%s</lastmod></url>\n'%(u,today) for u in miss)
+    open(sp,'w',encoding='utf-8').write(sm.replace('</urlset>',add+'</urlset>',1))
+    print('added to sitemap:',', '.join(miss))
