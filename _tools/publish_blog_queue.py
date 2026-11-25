@@ -150,7 +150,7 @@ def build_page(r, body_html, heads, img):
     mins = max(2, round(words / 230))
     graph = [
         {"@type": ["RealEstateAgent", "LocalBusiness"], "@id": f"{SITE}/#org", "name": "J. Leaders Realty", "url": f"{SITE}/", "telephone": "+1-402-773-8511", "slogan": "Lead Different."},
-        {"@type": "Person", "@id": f"{SITE}/#jamie", "name": "Jamie Leaders", "jobTitle": "Broker/Owner", "telephone": "+1-402-306-6255", "worksFor": {"@id": f"{SITE}/#org"}, "url": f"{SITE}/#team"},
+        {"@type": "Person", "@id": f"{SITE}/#jamie", "name": "Jamie Leaders", "jobTitle": "Broker/Owner", "telephone": "+1-402-773-8511", "worksFor": {"@id": f"{SITE}/#org"}, "url": f"{SITE}/#team"},
         {"@type": "BlogPosting", "@id": url + "#post", "headline": title, "description": desc, "url": url, "mainEntityOfPage": url,
          "datePublished": pub, "dateModified": pub, "author": {"@id": f"{SITE}/#jamie"}, "publisher": {"@id": f"{SITE}/#org"},
          "articleSection": topic, "wordCount": words, "isPartOf": {"@type": "Blog", "@id": f"{SITE}/our-blog/#blog", "name": "J. Leaders Realty Blog"},
@@ -244,7 +244,7 @@ def aim_rows(feed_url, slugs):
             mm = re.search(r'<img[^>]+src="([^"]+)"', desc_html + body); img = html.unescape(mm.group(1)) if mm else ""
         body = re.sub(r'^\s*(?:<p>\s*)?<img[^>]*>(?:\s*</p>)?', "", body, count=1)
         desc = html.unescape(re.sub(r"\s+", " ", re.sub("<[^>]+>", " ", desc_html))).strip()[:300]
-        body = body.replace("402.306.6255", "402.773.8511") if "402.773.8511" not in body else body
+        body = body.replace("sms:+14023066255", "sms:+14027738511").replace("tel:+14023066255", "tel:+14027738511").replace("402.306.6255", "402.773.8511")
         low = (it.findtext("title") or "").lower() + " " + slug
         topic = ("Acreage" if re.search(r"acreage|land|rural", low) else "Investing" if re.search(r"rental|invest|data-center", low)
                  else "Selling" if re.search(r"sell|pric|offer|apprais|disclos|underwater", low) else "Buying")
