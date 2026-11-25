@@ -1,0 +1,33 @@
+# One-time follow-up (11/25): forms.js swaps the first a.btn in #talk .contact for the contact form,
+# which was eating the new "Text us" button. Wrap it so the button keeps its look but isn't an a.btn. Run once by hand.
+name: Text us button fix (one-time)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rewrap Text us button
+        run: |
+          OLD='<a class="btn light" href="sms:+14027738511" style="margin-right:10px">Text us</a>'
+          NEW='<a href="sms:+14027738511" style="display:block;text-decoration:none"><span class="btn light">Text us</span></a>'
+          FILES=$(grep -rlF "$OLD" _website _tools || true)
+          echo "$FILES" | wc -l
+          for f in $FILES; do python3 -c "import sys,pathlib; p=pathlib.Path(sys.argv[1]); p.write_text(p.read_text(encoding='utf-8').replace(sys.argv[2], sys.argv[3]), encoding='utf-8')" "$f" "$OLD" "$NEW"; done
+          if grep -rqF "$OLD" _website _tools; then echo "old button still present"; exit 1; fi
+      - name: Save and redeploy
+        run: |
+          set -e
+          git config user.name "jlr-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "Nothing to change"; exit 0; fi
+          git commit -qm "Keep the Text us button visible next to the contact form"
+          git pull --rebase -q && git push
+          gh workflow run website-deploy.yml
