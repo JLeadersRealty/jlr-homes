@@ -1,0 +1,81 @@
+# One-time update (11/25): 402.773.8511 is now JLR's public call-AND-text line (FUB texting carrier-approved 11/25/2026).
+# Removes 402.306.6255 from jleadersrealty.org (_website + blog tools), adds Text us buttons, links every 402.773.8511.
+# Leaves /privacy/ and /terms/ untouched, and leaves the listing sites (homes.jleadersrealty.org) alone. Run once by hand.
+name: Office call-and-text number (one-time)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update phone numbers
+        run: |
+          cat > /tmp/fix.js <<'JSEOF'
+          function fix(p, s) {
+            if (/(^|\/)(privacy|terms)\//.test(p)) return s;
+            const TEL = '<a href="tel:+14027738511">402.773.8511</a>';
+            const SMSBTN = '<a class="btn light" href="sms:+14027738511" style="margin-right:10px">Text us</a>';
+            const FTEXT = '<a href="sms:+14027738511" style="display:inline-block;margin:6px 0 4px;padding:5px 14px;border:1px solid currentColor;border-radius:999px;font-weight:600">Text us</a>';
+            const FAQ = 'Call or text the office at 402.773.8511, or send a note through the contact form.';
+            // 1. Homepage FAQ (HTML + FAQPage JSON-LD)
+            s = s.replace(/Call the office at 402\.773\.8511, call or text Broker\/Owner Jamie Leaders directly at 402\.306\.6255, or email jamie@jleadersrealty\.org\. We(?:'|&#x27;)re based in Shelby, Iowa\./g, FAQ);
+            // 2. Homepage contact section
+            s = s.replace(/<div class="line"><span>Office<\/span><span>402\.773\.8511<\/span><\/div>\s*<div class="line"><span>Jamie, direct<\/span><span>402\.306\.6255<\/span><\/div>/g,
+              '<div class="line"><span>Office (call or text)</span><a href="tel:+14027738511" style="color:inherit">402.773.8511</a></div>');
+            s = s.replace(/(<div class="contact rv">[\s\S]*?)(<a class="btn light" href="#value">Send a message<\/a>)/, (m, a, b) => a.includes('sms:+14027738511') ? m : a + SMSBTN + b);
+            // 3. "Let's Talk" panel (communities, blog, blog template, etc.)
+            s = s.replace(/<div class="line"><span>Jamie Leaders<\/span><a href="tel:\+14023066255">402\.306\.6255<\/a><\/div>\s*/g, '');
+            s = s.replace(/<div class="line"><span>Office<\/span><a href="tel:\+14027738511">402\.773\.8511<\/a><\/div>(\s*)(<button type="button" class="btn light" data-modal="ask")/g,
+              '<div class="line"><span>Office (call or text)</span><a href="tel:+14027738511">402.773.8511</a></div>$1' + SMSBTN + '$2');
+            // 4. Footer contact
+            s = s.replace(/<b>Contact<\/b>402\.773\.8511<br>/g, '<b>Contact</b>' + TEL + ' (call or text)<br>' + FTEXT + '<br>');
+            // 5. Schema
+            s = s.replace(/"\+1-402-306-6255"/g, '"+1-402-773-8511"');
+            // 6. Prose / sidebars
+            s = s.replace(/(<a href="tel:\+14027738511"[^>]*>402\.773\.8511<\/a>) or text (?:me (?:at )?)?<a href="sms:\+14023066255"[^>]*>402\.306\.6255<\/a>/g, '$1');
+            s = s.replace(/\b([Cc])all (<a href="tel:\+14027738511"[^>]*>402\.773\.8511<\/a>)(?! or text)/g, '$1all or text $2');
+            s = s.replace(/\b([Cc])all 402\.773\.8511 or text (?:me )?(?:at |anytime at )?402\.306\.6255/g, '$1all or text 402.773.8511');
+            s = s.replace(/Call (?:Broker\/Owner Jamie Leaders|Jamie) at 402\.306\.6255 or the office at 402\.773\.8511\./g, 'Call or text the office at 402.773.8511.');
+            s = s.replace(/([Cc]all or text) me directly at <strong>402\.306\.6255<\/strong>, or reach J\. Leaders Realty at (<strong>402\.773\.8511<\/strong>)/g, '$1 J. Leaders Realty at $2');
+            s = s.replace(/Office: 402\.773\.8511 · Broker\/Owner: Jamie Leaders \(402\.306\.6255\)/g, 'Office (call or text): 402.773.8511 · Broker/Owner: Jamie Leaders');
+            s = s.replace(/href="sms:\+14023066255"/g, 'href="sms:+14027738511"');
+            s = s.replace(/body = body\.replace\("402\.306\.6255", "402\.773\.8511"\) if "402\.773\.8511" not in body else body/g,
+              'body = body.replace("sms:+14023066255", "sms:+14027738511").replace("tel:+14023066255", "tel:+14027738511").replace("402.306.6255", "402.773.8511")');
+            // 7. Link every plain-text 402.773.8511 in HTML
+            if (/\.html$/.test(p)) {
+              const skip = ['a','script','style','title','head','textarea','button','label','form','option','select','noscript'];
+              const depth = {}; skip.forEach(t => depth[t] = 0);
+              s = s.replace(/(<!--[\s\S]*?-->)|(<\/?([a-zA-Z0-9]+)\b[^>]*>)|([^<]+)/g, (m, cmt, tag, name, text) => {
+                if (cmt) return m;
+                if (tag) { const n = name.toLowerCase(); if (n in depth && !/\/>$/.test(tag)) depth[n] += tag[1] === '/' ? -1 : 1; return m; }
+                if (skip.some(t => depth[t] > 0)) return m;
+                return text.replace(/402\.773\.8511/g, TEL);
+              });
+            }
+            return s;
+          }
+          const fs = require('fs'), path = require('path');
+          function walk(d, acc) { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const f = path.join(d, e.name); if (e.isDirectory()) walk(f, acc); else if (/\.(html|txt|py|js|json|xml)$/.test(e.name)) acc.push(f); } return acc; }
+          const files = walk('_website', []).concat(walk('_tools', []));
+          let changed = 0; const left = [];
+          for (const f of files) { const t = fs.readFileSync(f, 'utf8'); const s = fix(f, t); if (s !== t) { fs.writeFileSync(f, s); changed++; } if (/306[.\-]6255|4023066255/.test(s) && !f.endsWith('publish_blog_queue.py')) left.push(f); }
+          console.log('changed files:', changed);
+          if (left.length) { console.log('STILL HAS 402.306.6255:', left.join(', ')); process.exit(1); }
+          JSEOF
+          node /tmp/fix.js
+      - name: Save and redeploy
+        run: |
+          set -e
+          git config user.name "jlr-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "Nothing to change"; exit 0; fi
+          git commit -qm "402.773.8511 is now the public call-and-text number; remove 402.306.6255 from the website"
+          git pull --rebase -q && git push
+          gh workflow run website-deploy.yml
