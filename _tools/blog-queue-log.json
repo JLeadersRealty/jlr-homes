@@ -70,5 +70,13 @@
   "date": "2026-11-26",
   "result": "published",
   "reason": ""
+ },
+ {
+  "id": "f860ee4c600d",
+  "at": "2026-11-27T03:39:11Z",
+  "slug": "why-choose-j-leaders-realty",
+  "date": "2026-11-26",
+  "result": "rejected",
+  "reason": "Topic must be one of Acreage, Buying, Investing, Local, Selling"
  }
 ]
