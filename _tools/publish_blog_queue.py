@@ -157,6 +157,23 @@ def make_template():
     if missing or "Which Side of the River" in s: raise SystemExit(f"Template build failed: {missing}")
     open(TEMPLATE, "w", encoding="utf-8").write(s)
 
+# ---------- agent authors (optional "Author" column; blank or Jamie = Jamie's byline) ----------
+AGENTS = {"kris brockhoff": "Kris Brockhoff", "kristina brockhoff": "Kris Brockhoff", "susie stortenbecker": "Susie Stortenbecker",
+          "allison andersen": "Allison Andersen", "harlie leaders": "Harlie Leaders"}
+def apply_author(t, author):
+    name = AGENTS.get(author.lower())
+    if not name: return t
+    slug = re.sub(r"[^a-z]+", "-", name.lower()).strip("-"); first = name.split()[0]
+    initials = "".join(w[0] for w in name.split())[:2].upper()
+    t = t.replace("By <b>Jamie Leaders</b>, Broker/Owner", f'By <b><a href="/agents/{slug}/" style="color:inherit">{esc(name)}</a></b>, REALTOR&reg;')
+    t = re.sub(r'<div class="authorbox">.*?</div></div></div>',
+               f'<div class="authorbox"><div class="in"><div class="mono">{initials}</div><div><b>{esc(name)}, REALTOR&reg;</b>{esc(first)} is an agent with J. Leaders Realty, an independent brokerage licensed in Iowa and Nebraska. <a href="/agents/{slug}/">Meet {esc(first)}</a>.</div></div></div>',
+               t, count=1, flags=re.S)
+    person = json.dumps({"@type": "Person", "@id": f"{SITE}/agents/{slug}/#person", "name": name, "jobTitle": "REALTOR", "worksFor": {"@id": f"{SITE}/#org"}, "url": f"{SITE}/agents/{slug}/"})
+    t = t.replace('"author": {"@id": "' + SITE + '/#jamie"}', '"author": {"@id": "' + SITE + f'/agents/{slug}/#person"' + '}', 1)
+    t = t.replace('{"@type": "BreadcrumbList"', person + ', {"@type": "BreadcrumbList"', 1)
+    return t
+
 def build_page(r, body_html, heads, img):
     slug, title, desc, topic, pub = r["Slug"], r["Title"], r["Meta description"], r["Topic"], r["Publish date"]
     url = f"{SITE}/{slug}/"
@@ -186,6 +203,7 @@ def build_page(r, body_html, heads, img):
            "{{MINS}}": str(mins), "{{BODY}}": body_html, "{{TOC}}": toc, "{{ASK}}": esc(("Question about: " + title)[:75]),
            "{{RELATED}}": related_cards(slug)}
     for k, v in rep.items(): t = t.replace(k, v)
+    t = apply_author(t, (r.get("Author") or "").strip())
     os.makedirs(f"{ROOT}/{slug}", exist_ok=True)
     open(f"{ROOT}/{slug}/index.html", "w", encoding="utf-8").write(t)
 
