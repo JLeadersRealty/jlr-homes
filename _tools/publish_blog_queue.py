@@ -169,8 +169,8 @@ def apply_author(t, author):
     t = re.sub(r'<div class="authorbox">.*?</div></div></div>',
                f'<div class="authorbox"><div class="in"><div class="mono">{initials}</div><div><b>{esc(name)}, REALTOR&reg;</b>{esc(first)} is an agent with J. Leaders Realty, an independent brokerage licensed in Iowa and Nebraska. <a href="/agents/{slug}/">Meet {esc(first)}</a>.</div></div></div>',
                t, count=1, flags=re.S)
-    person = json.dumps({"@type": "Person", "@id": f"{SITE}/agents/{slug}/#person", "name": name, "jobTitle": "REALTOR", "worksFor": {"@id": f"{SITE}/#org"}, "url": f"{SITE}/agents/{slug}/"})
-    t = t.replace('"author": {"@id": "' + SITE + '/#jamie"}', '"author": {"@id": "' + SITE + f'/agents/{slug}/#person"' + '}', 1)
+    person = json.dumps({"@type": "Person", "@id": f"{SITE}/agents/{slug}/#agent", "name": name, "jobTitle": "REALTOR", "worksFor": {"@id": f"{SITE}/#org"}, "url": f"{SITE}/agents/{slug}/"})
+    t = t.replace('"author": {"@id": "' + SITE + '/#jamie"}', '"author": {"@id": "' + SITE + f'/agents/{slug}/#agent"' + '}', 1)
     t = t.replace('{"@type": "BreadcrumbList"', person + ', {"@type": "BreadcrumbList"', 1)
     return t
 
