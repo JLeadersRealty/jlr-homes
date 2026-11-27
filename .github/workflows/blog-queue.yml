@@ -2,6 +2,9 @@
 # (replaces AiM Blog Engine and Placester). Claude's weekly blog writer adds rows; this builds
 # every "Ready" row once, then redeploys the site. Future-dated posts go live at midnight Central
 # on their date without another run. Runs every hour; can also be run by hand.
+# Reads the FIRST tab of the sheet (no gid), so renaming or recreating the tab can't break it.
+# Every run also rebuilds llms.txt, the RSS feed and the sitemap from all posts (_tools/build_feeds.py).
+# If the sheet can't be read, the run turns red instead of quietly publishing nothing.
 # One-time: "Run workflow" with an AiM feed address (+ optional comma-separated slugs) imports old AiM posts.
 name: Blog queue
 on:
@@ -25,7 +28,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     env:
-      BLOG_SHEET_CSV: https://docs.google.com/spreadsheets/d/1oNMrgtM77I7xw16JmWqTe71LkPNCpCMtUsssbAvi7gE/export?format=csv&gid=0
+      BLOG_SHEET_CSV: https://docs.google.com/spreadsheets/d/1oNMrgtM77I7xw16JmWqTe71LkPNCpCMtUsssbAvi7gE/export?format=csv
       AIM_FEED: ${{ github.event.inputs.aim_feed }}
       AIM_SLUGS: ${{ github.event.inputs.aim_slugs }}
       GH_TOKEN: ${{ github.token }}
@@ -36,6 +39,7 @@ jobs:
       - name: Publish ready posts
         run: python3 _tools/publish_blog_queue.py
       - name: Save and redeploy
+        if: ${{ !cancelled() }}
         run: |
           set -e
           git config user.name "jlr-bot"
