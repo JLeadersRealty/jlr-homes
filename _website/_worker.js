@@ -45,6 +45,29 @@ function agentLive(rows, name) {
   return { reviews, picks, socials, videos, vidIds: vids.map(v => v[0]) };
 }
 
+// Agent profile basics from the Updates sheet (bio, headshot, towns): newest row of each type wins.
+const COMM = new Set("anita atlantic audubon avoca bellevue bennington blair boys-town brayton carson carter-lake council-bluffs crescent defiance dow-city dunlap earling elk-horn elkhorn elliott emerson exira fort-calhoun glenwood gretna griswold hancock harlan hastings henderson irwin kimballton kirkman la-vista lewis little-sioux logan macedonia magnolia malvern manilla manning marne mcclelland minden mineola missouri-valley modale mondamin moorhead neola oakland omaha-metro pacific-junction panama papillion persia pisgah plattsmouth portsmouth ralston shelby silver-city springfield treynor underwood walnut westphalia wiota woodbine".split(' '));
+const agentSlug = n => String(n || '').toLowerCase().replace(/[^a-z]+/g, '-').replace(/^-|-$/g, '');
+function photoUrl(x) {
+  const all = [x[3] || '', x[9] || ''].join(' ');
+  const d = all.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/);
+  if (d) return 'https://lh3.googleusercontent.com/d/' + d[1] + '=w900';
+  const u = all.match(/https:\/\/[^\s"'<>]+\.(?:jpe?g|png|webp)(?:\?[^\s"'<>]*)?/i);
+  return u ? u[0] : '';
+}
+function agentBasics(rows, slug) {
+  const mine = rows.filter(x => agentSlug(x[1]) === slug && !/needs jamie|skipped/i.test(x[8] || ''));
+  const last = t => mine.filter(x => (x[2] || '').trim().toLowerCase() === t).pop();
+  const b = last('bio'), h = last('headshot'), tw = last('towns');
+  const out = {};
+  if (b && (b[3] || '').trim().length > 20) out.bio = esc(b[3].trim());
+  if (h) { const u = photoUrl(h); if (u) out.photo = u; }
+  if (tw && (tw[3] || '').trim()) {
+    const list = tw[3].split(/[,;\n]+/).map(t => t.trim()).filter(Boolean).slice(0, 14);
+    if (list.length) out.towns = list.map(t => { const s = agentSlug(t.replace(/,?\s*(ia|iowa|ne|nebraska)$/i, '')); return /acreage/i.test(t) ? '<a href="/acreages/">Acreages</a>' : COMM.has(s) ? `<a href="/communities/${s}/">${esc(t)}</a>` : `<span>${esc(t)}</span>`; }).join('');
+  }
+  return out;
+}
 // YouTube channel feeds (public RSS, no key): agents' newest uploads + town guides
 const CHANNELS = {"Jamie Leaders": "UCU0lVY1ylYaoj6XO1aNbakQ"};
 const decode = s => String(s || '').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
@@ -102,6 +125,10 @@ export default {
           const extra = feed.slice(0, Math.max(0, 6 - pinned.length)).map(vidCard).join('');
           live.videos = (live.videos || '') + extra; return (cache[n] = live);
         };
+        const basics = agentBasics(rows, (p.split('/')[2] || ''));
+        if (basics.photo) rw = rw.on('.aport img', { element(el) { const orig = el.getAttribute('src') || ''; el.setAttribute('src', basics.photo); el.setAttribute('referrerpolicy', 'no-referrer'); if (orig) el.setAttribute('onerror', "this.onerror=null;this.src='" + orig.replace(/'/g, '') + "'"); } });
+        if (basics.bio) rw = rw.on('.ahero p.bio', { element(el) { el.setInnerContent(basics.bio, { html: true }); } });
+        if (basics.towns) rw = rw.on('#towns .towns2', { element(el) { el.setInnerContent(basics.towns, { html: true }); } });
         rw = rw.on('[data-live]', { element(el) { const v = get(el.getAttribute('data-agent') || '')[el.getAttribute('data-live')]; if (v) el.setInnerContent(v, { html: true }); } })
                .on('[data-live-sec]', { element(el) { if (get(el.getAttribute('data-agent') || '')[el.getAttribute('data-live-sec')]) el.removeAttribute('hidden'); } });
         const out = rw.transform(res); const h = new Headers(out.headers); h.set('cache-control', 'public, max-age=60');
